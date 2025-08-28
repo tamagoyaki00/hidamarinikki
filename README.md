@@ -115,3 +115,6 @@
 
 - Active Storage + Cloudflare R2（画像や日記データの保存）
 - Render（本番環境へのデプロイ）
+
+## 画面遷移図
+https://www.figma.com/design/hpv6xmpwN4EfhANbG4cV0W/%E3%81%B2%E3%81%A0%E3%81%BE%E3%82%8A%E6%97%A5%E8%A8%98?node-id=20-4&t=iGNRmigPzYWBiWva-0
