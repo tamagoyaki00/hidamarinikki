@@ -120,4 +120,4 @@
 https://www.figma.com/design/hpv6xmpwN4EfhANbG4cV0W/%E3%81%B2%E3%81%A0%E3%81%BE%E3%82%8A%E6%97%A5%E8%A8%98?node-id=20-4&t=iGNRmigPzYWBiWva-0
 
 ## ER図
-[![Image from Gyazo](https://i.gyazo.com/422c6bd3cdb996e4d394ba681320c5aa.png)](https://gyazo.com/422c6bd3cdb996e4d394ba681320c5aa)
+[![Image from Gyazo](https://i.gyazo.com/e2f67a9695d4bd6843413c3e918e5812.png)](https://gyazo.com/e2f67a9695d4bd6843413c3e918e5812)
