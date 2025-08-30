@@ -23,5 +23,11 @@ module Myapp
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.generators do |g|
+      g.skip_routes true      # ルーティング自動追加を無効
+      g.helper false          # ヘルパーファイル生成を無効
+      g.test_framework false  # テストファイル生成を無効
+    end
   end
 end
