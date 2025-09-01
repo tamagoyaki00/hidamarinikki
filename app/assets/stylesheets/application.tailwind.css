@@ -38,9 +38,15 @@
   --noise: 1;
 }
 
-
 @theme {
   /* フォント */
   --font-zen_maru: "Zen Maru Gothic", sans-serif;
   --font-mplus: "M PLUS Rounded 1c", sans-serif;
+}
+
+.btn {
+  --btn-noise: none;
+}
+.btn:active {
+  opacity: 0.5;
 }
