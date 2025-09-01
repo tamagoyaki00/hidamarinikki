@@ -1,5 +1,5 @@
 <%- if controller_name != 'sessions' %>
-  <%= link_to t("devise.shared.links.sign_in"), new_session_path(resource_name) %><br />
+  <%= link_to t("devise.shared.links.sign_in"), new_session_path(resource_name), class: "text-sm hover:underline" %><br />
 <% end %>
 
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
