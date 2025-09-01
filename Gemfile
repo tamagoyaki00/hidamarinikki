@@ -60,3 +60,6 @@ end
 
 gem "devise", "~> 4.9"
 gem "devise-i18n"
+
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
