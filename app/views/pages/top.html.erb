@@ -1,0 +1,24 @@
+<div 
+  class="relative w-full h-screen bg-gradient-to-b from-[#FFFAE8] via-[#F7F2E2] to-[#E9E4D3] flex items-center justify-center overflow-hidden"
+  data-controller="warm-light"
+>
+  <!-- キャンバス：Stimulusで制御 -->
+  <canvas data-warm-light-target="canvas" class="absolute inset-0 z-0"></canvas>
+
+  <!-- コンテンツ -->
+  <div class="relative z-10 text-center px-6">
+    <h1 class="font-mplus text-5xl md:text-6xl font-bold text-primary drop-shadow-lg">
+      ひだまり日記
+    </h1>
+    <p class="font-zen_maru mt-4 text-lg md:text-xl">
+      心あたたまる毎日を、ここに残そう
+    </p>
+    <div class="mt-6 flex justify-center gap-4">
+      <%= link_to "新規登録", "#", class: "btn btn-secondary font-bold" %>
+      <%= link_to "ログイン", "#", class: "btn btn-secondary font-bold" %>
+    </div>
+  </div>
+</div>
+
+
+

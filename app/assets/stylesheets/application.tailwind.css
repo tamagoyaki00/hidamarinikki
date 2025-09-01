@@ -1,1 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&family=Zen+Maru+Gothic&display=swap');
 @import "tailwindcss";
+@plugin "daisyui";
+
+
+@plugin "daisyui/theme" {
+  name: "hidamarinikki";
+  default: true;
+  prefersdark: true;
+  color-scheme: "light";
+  --color-base-100: #FFFAE8;
+  --color-base-200: #F7F2E2;
+  --color-base-300: #E9E4D3;
+  --color-base-content: #333333;
+  --color-primary: #ff9966;
+  --color-primary-content: #333333;
+  --color-secondary: #FFC78A;
+  --color-secondary-content: #333333;
+  --color-accent: #88b04b;
+  --color-accent-content: #333333;
+  --color-neutral: #FFB5A7;
+  --color-neutral-content: #333333;
+  --color-info: #A5D8FF;
+  --color-info-content: #333333;
+  --color-success: #81c784;
+  --color-success-content: #333333;
+  --color-warning: oklch(68% 0.18 50);
+  --color-warning-content: #333333;
+  --color-error: oklch(60% 0.2 35);
+  --color-error-content: #333333;
+  --radius-selector: 2rem;
+  --radius-field: 2rem;
+  --radius-box: 2rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 1;
+}
+
+@theme {
+  /* フォント */
+  --font-zen_maru: "Zen Maru Gothic", sans-serif;
+  --font-mplus: "M PLUS Rounded 1c", sans-serif;
+}
+
+.btn {
+  --btn-noise: none;
+}
+.btn:active {
+  opacity: 0.5;
+}
