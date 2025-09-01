@@ -59,4 +59,4 @@ group :test do
 end
 
 gem "devise", "~> 4.9"
-gem 'devise-i18n'
+gem "devise-i18n"
