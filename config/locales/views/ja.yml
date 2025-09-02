@@ -1,0 +1,10 @@
+ja:
+  shared:
+    header:
+      site_name: ひだまり日記
+    footer:
+      links:
+        home: ホーム
+        my_diary: マイ日記
+        public_diaries: みんなの日記
+        settings: 設定
