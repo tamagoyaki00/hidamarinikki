@@ -22,4 +22,3 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     redirect_to root_path, alert: "認証に失敗しました。"
   end
 end
-
