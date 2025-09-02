@@ -5,7 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: [:google_oauth2]
 
-  validates :uid, presence: true, uniqueness: { scope: :provider }, if: -> { uid.present? }
+  validates :name, presence: true, length: { maximum: 20 }
+  validates :uid, uniqueness: { scope: :provider }, if: :provider?
 
 
   def self.from_omniauth(auth)
