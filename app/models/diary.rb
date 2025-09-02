@@ -4,5 +4,5 @@ class Diary < ApplicationRecord
   validates :body, presence: true, length: { maximum: 1000}
   validates :posted_date, presence: true
 
-  enum status: { private: 0, public: 1 }
+  enum status: { is_private: 0, is_public: 1 }
 end
