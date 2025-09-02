@@ -3,9 +3,12 @@ Rails.application.routes.draw do
     registrations: "users/registrations",
     omniauth_callbacks: "users/omniauth_callbacks"
   }
+
   root "pages#top"
   get "top", to: "pages#top"
   get "home", to: "homes#index"
+
+  resources :diaries
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
