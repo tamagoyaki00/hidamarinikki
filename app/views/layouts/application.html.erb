@@ -15,10 +15,21 @@
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+    <!--fontawesome-->
+    <script src="https://kit.fontawesome.com/9eebda5a5d.js" crossorigin="anonymous"></script>
   </head>
 
   <body class="font-base-content font-zen_maru">
-  <%= render "shared/header"%>
-    <%= yield %>
+    <% if user_signed_in? %>
+      <%= render 'shared/header' %>
+    <% end %>
+
+    <main class="min-h-screen">
+      <%= yield %>
+    </main>
+    
+    <% if user_signed_in? %>
+      <%= render 'shared/footer' %>
+    <% end %>
   </body>
 </html>
