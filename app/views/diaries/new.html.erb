@@ -1,0 +1,49 @@
+<div class="flex flex-col items-center max-w-5xl mx-auto px-4">
+  <div class="flex">
+    <%= image_tag "himawari.svg", alt: "ロゴ", class: "h-8 w-8 sm:h-10 w-10 lg:h-14 w-14" %>
+    <p>Today's Tips</p>
+  </div>
+  <p>今日の一日を振り返ってみよう</p>
+  <%= form_with model: @diary, class: "w-full" do |f| %>
+    <%= f.label :posted_date, "日付" %>
+    <button type="button" popovertarget="cally-popover1" class="input input-bordered my-2" id="cally-trigger" style="anchor-name:--cally1">
+      <span id="cally-text"><%= Date.current %></span>
+    </button>
+    <%= f.hidden_field :posted_date, value: Date.current, id: "posted-date-field" %>
+    <div id="items-container" class="space-y-4">
+      <% 3.times do |i| %>
+        <div class="form-control">
+          <div class="label">
+            <span class="label-text"><%= i + 1 %>. 日記の内容</span>
+          </div>
+          <%= f.text_area :items, id: "item_#{i + 1}", rows: 3, class: "textarea textarea-bordered textarea-accent w-full", placeholder: "#{i + 1}. 日記の内容" %>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="flex flex-col items-center mt-4">
+      <button type="button" id="add-item-button" class="btn btn-accent">+</button>
+
+      <div data-controller="status-selector" class="flex items-center space-x-4 mt-8">
+        <div data-action="click->status-selector#select">
+          <button type="button" data-status-selector-target="button" data-value="is_public" class="btn btn-outline">公開</button>
+          <%= f.radio_button :status, :is_public, class: "hidden" %>
+        </div>
+        <div data-action="click->status-selector#select">
+          <button type="button" data-status-selector-target="button" data-value="is_private" class="btn btn-outline">非公開</button>
+          <%= f.radio_button :status, :is_private, class: "hidden" %>
+        </div>
+      </div>
+      
+      <%= f.submit "投稿する", class: "btn btn-primary btn-lg mt-8" %>
+    </div>
+  <% end %>
+  
+  <div popover id="cally-popover1" class="dropdown bg-base-100 rounded-box shadow-lg" style="position-anchor:--cally1">
+    <calendar-date class="cally" onchange="document.getElementById('posted-date-field').value = this.value; document.getElementById('cally-text').innerText = this.value;">
+      <svg aria-label="Previous" class="fill-current size-4" slot="previous" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.75 19.5 8.25 12l7.5-7.5"></path></svg>
+      <svg aria-label="Next" class="fill-current size-4" slot="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path></svg>
+      <calendar-month></calendar-month>
+    </calendar-date>
+  </div>
+</div>
