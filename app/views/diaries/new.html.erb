@@ -26,8 +26,8 @@
 
       <div data-controller="status-selector" class="flex items-center space-x-4 mt-8">
         <div data-action="click->status-selector#select">
-          <button type="button" data-status-selector-target="button" data-value="is_public" class="btn btn-outline">公開</button>
-          <%= f.radio_button :status, :is_public, class: "hidden" %>
+          <button type="button" data-status-selector-target="button" data-value="is_public" class="btn btn-outline btn-active btn-secondary">公開</button>
+          <%= f.radio_button :status, :is_public, class: "hidden", checked: true %>
         </div>
         <div data-action="click->status-selector#select">
           <button type="button" data-status-selector-target="button" data-value="is_private" class="btn btn-outline">非公開</button>
