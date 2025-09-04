@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_many :diaries
+  has_many :diaries, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
