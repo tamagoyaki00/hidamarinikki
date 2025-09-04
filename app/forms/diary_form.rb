@@ -50,11 +50,6 @@ class DiaryForm
     false
   end
   
-  # フィールド追加用メソッド
-  def add_happiness_field
-    self.happiness_items = happiness_items + ['']
-  end
-  
   # 空のフィールドを最低指定数まで確保
   def ensure_minimum_fields(min_count = 5)
     current_count = happiness_items.length
@@ -64,7 +59,7 @@ class DiaryForm
     end
   end
   
-  # 末尾の空フィールドを除去（保存前の整理用）
+  # 末尾の空フィールドを除去
   def clean_happiness_items
     happiness_items.reverse.drop_while(&:blank?).reverse
   end

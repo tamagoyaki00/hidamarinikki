@@ -10,7 +10,7 @@
     <!--日付-->
     <%= f.label :posted_date, "日付" %>
     <button type="button" popovertarget="cally-popover1" class="input input-bordered my-2" id="cally-trigger" style="anchor-name:--cally1">
-      <span id="cally-text"><%= Date.current %></span>
+      <span id="cally-text"><%= @diary_form.posted_date %></span>
     </button>
     <%= f.hidden_field :posted_date, value: Date.current, id: "posted-date-field" %>
 
@@ -31,7 +31,7 @@
       </div>
     <% end %>
   </div>
-  <div class="flex items-center mt-4">
+  <div class="flex flex-col items-center mt-4">
     <button type="button" data-action="diary#addItem" class="btn btn-outline btn-accent">+</button>
   </div>
 
