@@ -18,7 +18,9 @@ export default class extends Controller {
       clickedButton.classList.remove('btn-outline');
 
       const selectedValue = clickedDiv.dataset.value;
-      const radioButton = this.element.querySelector(`input[type="radio"][value="${selectedValue}"]`);
+      const radioButtonId = `diary_form_status_${selectedValue}`;
+      const radioButton = this.element.querySelector(`#${radioButtonId}`);
+      
       if (radioButton) {
         radioButton.checked = true;
       }
