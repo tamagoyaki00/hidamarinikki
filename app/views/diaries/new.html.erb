@@ -15,21 +15,40 @@
     <%= f.hidden_field :posted_date, value: Date.current, id: "posted-date-field" %>
 
     <!--日記の内容-->
-    <div data-controller="diary">
-      <div id="items-container" class="space-y-4" data-diary-target="container">
-        <% @diary_form.happiness_items.each_with_index do |item, i| %>
-          <div class="form-control">
-            <div class="label">
-              <span class="label-text"><%= i + 1 %></span>
-            </div>
-            <%= f.text_area :happiness_items, name: "diary_form[happiness_items][]", id: "item_#{i + 1}", value: item, class: "textarea textarea-md textarea-bordered textarea-accent w-full", placeholder: "#{i + 1}. 日記の内容" %>
-          </div>
-        <% end %>
+<div data-controller="diary">
+  <div id="items-container" class="space-y-4" data-diary-target="container">
+    <% @diary_form.happiness_items.each_with_index do |item, i| %>
+      <div class="form-control relative">
+        <div class="label">
+          <span class="label-text"><%= i + 1 %></span>
+          <% if i > 0 %> <!-- 最初の項目は削除不可 -->
+            <button type="button" class="btn btn-xs btn-circle btn-ghost absolute top-0 right-0" data-action="diary#removeItem">
+              ✕
+            </button>
+          <% end %>
+        </div>
+        <%= f.text_area :happiness_items, name: "diary_form[happiness_items][]", id: "item_#{i + 1}", value: item, class: "textarea textarea-md textarea-bordered textarea-accent w-full", placeholder: "#{i + 1}. 日記の内容" %>
       </div>
-      <div class="flex flex-col items-center mt-4">
-        <button type="button" data-action="diary#addItem" class="btn btn-outline btn-accent">+</button>
+    <% end %>
+  </div>
+  <div class="flex items-center mt-4">
+    <button type="button" data-action="diary#addItem" class="btn btn-outline btn-accent">+</button>
+  </div>
+
+  <template id="diary-item-template">
+    <div class="form-control relative">
+      <div class="label">
+        <span class="label-text"></span>
+        <button type="button" class="btn btn-xs btn-circle btn-ghost absolute top-0 right-0" data-action="diary#removeItem">
+          ✕
+        </button>
       </div>
+      <textarea name="diary_form[happiness_items][]" 
+                class="textarea textarea-md textarea-bordered textarea-accent w-full" 
+                placeholder=""></textarea>
     </div>
+  </template>
+</div>
 
     <div class="flex flex-col items-center mt-4">
       <!--公開・非公開ボタン-->
