@@ -1,5 +1,4 @@
 class DiariesController < ApplicationController
-
   def new
     @diary_form = DiaryForm.new(user_id: current_user.id, posted_date: Date.current)
   end
@@ -9,7 +8,7 @@ class DiariesController < ApplicationController
     @diary_form.user_id = current_user.id
 
     if @diary_form.save
-      redirect_to home_path, notice: '日記を投稿しました'
+      redirect_to home_path, notice: "日記を投稿しました"
     else
       render :new, status: :unprocessable_entity
     end

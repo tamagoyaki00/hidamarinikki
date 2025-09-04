@@ -31,6 +31,6 @@ module Myapp
     end
 
     config.i18n.default_locale = :ja
-    config.autoload_paths << Rails.root.join('app', 'forms')
+    config.autoload_paths << Rails.root.join("app", "forms")
   end
 end
