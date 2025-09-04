@@ -1,25 +1,23 @@
 class DiariesController < ApplicationController
 
   def new
-    @diary = Diary.new
+    @diary_form = DiaryForm.new(user_id: current_user.id, posted_date: Date.current)
   end
 
   def create
-    @diary = current_user.diaries.new(diary_params)
+    @diary_form = DiaryForm.new(diary_form_params)
+    @diary_form.user_id = current_user.id
 
-    items_json = { items: params[:diary][:items] }.to_json
-    @diary.body = items_json
-
-    if @diary.save
+    if @diary_form.save
       redirect_to home_path, notice: '日記を投稿しました'
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
   private
 
-  def diary_params
-    params.require(:diary).permit(:status, :posted_date, items: [])
+  def diary_form_params
+    params.require(:diary_form).permit(:status, :posted_date, happiness_items: []).merge(user_id: current_user.id)
   end
 end

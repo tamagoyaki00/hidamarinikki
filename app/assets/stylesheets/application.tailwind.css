@@ -51,6 +51,7 @@
   opacity: 0.5;
 }
 
-.active {
-  @apply text-primary;
+.textarea {
+  min-height: auto;
+  height: 48px;
 }
