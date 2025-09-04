@@ -15,7 +15,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_02_115849) do
   enable_extension "plpgsql"
 
   create_table "diaries", force: :cascade do |t|
-    t.text "body", null: false
     t.bigint "user_id", null: false
     t.integer "status", default: 0, null: false
     t.integer "happiness_count", default: 0, null: false
