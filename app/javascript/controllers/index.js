@@ -4,8 +4,14 @@
 
 import { application } from "./application"
 
+import DiaryController from "./diary_controller"
+application.register("diary", DiaryController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import StatusSelectorController from "./status_selector_controller"
+application.register("status-selector", StatusSelectorController)
 
 import WarmLightController from "./warm_light_controller"
 application.register("warm-light", WarmLightController)
