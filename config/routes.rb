@@ -10,8 +10,8 @@ Rails.application.routes.draw do
 
   resources :diaries
 
-  get 'my_diaries', to: 'diaries#my_diaries', as: :my_diaries
-  get 'public_diaries', to: 'diaries#public_diaries', as: :public_diaries
+  get "my_diaries", to: "diaries#my_diaries", as: :my_diaries
+  get "public_diaries", to: "diaries#public_diaries", as: :public_diaries
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
