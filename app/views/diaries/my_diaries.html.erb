@@ -1,0 +1,39 @@
+<div class="flex flex-col items-center max-w-5xl mx-auto px-4 mt-8">
+  <p class="text-lg lg:2xl font-bold font-mplus">自分の日記一覧</p>
+  
+  <div class="w-full mt-4 space-y-4">
+    <% if @diaries.any? %>
+      <% @diaries.each do |diary| %>
+        <div class="card bg-white shadow-xl">
+          <div class="card-body">
+              <%= diary.created_at.strftime('%Y年%m月%d日') %>
+            
+            <ol class="list-none space-y-2">
+              <% diary.diary_contents.each_with_index do |content, i| %>
+                <li>
+                  <span class="mr-2"><%= i + 1 %>.</span>
+                  <%= content.body %>
+                </li>
+              <% end %>
+            </ol>
+            
+            <div class="badge badge-outline badge-primary mt-4">
+              <%= diary.is_public? ? "公開" : "非公開" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="alert alert-info shadow-lg">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span>まだ日記がありません。最初の投稿をしてみましょう！</span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  
+  <div class="mt-8 text-center">
+    <%= link_to '新しい日記を書く', new_diary_path, class: "btn btn-primary btn-lg" %>
+  </div>
+</div>
