@@ -1,4 +1,15 @@
 class DiariesController < ApplicationController
+  before_action :authenticate_user!
+
+  def my_diaries
+    @diaries = current_user.diaries.order(created_at: :desc)
+  end
+
+  def public_diaries
+    @diaries = Diary.is_public.includes(:user).order(created_at: :desc)
+  end
+
+
   def new
     @diary_form = DiaryForm.new(user_id: current_user.id, posted_date: Date.current)
   end

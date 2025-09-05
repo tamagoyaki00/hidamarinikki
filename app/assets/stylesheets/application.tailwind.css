@@ -46,6 +46,7 @@
 
 .btn {
   --btn-noise: none;
+  font-family: var(--font-mplus);
 }
 .btn:active {
   opacity: 0.5;

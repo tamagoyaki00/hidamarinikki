@@ -1,0 +1,20 @@
+<div class="card bg-white shadow-xl mb-6">
+  <div class="card-body">
+    <div class="flex space-x-8">
+      <span><%= diary.user.name %></span>
+      <span><%= diary.created_at.strftime('%Y年%m月%d日') %></span>
+    </div>
+    <ol class="list-none space-y-2">
+      <% diary.diary_contents.each_with_index do |content, i| %>
+        <li>
+          <span class="mr-2"><%= i + 1 %>.</span>
+          <%= content.body %>
+        </li>
+      <% end %>
+    </ol>
+    
+    <div class="badge badge-outline badge-primary mt-4 glass-secondary">
+      <%= diary.is_public? ? "公開" : "非公開" %>
+    </div>
+  </div>
+</div>
