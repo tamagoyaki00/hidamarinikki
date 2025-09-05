@@ -3,26 +3,7 @@
   
   <div class="w-full mt-4 space-y-4">
     <% if @diaries.any? %>
-      <% @diaries.each do |diary| %>
-        <div class="card bg-white shadow-xl">
-          <div class="card-body">
-              <%= diary.created_at.strftime('%Y年%m月%d日') %>
-            
-            <ol class="list-none space-y-2">
-              <% diary.diary_contents.each_with_index do |content, i| %>
-                <li>
-                  <span class="mr-2"><%= i + 1 %>.</span>
-                  <%= content.body %>
-                </li>
-              <% end %>
-            </ol>
-            
-            <div class="badge badge-outline badge-primary mt-4">
-              <%= diary.is_public? ? "公開" : "非公開" %>
-            </div>
-          </div>
-        </div>
-      <% end %>
+      <%= render @diaries %>
     <% else %>
       <div class="alert alert-info shadow-lg">
         <div>
