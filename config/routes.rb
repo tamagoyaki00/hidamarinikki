@@ -10,8 +10,8 @@ Rails.application.routes.draw do
 
   resources :diaries do
     collection do
-      get 'my_index'
-      get 'public_index'
+      get :my_diaries
+      get :public_diaries
     end
   end
 
