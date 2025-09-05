@@ -8,7 +8,12 @@ Rails.application.routes.draw do
   get "top", to: "pages#top"
   get "home", to: "homes#index"
 
-  resources :diaries
+  resources :diaries do
+    collection do
+      get 'my_index'
+      get 'public_index'
+    end
+  end
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
