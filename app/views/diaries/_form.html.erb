@@ -70,8 +70,11 @@
       </template>
     </div>
 
-    <!-- 公開・非公開ボタン -->
     <div class="flex flex-col items-center mt-4">
+      <!-- 写真追加 -->
+      <%= f.file_field :photos, class: "file-input file-input-secondary", multiple: true %>
+      
+      <!-- 公開・非公開ボタン -->
       <div data-controller="status-selector" class="flex items-center space-x-4 mt-8">
         <div data-action="click->status-selector#select" data-value="is_public">
           <button type="button" data-status-selector-target="button" class="btn btn-outline <%= @diary_form.status == 'is_public' ? 'btn-active btn-secondary' : '' %>">公開</button>

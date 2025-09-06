@@ -7,6 +7,7 @@ class DiaryForm
   attribute :posted_date, :date
   attribute :diary_id, :integer
   attribute :happiness_items
+  attribute :photos
 
   validates :user_id, presence: true
   validates :status, presence: true
@@ -126,6 +127,7 @@ class DiaryForm
       posted_date: posted_date,
       happiness_count: valid_happiness_items.count
     )
+    diary.photos.attach(photos) if photos.present?
   end
 
   def create_diary_contents(diary)
@@ -143,6 +145,7 @@ class DiaryForm
       posted_date: posted_date,
       happiness_count: valid_happiness_items.count
     )
+    diary.photos.attach(photos) if photos.present?
   end
 
   def update_diary_contents(diary)

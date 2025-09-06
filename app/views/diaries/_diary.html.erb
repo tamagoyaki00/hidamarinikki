@@ -35,6 +35,16 @@
       <% end %>
     </ol>
     
+    <% if diary.photos.attached? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+        <% diary.photos.each do |photo| %>
+          <div class="relative w-full aspect-square">
+            <%= image_tag photo, class: "w-full h-full object-cover rounded-lg shadow-sm" %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
     <div class="badge badge-outline badge-primary mt-4 glass-secondary">
       <%= diary.is_public? ? "公開" : "非公開" %>
     </div>
