@@ -17,6 +17,8 @@ class DiaryForm
   validate :at_least_one_happiness_present
   # 各項目の文字数制限
   validate :happiness_items_length
+  # 画像の枚数制限
+  validate :validate_photos_count
 
   def self.from_diary(diary)
     new(
@@ -120,14 +122,21 @@ class DiaryForm
     end
   end
 
+  def validate_photos_count
+    if photos.present? && photos.count > 6
+      errors.add(:photos, "は6枚以内でアップロードしてください")
+    end
+  end
+
   def create_diary
-    Diary.create!(
+    diary = Diary.create!(
       user_id: user_id,
       status: status,
       posted_date: posted_date,
       happiness_count: valid_happiness_items.count
     )
     diary.photos.attach(photos) if photos.present?
+    diary
   end
 
   def create_diary_contents(diary)
