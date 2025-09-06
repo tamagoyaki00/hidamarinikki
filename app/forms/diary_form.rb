@@ -32,7 +32,7 @@ class DiaryForm
   def self.for_new_diary(user)
     new(
       user_id: user.id,
-      status: 'is_public',
+      status: "is_public",
       posted_date: Date.current
     )
   end
@@ -43,7 +43,7 @@ class DiaryForm
   end
 
   def happiness_items
-    @happiness_items ||= [""]
+    @happiness_items ||= [ "" ]
   end
 
   def happiness_items=(values)
@@ -51,9 +51,9 @@ class DiaryForm
     when Array
       values.map(&:to_s)
     when String
-      [values]
+      [ values ]
     when nil
-      [""]
+      [ "" ]
     else
       Array(values).map(&:to_s)
     end
@@ -151,7 +151,7 @@ class DiaryForm
   # ✅ 修正: valid_happiness_itemsを使用
   def update_diary_contents(diary)
     diary.diary_contents.destroy_all
-    
+
     valid_happiness_items.each do |item|
       DiaryContent.create!(
         diary: diary,

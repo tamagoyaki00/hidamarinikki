@@ -29,12 +29,12 @@ class DiariesController < ApplicationController
   def edit
     @diary_form = DiaryForm.from_diary(@diary)
   end
-  
+
   def update
     @diary_form = DiaryForm.from_diary(@diary)
     @diary_form.assign_attributes(diary_form_params)
     if @diary_form.update(@diary)
-      redirect_to home_path, notice: '日記を更新しました'
+      redirect_to home_path, notice: "日記を更新しました"
     else
       render :edit, status: :unprocessable_entity
     end
