@@ -72,6 +72,16 @@
 
     <div class="flex flex-col items-center mt-4">
       <!-- 写真追加 -->
+      <% if @diary.photos.attached? %>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+          <% @diary.photos.each do |photo| %>
+            <div class="relative w-full">
+              <%= image_tag photo.variant(:thumb), class: "w-full h-full object-contain rounded-lg shadow-sm" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+      
       <%= f.file_field :photos, class: "file-input file-input-secondary", multiple: true %>
       
       <!-- 公開・非公開ボタン -->
