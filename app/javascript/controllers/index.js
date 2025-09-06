@@ -7,6 +7,9 @@ import { application } from "./application"
 import DiaryController from "./diary_controller"
 application.register("diary", DiaryController)
 
+import FlashMessageController from "./flash_message_controller"
+application.register("flash-message", FlashMessageController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
