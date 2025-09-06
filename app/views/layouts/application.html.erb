@@ -24,7 +24,7 @@
     <% if user_signed_in? %>
       <%= render 'shared/header' %>
     <% end %>
-
+    <%= render 'shared/flash_message' %>
     <main class="min-h-screen">
       <%= yield %>
     </main>
