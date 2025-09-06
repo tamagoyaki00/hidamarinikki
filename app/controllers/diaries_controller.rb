@@ -10,9 +10,20 @@ class DiariesController < ApplicationController
     @diaries = Diary.is_public.includes(:user).order(created_at: :desc)
   end
 
-
+  # 日記の新規作成時、同日の日記がすでに作成されていたら編集フォームに遷移
   def new
-    @diary_form = DiaryForm.for_new_diary(current_user)
+    posted_date = params[:posted_date].present? ? Date.parse(params[:posted_date]) : Date.current
+    @diary = current_user.diaries.find_by(posted_date: posted_date)
+
+    if @diary.present?
+      @diary_form = DiaryForm.from_diary(@diary)
+    else
+      @diary_form = DiaryForm.for_new_diary(current_user)
+      @diary_form.posted_date = posted_date
+    end
+
+  rescue ArgumentError
+    redirect_to new_diary_path, alert: "日付の形式が正しくありません。"
   end
 
   def create
@@ -39,6 +50,7 @@ class DiariesController < ApplicationController
       render :edit, status: :unprocessable_entity
     end
   end
+
 
   private
 
