@@ -1,5 +1,6 @@
 class DiariesController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_diary, only: %i[ edit update]
 
   def my_diaries
     @diaries = current_user.diaries.order(created_at: :desc)
@@ -11,7 +12,7 @@ class DiariesController < ApplicationController
 
 
   def new
-    @diary_form = DiaryForm.new(user_id: current_user.id, posted_date: Date.current)
+    @diary_form = DiaryForm.for_new_diary(current_user)
   end
 
   def create
@@ -25,7 +26,25 @@ class DiariesController < ApplicationController
     end
   end
 
+  def edit
+    @diary_form = DiaryForm.from_diary(@diary)
+  end
+  
+  def update
+    @diary_form = DiaryForm.from_diary(@diary)
+    @diary_form.assign_attributes(diary_form_params)
+    if @diary_form.update(@diary)
+      redirect_to home_path, notice: '日記を更新しました'
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
+
+  def set_diary
+    @diary = current_user.diaries.find(params[:id])
+  end
 
   def diary_form_params
     params.require(:diary_form).permit(:status, :posted_date, happiness_items: []).merge(user_id: current_user.id)
