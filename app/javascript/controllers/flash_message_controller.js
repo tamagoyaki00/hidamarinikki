@@ -2,16 +2,20 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["container"]
+  static values = {
+    showDelay: { type: Number, default: 10 },
+    hideDelay: { type: Number, default: 8000 }
+  }
 
   connect() {
     setTimeout(() => {
       this.show()
-    }, 10);
+    }, this.showDelayValue);
 
 
     this.timer = setTimeout(() => {
       this.hide()
-    }, 8000);
+    }, this.hideDelayValue);
   }
 
   show() {
