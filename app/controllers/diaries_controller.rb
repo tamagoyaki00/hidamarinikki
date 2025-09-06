@@ -1,6 +1,6 @@
 class DiariesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_diary, only: %i[ edit update]
+  before_action :set_diary, only: %i[ edit update destroy ]
 
   def my_diaries
     @diaries = current_user.diaries.order(created_at: :desc)
@@ -49,6 +49,11 @@ class DiariesController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @diary.destroy
+    redirect_to my_diaries_path, notice: "日記を削除しました", status: :see_other
   end
 
 
