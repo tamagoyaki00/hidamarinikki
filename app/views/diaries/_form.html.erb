@@ -1,0 +1,97 @@
+<div class="flex flex-col items-center max-w-5xl mx-auto px-4 mt-8 space-y-4">
+  <% unless @diary_form.persisted? %>
+    <p class="text-lg lg:2xl font-bold font-mplus">今日の一日を振り返ってみよう</p>
+    <div class="flex items-center mr-80">
+      <div class="tooltip tooltip-open tooltip-right" data-tip="今日、ほっとしたことはありましたか？">
+        <%= image_tag "himawari.svg", alt: "ロゴ", class: "h-12 w-12 md:h-16 w-16" %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @diary_form.persisted? %>
+    <p class="text-lg lg:2xl font-bold font-mplus">日記の編集</p>
+  <% end %>
+
+  <%= form_with model: @diary_form, url: @diary_form.persisted? ? diary_path(@diary) : diaries_path, method: @diary_form.persisted? ? :patch : :post, class: "w-full" do |f| %>
+    <% if @diary_form.errors.any? %>
+      <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+        <strong class="font-bold">入力内容に不備があります</strong>
+        <ul class="list-disc ml-5 mt-2">
+          <% @diary_form.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- 日付 -->
+    <%= f.label :posted_date, "日付" %>
+    <button type="button" popovertarget="cally-popover1" class="input input-bordered my-2" id="cally-trigger" style="anchor-name:--cally1">
+      <span id="cally-text"><%= @diary_form.posted_date %></span>
+    </button>
+    <%= f.hidden_field :posted_date, value: @diary_form.posted_date, id: "posted-date-field" %>
+
+    <!-- 日記の内容 -->
+    <div data-controller="diary">
+      <div id="items-container" class="space-y-4" data-diary-target="container">
+        <% @diary_form.happiness_items.each_with_index do |item, i| %>
+          <div class="form-control relative">
+            <div class="label">
+              <span class="label-text"><%= i + 1 %></span>
+              <% if i > 0 %> <!-- 最初の項目は削除不可 -->
+                <button type="button" class="btn btn-xs btn-circle btn-ghost absolute top-0 right-0" data-action="diary#removeItem">
+                  ✕
+                </button>
+              <% end %>
+            </div>
+            <%= f.text_area :happiness_items, name: "diary_form[happiness_items][]", id: "item_#{i + 1}", value: item, class: "textarea textarea-md textarea-bordered textarea-accent w-full", placeholder: "#{i + 1}. 日記の内容" %>
+            <% if @diary_form.errors[:"happiness_items_#{i}"] %>
+              <p class="text-xs text-error mt-1"><%= @diary_form.errors[:"happiness_items_#{i}"].first %></p>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <div class="flex flex-col items-center mt-4">
+        <button type="button" data-action="diary#addItem" class="btn btn-outline btn-accent">+</button>
+      </div>
+
+      <template id="diary-item-template">
+        <div class="form-control relative">
+          <div class="label">
+            <span class="label-text"></span>
+            <button type="button" class="btn btn-xs btn-circle btn-ghost absolute top-0 right-0" data-action="diary#removeItem">
+              ✕
+            </button>
+          </div>
+          <textarea name="diary_form[happiness_items][]" 
+                      class="textarea textarea-md textarea-bordered textarea-accent w-full" 
+                      placeholder=""></textarea>
+        </div>
+      </template>
+    </div>
+
+    <!-- 公開・非公開ボタン -->
+    <div class="flex flex-col items-center mt-4">
+      <div data-controller="status-selector" class="flex items-center space-x-4 mt-8">
+        <div data-action="click->status-selector#select" data-value="is_public">
+          <button type="button" data-status-selector-target="button" class="btn btn-outline <%= @diary_form.status == 'is_public' ? 'btn-active btn-secondary' : '' %>">公開</button>
+          <%= f.radio_button :status, :is_public, class: "hidden", checked: @diary_form.status == 'is_public' %>
+        </div>
+        <div data-action="click->status-selector#select" data-value="is_private">
+          <button type="button" data-status-selector-target="button" class="btn btn-outline <%= @diary_form.status == 'is_private' ? 'btn-active btn-secondary' : '' %>">非公開</button>
+          <%= f.radio_button :status, :is_private, class: "hidden", checked: @diary_form.status == 'is_private' %>
+        </div>
+      </div>
+      
+      <%= f.submit @diary_form.persisted? ? "更新する" : "投稿する", class: "btn btn-primary btn-lg mt-8" %>
+    </div>
+  <% end %>
+
+  <div popover id="cally-popover1" class="dropdown bg-base-100 rounded-box shadow-lg" style="position-anchor:--cally1">
+    <calendar-date class="cally" onchange="document.getElementById('posted-date-field').value = this.value; document.getElementById('cally-text').innerText = this.value;">
+      <svg aria-label="Previous" class="fill-current size-4" slot="previous" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.75 19.5 8.25 12l7.5-7.5"></path></svg>
+      <svg aria-label="Next" class="fill-current size-4" slot="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path></svg>
+      <calendar-month></calendar-month>
+    </calendar-date>
+  </div>
+</div>
