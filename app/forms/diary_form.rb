@@ -89,7 +89,6 @@ class DiaryForm
     diary_id.present?
   end
 
-  # 空のフィールドを最低指定数まで確保
   def ensure_minimum_fields(min_count = 5)
     current_count = happiness_items.length
     if current_count < min_count
@@ -98,7 +97,6 @@ class DiaryForm
     end
   end
 
-  # ✅ 修正: 空でない項目のみを取得
   def valid_happiness_items
     happiness_items.reject(&:blank?)
   end
@@ -130,7 +128,6 @@ class DiaryForm
     )
   end
 
-  # ✅ 修正: valid_happiness_itemsを使用
   def create_diary_contents(diary)
     valid_happiness_items.each do |item|
       DiaryContent.create!(
@@ -148,7 +145,6 @@ class DiaryForm
     )
   end
 
-  # ✅ 修正: valid_happiness_itemsを使用
   def update_diary_contents(diary)
     diary.diary_contents.destroy_all
 
