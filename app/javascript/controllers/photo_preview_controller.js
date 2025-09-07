@@ -19,25 +19,19 @@ export default class extends Controller {
       deleteButton.className = 'absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold shadow-lg delete-existing-btn'
       deleteButton.innerHTML = '×'
       deleteButton.dataset.action = 'click->photo-preview#removeExisting'
-      // 🔥 ボタンにはphoto-idを付けない！親要素から取得する
       deleteButton.dataset.photoId = photoDiv.dataset.photoId
       
       photoDiv.appendChild(deleteButton)
     })
   }
 
-  // 🎯 既存画像の削除（完全修正版）
+  // 既存画像の削除
   removeExisting(event) {
     const button = event.currentTarget
     const photoId = button.dataset.photoId
-    
-    // 🔥 削除ボタンの親要素（画像のdiv）を直接取得
     const photoDiv = button.parentElement
     
-    // 削除用の隠しフィールドを追加
     this.addDeleteField(photoId)
-    
-    // 🔥 画面から完全に削除（アニメーション付き）
     this.animateRemove(photoDiv)
   }
 
@@ -69,7 +63,6 @@ export default class extends Controller {
     
     reader.onload = (e) => {
       const div = document.createElement('div')
-      // 🎯 レスポンシブ対応の高さ設定
       div.className = 'relative w-full h-32 sm:h-40 md:h-48 lg:h-56'
       div.innerHTML = `
         <img src="${e.target.result}" 
@@ -107,10 +100,6 @@ export default class extends Controller {
 
   // 🎪 アニメーション付きで要素を削除
   animateRemove(element) {
-    console.log('削除開始:', element)
-    console.log('要素のタグ名:', element.tagName)
-    console.log('要素の内容（最初の100文字）:', element.innerHTML.substring(0, 100))
-    
     // フェードアウトアニメーション
     element.style.transition = 'all 0.3s ease-out'
     element.style.transform = 'scale(0.8)'
@@ -118,8 +107,7 @@ export default class extends Controller {
     
     // アニメーション完了後に要素を削除
     setTimeout(() => {
-      console.log('要素を削除:', element)
-      element.remove() // 🔥 ここで画像要素全体を完全に削除
+      element.remove()
       
       // グリッドが空になった場合の処理
       this.checkEmptyGrid()
