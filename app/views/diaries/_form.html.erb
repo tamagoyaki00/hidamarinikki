@@ -72,18 +72,36 @@
 
     <div class="flex flex-col items-center mt-4">
       <!-- 写真追加 -->
-      <% if @diary_form.existing_photos&.attached? %>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-          <% @diary_form.existing_photos.each do |photo| %>
-            <div class="relative w-full">
-              <%= image_tag photo.variant(:thumb), class: "w-full h-full object-contain rounded-lg shadow-sm" %>
-            </div>
+      <div data-controller="photo-preview">
+        <div data-photo-preview-target="preview" 
+            class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+          
+          <!-- 既存の画像 -->
+          <% if @diary_form.existing_photos&.attached? %>
+            <% @diary_form.existing_photos.each do |photo| %>
+              <div class="relative w-full h-32 sm:h-40 md:h-48 lg:h-56"
+                  data-photo-preview-target="existingPhoto"
+                  data-photo-id="<%= photo.id %>">
+                <%= image_tag photo.variant(:thumb),
+                              class: "w-full h-32 sm:h-40 md:h-48 lg:h-56 object-cover rounded-lg shadow-sm transition-all duration-200" %>
+                <!-- 削除ボタンはJavaScriptで追加 -->
+              </div>
+            <% end %>
           <% end %>
+
         </div>
-      <% end %>
-      
-      <%= f.file_field :photos, class: "file-input file-input-secondary", multiple: true %>
-      
+
+      <div class="w-full flex justify-center mt-4">
+        <%= f.file_field :photos, 
+                        class: "file-input file-input-secondary", 
+                        multiple: true,
+                        accept: "image/*",
+                        data: {
+                          photo_preview_target: "input",
+                          action: "change->photo-preview#preview"
+                        } %>
+      </div>
+    </div>
       <!-- 公開・非公開ボタン -->
       <div data-controller="status-selector" class="flex items-center space-x-4 mt-8">
         <div data-action="click->status-selector#select" data-value="is_public">

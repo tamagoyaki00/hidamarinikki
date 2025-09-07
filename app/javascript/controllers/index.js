@@ -13,6 +13,9 @@ application.register("flash-message", FlashMessageController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import PhotoPreviewController from "./photo_preview_controller"
+application.register("photo-preview", PhotoPreviewController)
+
 import StatusSelectorController from "./status_selector_controller"
 application.register("status-selector", StatusSelectorController)
 
