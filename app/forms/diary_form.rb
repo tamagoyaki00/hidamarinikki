@@ -122,7 +122,7 @@ class DiaryForm
     existing_count = existing_photos&.attached? ? existing_photos.count : 0
     new_count = photos.present? ? photos.reject(&:blank?).count : 0
     removed_count = remove_photos.present? ? remove_photos.count : 0
-    
+
     existing_count + new_count - removed_count
   end
 
@@ -152,15 +152,15 @@ class DiaryForm
 
   def validate_photos_format
     return unless photos.present?
-    
+
     photos.each do |photo|
       next if photo.blank? || !photo.respond_to?(:content_type)
-      
+
       unless photo.content_type.in?(%w[image/jpeg image/png image/gif])
         errors.add(:photos, "はJPEG、PNG、GIF形式でアップロードしてください")
         break
       end
-      
+
       if photo.size > 5.megabytes
         errors.add(:photos, "は1枚あたり5MB以内でアップロードしてください")
         break
@@ -202,7 +202,7 @@ class DiaryForm
   def remove_selected_photos(diary)
     remove_photos.each do |photo_id|
       next if photo_id.blank?
-      
+
       photo_to_remove = diary.photos.find_by(id: photo_id)
       photo_to_remove&.purge
     end
