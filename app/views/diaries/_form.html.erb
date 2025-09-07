@@ -72,9 +72,9 @@
 
     <div class="flex flex-col items-center mt-4">
       <!-- 写真追加 -->
-      <% if @diary.photos.attached? %>
+      <% if @diary_form.existing_photos&.attached? %>
         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-          <% @diary.photos.each do |photo| %>
+          <% @diary_form.existing_photos.each do |photo| %>
             <div class="relative w-full">
               <%= image_tag photo.variant(:thumb), class: "w-full h-full object-contain rounded-lg shadow-sm" %>
             </div>

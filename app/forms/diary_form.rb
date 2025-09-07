@@ -7,11 +7,14 @@ class DiaryForm
   attribute :posted_date, :date
   attribute :diary_id, :integer
   attribute :happiness_items
-  attribute :photos
+  attribute :photos, default: []
+  attribute :remove_photos, default: []
 
   validates :user_id, presence: true
   validates :status, presence: true
   validates :posted_date, presence: true
+
+  attr_accessor :existing_photos
 
   # 最低1つは入力必須
   validate :at_least_one_happiness_present
@@ -29,6 +32,7 @@ class DiaryForm
       happiness_items: diary.diary_contents.pluck(:body)
     ).tap do |form|
       form.ensure_minimum_fields(5)
+      form.existing_photos = diary.photos if diary.photos.attached?
     end
   end
 
@@ -36,7 +40,8 @@ class DiaryForm
     new(
       user_id: user.id,
       status: "is_public",
-      posted_date: Date.current
+      posted_date: Date.current,
+      photos: []
     )
   end
 
@@ -104,6 +109,23 @@ class DiaryForm
     happiness_items.reject(&:blank?)
   end
 
+  # 写真関連のメソッド
+  def has_photos?
+    (existing_photos&.attached?) || (photos.present? && photos.any?(&:present?))
+  end
+
+  def display_photos
+    existing_photos&.attached? ? existing_photos : []
+  end
+
+  def total_photos_count
+    existing_count = existing_photos&.attached? ? existing_photos.count : 0
+    new_count = photos.present? ? photos.reject(&:blank?).count : 0
+    removed_count = remove_photos.present? ? remove_photos.count : 0
+    
+    existing_count + new_count - removed_count
+  end
+
   private
 
   def at_least_one_happiness_present
@@ -123,8 +145,26 @@ class DiaryForm
   end
 
   def validate_photos_count
-    if photos.present? && photos.count > 6
+    if total_photos_count > 6
       errors.add(:photos, "は6枚以内でアップロードしてください")
+    end
+  end
+
+  def validate_photos_format
+    return unless photos.present?
+    
+    photos.each do |photo|
+      next if photo.blank? || !photo.respond_to?(:content_type)
+      
+      unless photo.content_type.in?(%w[image/jpeg image/png image/gif])
+        errors.add(:photos, "はJPEG、PNG、GIF形式でアップロードしてください")
+        break
+      end
+      
+      if photo.size > 5.megabytes
+        errors.add(:photos, "は1枚あたり5MB以内でアップロードしてください")
+        break
+      end
     end
   end
 
@@ -149,12 +189,28 @@ class DiaryForm
   end
 
   def update_diary(diary)
+    remove_selected_photos(diary) if remove_photos.present?
+
     diary.update!(
       status: status,
       posted_date: posted_date,
       happiness_count: valid_happiness_items.count
     )
-    diary.photos.attach(photos) if photos.present?
+    attach_new_photos(diary) if photos.present?
+  end
+
+  def remove_selected_photos(diary)
+    remove_photos.each do |photo_id|
+      next if photo_id.blank?
+      
+      photo_to_remove = diary.photos.find_by(id: photo_id)
+      photo_to_remove&.purge
+    end
+  end
+
+  def attach_new_photos(diary)
+    valid_photos = photos.reject(&:blank?).select { |photo| photo.respond_to?(:tempfile) }
+    diary.photos.attach(valid_photos) if valid_photos.any?
   end
 
   def update_diary_contents(diary)

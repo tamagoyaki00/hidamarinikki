@@ -43,14 +43,6 @@ class DiariesController < ApplicationController
 
   def update
     @diary_form = DiaryForm.from_diary(@diary)
-
-    if params[:diary_form][:remove_photos].present?
-      params[:diary_form][:remove_photos].each do |photo_id|
-        photo_to_remove = @diary.photos.find(photo_id)
-        photo_to_remove.purge
-      end
-    end
-    
     @diary_form.assign_attributes(diary_form_params)
     if @diary_form.update(@diary)
       redirect_to home_path, notice: "日記を更新しました"
