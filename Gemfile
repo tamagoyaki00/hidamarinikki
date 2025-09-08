@@ -68,4 +68,4 @@ gem "omniauth-rails_csrf_protection"
 
 gem "rails-i18n"
 
-gem 'aws-sdk-s3', require: false
+gem "aws-sdk-s3", require: false
