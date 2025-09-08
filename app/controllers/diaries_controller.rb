@@ -64,6 +64,6 @@ class DiariesController < ApplicationController
   end
 
   def diary_form_params
-    params.require(:diary_form).permit(:status, :posted_date, happiness_items: [], photos: [], delete_photo_ids:[]).merge(user_id: current_user.id)
+    params.require(:diary_form).permit(:status, :posted_date, happiness_items: [], photos: [], delete_photo_ids: []).merge(user_id: current_user.id)
   end
 end
