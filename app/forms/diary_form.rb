@@ -8,7 +8,7 @@ class DiaryForm
   attribute :diary_id, :integer
   attribute :happiness_items
   attribute :photos, default: []
-  attribute :remove_photos, default: []
+  attribute :delete_photo_ids, default: []
 
   validates :user_id, presence: true
   validates :status, presence: true
@@ -121,7 +121,7 @@ class DiaryForm
   def total_photos_count
     existing_count = existing_photos&.attached? ? existing_photos.count : 0
     new_count = photos.present? ? photos.reject(&:blank?).count : 0
-    removed_count = remove_photos.present? ? remove_photos.count : 0
+    removed_count = delete_photo_ids.present? ? delete_photo_ids.count : 0
 
     existing_count + new_count - removed_count
   end
@@ -189,7 +189,7 @@ class DiaryForm
   end
 
   def update_diary(diary)
-    remove_selected_photos(diary) if remove_photos.present?
+    delete_selected_photos(diary) if delete_photo_ids.present?
 
     diary.update!(
       status: status,
@@ -199,8 +199,8 @@ class DiaryForm
     attach_new_photos(diary) if photos.present?
   end
 
-  def remove_selected_photos(diary)
-    remove_photos.each do |photo_id|
+  def delete_selected_photos(diary)
+    delete_photo_ids.each do |photo_id|
       next if photo_id.blank?
 
       photo_to_remove = diary.photos.find_by(id: photo_id)
