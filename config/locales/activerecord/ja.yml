@@ -1,0 +1,7 @@
+ja:
+  activemodel:
+    attributes:
+      diary_form:
+        photos: 写真
+  activerecord:
+    attributes:
