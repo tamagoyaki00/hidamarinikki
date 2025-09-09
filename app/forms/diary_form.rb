@@ -21,10 +21,13 @@ class DiaryForm
   validate :at_least_one_happiness_present
   # 各項目の文字数制限
   validate :happiness_items_length
-  # 画像の枚数制限
+  # 画像関連
   validate :validate_photos_count
-  # タグの文字数制限
+  validate :validate_photos_format
+  # タグ関連
   validate :tag_names_length
+  validate :tag_names_count
+  validate :parsed_tags
 
   def self.from_diary(diary)
     new(
