@@ -8,7 +8,10 @@ Rails.application.routes.draw do
   get "top", to: "pages#top"
   get "home", to: "homes#index"
 
-  resources :diaries
+  resources :diaries do
+    collection do
+    get :autocomplete
+  end
 
   get "my_diaries", to: "diaries#my_diaries", as: :my_diaries
   get "public_diaries", to: "diaries#public_diaries", as: :public_diaries
