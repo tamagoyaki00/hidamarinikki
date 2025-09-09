@@ -12,4 +12,13 @@ class Diary < ApplicationRecord
   validates :posted_date, presence: true
 
   enum :status, { is_public: 0, is_private: 1 }
+
+
+  def self.ransackable_attributes(auth_object = nil)
+    []
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[diary_contents tags]
+  end
 end
