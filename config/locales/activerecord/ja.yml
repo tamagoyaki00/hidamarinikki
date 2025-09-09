@@ -3,5 +3,6 @@ ja:
     attributes:
       diary_form:
         photos: 写真
+        tag_names: タグ
   activerecord:
     attributes:
