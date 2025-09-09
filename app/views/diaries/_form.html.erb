@@ -25,11 +25,13 @@
     <% end %>
 
     <!-- 日付 -->
-    <%= f.label :posted_date, "日付" %>
-    <button type="button" popovertarget="cally-popover1" class="input input-bordered my-2" id="cally-trigger" style="anchor-name:--cally1">
-      <span id="cally-text"><%= @diary_form.posted_date %></span>
-    </button>
-    <%= f.hidden_field :posted_date, value: @diary_form.posted_date, id: "posted-date-field" %>
+    <div class="space-x-2">
+      <%= f.label :posted_date, "日付" %>
+      <button type="button" popovertarget="cally-popover1" class="input input-bordered my-2" id="cally-trigger" style="anchor-name:--cally1">
+        <span id="cally-text"><%= @diary_form.posted_date %></span>
+      </button>
+      <%= f.hidden_field :posted_date, value: @diary_form.posted_date, id: "posted-date-field" %>
+    </div>
 
     <!-- 日記の内容 -->
     <div data-controller="diary">
@@ -70,11 +72,17 @@
       </template>
     </div>
 
+    <!-- タグ -->
+    <div class="mt-8 space-x-2">
+      <%= f.label :tag_names, "タグ" %>
+      <%= f.text_field :tag_names, placeholder: "タグを複数つけるには','かスペースで区切ってください。", class: "input w-full" %>
+    </div>
+
     <div class="flex flex-col items-center mt-4">
       <!-- 写真追加 -->
       <div data-controller="photo-preview">
         <div data-photo-preview-target="preview" 
-            class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+            class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8 mb-4">
           
           <!-- 既存の画像 -->
           <% if @diary_form.existing_photos&.attached? %>

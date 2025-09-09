@@ -9,6 +9,7 @@ class DiaryForm
   attribute :happiness_items
   attribute :photos, default: []
   attribute :delete_photo_ids, default: []
+  attribute :tag_names, :string, default: ""
 
   validates :user_id, presence: true
   validates :status, presence: true
@@ -20,8 +21,13 @@ class DiaryForm
   validate :at_least_one_happiness_present
   # 各項目の文字数制限
   validate :happiness_items_length
-  # 画像の枚数制限
+  # 画像関連
   validate :validate_photos_count
+  validate :validate_photos_format
+  # タグ関連
+  validate :tag_names_length
+  validate :tag_names_count
+  validate :parsed_tags
 
   def self.from_diary(diary)
     new(
@@ -29,7 +35,8 @@ class DiaryForm
       user_id: diary.user_id,
       status: diary.status,
       posted_date: diary.posted_date,
-      happiness_items: diary.diary_contents.pluck(:body)
+      happiness_items: diary.diary_contents.pluck(:body),
+      tag_names: diary.tags.pluck(:name).join(", ")
     ).tap do |form|
       form.ensure_minimum_fields(5)
       form.existing_photos = diary.photos if diary.photos.attached?
@@ -41,7 +48,8 @@ class DiaryForm
       user_id: user.id,
       status: "is_public",
       posted_date: Date.current,
-      photos: []
+      photos: [],
+      tag_names: ""
     )
   end
 
@@ -73,6 +81,7 @@ class DiaryForm
     ActiveRecord::Base.transaction do
       diary = create_diary
       create_diary_contents(diary)
+      create_tags(diary)
     end
 
     true
@@ -86,6 +95,7 @@ class DiaryForm
     ActiveRecord::Base.transaction do
       update_diary(diary)
       update_diary_contents(diary)
+      update_tags(diary)
     end
 
     true
@@ -128,6 +138,7 @@ class DiaryForm
 
   private
 
+  # カスタムバリデーション
   def at_least_one_happiness_present
     if valid_happiness_items.empty?
       errors.add(:base, "少なくとも1つの幸せを入力してください")
@@ -168,6 +179,34 @@ class DiaryForm
     end
   end
 
+  def tag_names_length
+    return if tag_names.blank?
+
+    parsed_tags.each do |tag|
+      if tag.length > 20
+        errors.add(:tag_names, "は20文字以内にしてください")
+        break
+      end
+    end
+  end
+
+  def tag_names_count
+    return if tag_names.blank?
+
+    if parsed_tags.length > 10
+      errors.add(:tag_names, "は10個以内にしてください")
+    end
+  end
+
+  def parsed_tags
+    return [] if tag_names.blank?
+
+    tag_names.split(/[[:blank:],]+/)
+             .map(&:strip)
+             .reject(&:blank?)
+             .uniq
+  end
+
   def create_diary
     diary = Diary.create!(
       user_id: user_id,
@@ -185,6 +224,15 @@ class DiaryForm
         diary: diary,
         body: item.strip
       )
+    end
+  end
+
+  def create_tags(diary)
+    return if tag_names.blank?
+
+    parsed_tags.each do |tag_name|
+      tag = Tag.find_or_create_by(name: tag_name)
+      diary.tags << tag unless diary.tags.include?(tag)
     end
   end
 
@@ -221,6 +269,15 @@ class DiaryForm
         diary: diary,
         body: item.strip
       )
+    end
+  end
+
+  def update_tags(diary)
+    if tag_names.blank?
+      diary.tags.clear
+    else
+      diary.tags.clear
+      create_tags(diary)
     end
   end
 end

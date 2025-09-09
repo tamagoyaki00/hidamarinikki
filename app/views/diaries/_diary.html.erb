@@ -45,8 +45,16 @@
       </div>
     <% end %>
 
-    <div class="badge badge-outline badge-primary mt-4 glass-secondary">
+    <div class="badge badge-outline badge-primary glass-secondary">
       <%= diary.is_public? ? "公開" : "非公開" %>
+    </div>
+
+    <div class="flex flex-wrap space-x-2">
+      <% diary.tags.each do |tag| %>
+        <div class="badge badge-outline badge-accent">
+          <%= tag.name %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

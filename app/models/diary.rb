@@ -1,6 +1,8 @@
 class Diary < ApplicationRecord
   belongs_to :user
   has_many :diary_contents, dependent: :destroy
+  has_many :diary_tags, dependent: :destroy
+  has_many :tags, through: :diary_tags
 
   has_many_attached :photos do |attachable|
     attachable.variant :thumb, resize_to_limit: [ 200, 200 ]
