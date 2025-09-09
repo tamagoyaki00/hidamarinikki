@@ -194,7 +194,7 @@ class DiaryForm
     return if tag_names.blank?
 
     if parsed_tags.length > 10
-      errors.add(:tag_names, "タグは10個以内にしてください")
+      errors.add(:tag_names, "は10個以内にしてください")
     end
   end
 
