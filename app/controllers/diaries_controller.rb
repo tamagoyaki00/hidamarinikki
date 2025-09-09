@@ -3,11 +3,13 @@ class DiariesController < ApplicationController
   before_action :set_diary, only: %i[ edit update destroy ]
 
   def my_diaries
-    @diaries = current_user.diaries.order(created_at: :desc)
+    @q = current_user.diaries.ransack(params[:q])
+    @diaries = @q.result(distinct: true).order(created_at: :desc)
   end
 
   def public_diaries
-    @diaries = Diary.is_public.includes(:user).order(created_at: :desc)
+    @q = Diary.is_public.ransack(params[:q])
+    @diaries = @q.result(distinct: true).includes(:user).order(created_at: :desc)
   end
 
   # 日記の新規作成時、同日の日記がすでに作成されていたら編集フォームに遷移
