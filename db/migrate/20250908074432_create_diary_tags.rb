@@ -6,6 +6,6 @@ class CreateDiaryTags < ActiveRecord::Migration[7.2]
       t.timestamps
     end
 
-    add_index :diary_tags, [:diary_id, :tag_id], unique: true
+    add_index :diary_tags, [ :diary_id, :tag_id ], unique: true
   end
 end

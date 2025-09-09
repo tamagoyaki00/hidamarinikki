@@ -200,7 +200,7 @@ class DiaryForm
 
   def parsed_tags
     return [] if tag_names.blank?
-    
+
     tag_names.split(/[[:blank:],]+/)
              .map(&:strip)
              .reject(&:blank?)
@@ -229,7 +229,7 @@ class DiaryForm
 
   def create_tags(diary)
     return if tag_names.blank?
-    
+
     parsed_tags.each do |tag_name|
       tag = Tag.find_or_create_by(name: tag_name)
       diary.tags << tag unless diary.tags.include?(tag)
