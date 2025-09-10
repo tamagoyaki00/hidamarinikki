@@ -10,7 +10,8 @@ Rails.application.routes.draw do
 
   resources :diaries do
     collection do
-    get :autocomplete
+      get :autocomplete
+    end
   end
 
   get "my_diaries", to: "diaries#my_diaries", as: :my_diaries
