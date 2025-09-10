@@ -1,4 +1,10 @@
 <%= search_form_for @q, url: url, html: { class: "flex flex-col md:flex-row items-center w-full gap-2" } do |f| %>
-  <%= f.search_field :diary_contents_body_or_tags_name_cont, placeholder: "検索ワード", class: "input input-bordered flex-grow w-full" %>
+  <div data-controller="autocomplete" data-autocomplete-url-value="<%= autocomplete_diaries_path %>" role="combobox" class="w-full relative">
+    <%= f.search_field :diary_contents_body_or_tags_name_cont,
+                       placeholder: "検索ワード",
+                       class: "input input-bordered w-full",
+                       data: { autocomplete_target: "input" } %>
+    <ul class="absolute w-full mt-2 z-10 shadow bg-base-100 rounded-md" data-autocomplete-target="results"></ul>
+  </div>
   <%= f.submit "検索", class: "btn" %>
 <% end %>
