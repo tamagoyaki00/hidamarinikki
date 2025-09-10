@@ -58,6 +58,12 @@ class DiariesController < ApplicationController
     redirect_to my_diaries_path, notice: "日記を削除しました", status: :see_other
   end
 
+  def autocomplete
+    @tags = Tag.where("name like ?", "%#{params[:q]}%").limit(10)
+    respond_to do |format|
+      format.js
+    end
+  end
 
   private
 
