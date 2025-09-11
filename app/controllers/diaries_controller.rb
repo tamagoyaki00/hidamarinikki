@@ -5,6 +5,7 @@ class DiariesController < ApplicationController
   def my_diaries
     @q = current_user.diaries.ransack(params[:q])
     @diaries = @q.result(distinct: true).order(created_at: :desc)
+    @happiness_count = @diary.happiness_count
   end
 
   def public_diaries
