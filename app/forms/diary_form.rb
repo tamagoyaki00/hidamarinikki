@@ -7,6 +7,7 @@ class DiaryForm
   attribute :posted_date, :date
   attribute :diary_id, :integer
   attribute :happiness_items
+  attribute :happiness_count, :integer
   attribute :photos, default: []
   attribute :delete_photo_ids, default: []
   attribute :tag_names, :string, default: ""
@@ -134,6 +135,11 @@ class DiaryForm
     removed_count = delete_photo_ids.present? ? delete_photo_ids.count : 0
 
     existing_count + new_count - removed_count
+  end
+
+  # 幸せ数のカウント
+  def happiness_count
+    valid_happiness_items.count
   end
 
   private

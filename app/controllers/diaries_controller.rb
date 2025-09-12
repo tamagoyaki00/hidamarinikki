@@ -5,7 +5,6 @@ class DiariesController < ApplicationController
   def my_diaries
     @q = current_user.diaries.ransack(params[:q])
     @diaries = @q.result(distinct: true).order(created_at: :desc)
-    @happiness_count = @diary.happiness_count
   end
 
   def public_diaries
@@ -33,7 +32,13 @@ class DiariesController < ApplicationController
     @diary_form = DiaryForm.new(diary_form_params)
     @diary_form.user_id = current_user.id
 
+      Rails.logger.info "🐛 diary_form_params: #{diary_form_params.inspect}"
+  Rails.logger.info "🐛 valid_happiness_items: #{@diary_form.valid_happiness_items.inspect}"
+  Rails.logger.info "🐛 valid_happiness_items.class: #{@diary_form.valid_happiness_items.class}"
+
     if @diary_form.save
+      session[:new_happiness_count] = (session[:new_happiness_count] || 0) + @diary_form.happiness_count
+      Rails.logger.info "🎯 セッションに保存: #{session[:new_happiness_count]}個の幸せ"
       redirect_to home_path, notice: "日記を投稿しました"
     else
       render :new, status: :unprocessable_entity
@@ -48,6 +53,8 @@ class DiariesController < ApplicationController
     @diary_form = DiaryForm.from_diary(@diary)
     @diary_form.assign_attributes(diary_form_params)
     if @diary_form.update(@diary)
+      session[:new_happiness_count] = @diary_form.diary.happiness_count
+      Rails.logger.info "🎯 セッションに保存: #{session[:new_happiness_count]}個の幸せ"
       redirect_to home_path, notice: "日記を更新しました"
     else
       render :edit, status: :unprocessable_entity

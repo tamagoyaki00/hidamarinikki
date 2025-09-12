@@ -9,13 +9,11 @@
 <div class="flex flex-col items-center justify-center p-4">
   <h1 class="text-3xl font-bold text-gray-800 my-8">幸せ瓶</h1>
 
-  <!-- コントローラーのスコープを拡張 -->
-  <div data-controller="happiness-jar"
-       data-happiness-jar-image-urls-value='<%= [
-         asset_path("green.png"), 
-         asset_path("star.png"), 
-         asset_path("heart.png")
-       ].to_json.html_safe %>'>
+  <!-- happiness_countをdata属性として追加 -->
+  <div class="happiness-jar-container" 
+     data-controller="happiness-jar"
+     data-happiness-jar-image-urls-value="<%= @happiness_image_urls.to_json %>"
+     data-happiness-jar-new-count-value="<%= @new_happiness_count %>">
 
     <div class="w-full flex justify-center">
       <div id="bottle-container"
@@ -30,15 +28,18 @@
       </div>
     </div>
 
-    <!-- ボタンをコントローラーのスコープ内に移動 -->
-    <div class="w-full flex justify-center">
-      <button data-action="click->happiness-jar#addMarble"
-              class="mt-10 px-8 py-4 text-xl bg-green-600 text-white rounded-full cursor-pointer transition-colors duration-300 shadow-md hover:bg-green-700">
-        幸せを追加
-      </button>
-    </div>
+    <!-- 開発時のテスト用ボタン（本番では削除） -->
+    <% if Rails.env.development? %>
+      <div class="w-full flex justify-center">
+        <button data-action="click->happiness-jar#addMarble"
+                class="mt-10 px-8 py-4 text-xl bg-green-600 text-white rounded-full cursor-pointer transition-colors duration-300 shadow-md hover:bg-green-700">
+          テスト用：幸せを追加
+        </button>
+      </div>
+    <% end %>
 
   </div>
+</div>
 </div>
 
 

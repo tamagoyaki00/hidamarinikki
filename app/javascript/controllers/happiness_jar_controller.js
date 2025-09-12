@@ -1,15 +1,16 @@
 import { Controller } from "@hotwired/stimulus"
-// import Matter from "matter-js" ← これを削除
 
 export default class extends Controller {
   static values = {
-    imageUrls: Array
+    imageUrls: Array,
+    newCount: Number
   }
 
   connect() {
     console.log("=== HappinessJar connected ===")
     console.log("imageUrlsValue:", this.imageUrlsValue)
     console.log("Matter availability:", typeof Matter)
+    console.log("newCountValue:", this.newCountValue)
 
     if (typeof Matter === 'undefined') {
       console.error("Matter.js not loaded from CDN")
@@ -28,12 +29,33 @@ export default class extends Controller {
       this.images = loadedImages
       console.log("✅ Images successfully preloaded:", this.images.length)
       
-      // Matter.js セットアップ
       this.setupMatterJS(canvas)
+      
+      // ✅ ここで自動実行を追加
+      this.startAnimation()
     }).catch(err => {
       console.error("❌ Image preload failed:", err)
       this.setupMatterJS(canvas)
     })
+  }
+
+    startAnimation() {
+    const newCount = this.newCountValue || 0
+    console.log(`🎯 新しい幸せ: ${newCount}個`)
+    
+    if (newCount > 0) {
+      console.log(`🎯 ${newCount}個の幸せを自動ドロップ開始！`)
+      
+      // 500ms間隔で順次ドロップ
+      for (let i = 0; i < newCount; i++) {
+        setTimeout(() => {
+          console.log(`🎯 ${i + 1}個目の幸せをドロップ`)
+          this.addMarble()
+        }, i * 500)
+      }
+    } else {
+      console.log("❌ 新しい幸せがないため、アニメーションなし")
+    }
   }
 
   preloadImages(urls) {
@@ -122,6 +144,67 @@ export default class extends Controller {
     Matter.World.add(this.engine.world, marble)
     this.marbles.push(marble)
     console.log("Image marble added successfully!")
+  }
+
+
+  getStaticPosition() {
+    // 既存のmarbleを底から積み上げるように配置
+    const layers = Math.floor(this.marbles.length / 8) // 1層あたり8個程度
+    const yPosition = 400 - (layers * 55) // 底から55pxずつ上に
+    return Math.max(yPosition, 100) // 上限を設定
+  }
+
+  // ✅ ランダムなX座標を取得
+  getRandomX() {
+    return Math.random() * 200 + 50 // 瓶の幅内でランダム
+  }
+
+  // ✅ アニメーション完了時の処理
+  onAnimationComplete() {
+    console.log("✅ All new marbles added successfully!")
+    
+    // 瓶がいっぱいかチェック（例：100個で満杯）
+    if (this.marbles.length >= 100) {
+      setTimeout(() => this.handleBottleFull(), 1000)
+    }
+    
+    // 完了通知を表示
+    this.showCompletionMessage()
+  }
+
+  // ✅ 瓶が満杯になった時の処理
+  handleBottleFull() {
+    console.log("🎉 Bottle is full!")
+    
+    // お祝いモーダルやエフェクトを表示
+    const event = new CustomEvent('bottleFull', {
+      detail: { totalCount: this.marbles.length }
+    })
+    this.element.dispatchEvent(event)
+  }
+
+  // ✅ 完了メッセージを表示
+  showCompletionMessage() {
+    const messageElement = this.element.querySelector('.completion-message')
+    if (messageElement) {
+      messageElement.textContent = `✨ ${this.newCountValue}個の幸せが追加されました！`
+      messageElement.classList.add('show')
+      
+      // 3秒後に非表示
+      setTimeout(() => {
+        messageElement.classList.remove('show')
+      }, 3000)
+    }
+  }
+
+  disconnect() {
+    // クリーンアップ
+    if (this.render) {
+      Matter.Render.stop(this.render)
+    }
+    if (this.engine) {
+      Matter.Engine.clear(this.engine)
+    }
   }
 }
 
