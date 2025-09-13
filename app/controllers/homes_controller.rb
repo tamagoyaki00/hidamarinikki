@@ -5,22 +5,19 @@ class HomesController < ApplicationController
     @happiness_image_urls = [
       view_context.asset_path("green.png"), 
       view_context.asset_path("star.png"), 
-      view_context.asset_path("heart.png")
+      view_context.asset_path("heart.png"),
+      view_context.asset_path("clover.png"),
+      view_context.asset_path("orange.png"),
+
     ]
     
-        @existing_happiness_count = current_user.diary_contents.count
-    Rails.logger.info "🏠 現在の幸せ数: #{@existing_happiness_count}"
+    @existing_happiness_count = current_user.diary_contents.count
 
-    # 💡 flash からアニメーション情報を取得
     animation_data = flash[:happiness_animation] || {}
-    Rails.logger.info "🎭 フラッシュデータ: #{animation_data}"
     if animation_data.present?
       @animation_type  = animation_data["type"] || animation_data[:type] || ""
       @animation_count = animation_data["count"] || animation_data[:count] || 0
       @previous_total  = animation_data["previous_total"] || animation_data[:previous_total] || @existing_happiness_count
-
-      Rails.logger.info "🎬 アニメーション準備: #{@previous_total}個 → #{@existing_happiness_count}個"
-      Rails.logger.info "🎬 アニメーション種類: #{@animation_type}, 変更数: #{@animation_count}"
     else
       @animation_type  = nil
       @animation_count = 0

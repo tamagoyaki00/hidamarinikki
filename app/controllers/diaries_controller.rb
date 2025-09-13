@@ -36,7 +36,6 @@ class DiariesController < ApplicationController
     new_happiness_count = @diary_form.happiness_count
     
       if new_happiness_count > 0
-        # 現在の総数から新規追加分を引いて、以前の数を計算
         current_total = current_user.diary_contents.count
         previous_total = current_total - new_happiness_count
         
@@ -45,8 +44,6 @@ class DiariesController < ApplicationController
         count: new_happiness_count,
         previous_total: previous_total
       }
-        
-        Rails.logger.info "📝 新規作成: #{previous_total}個 → #{current_total}個 (#{new_happiness_count}個追加)"
       end
       redirect_to home_path, notice: "日記を投稿しました"
     else
@@ -60,8 +57,8 @@ class DiariesController < ApplicationController
 
   def update
     @diary_form = DiaryForm.from_diary(@diary)
-    previous_happiness_count = @diary.diary_contents.count
     @diary_form.assign_attributes(diary_form_params)
+    previous_happiness_count = @diary.diary_contents.count
 
     if @diary_form.update(@diary)
       new_happiness_count = @diary_form.happiness_count
