@@ -33,6 +33,18 @@ class DiariesController < ApplicationController
     @diary_form.user_id = current_user.id
 
     if @diary_form.save
+    new_happiness_count = @diary_form.happiness_count
+
+      if new_happiness_count > 0
+        current_total = current_user.diary_contents.count
+        previous_total = current_total - new_happiness_count
+
+       flash[:happiness_animation] = {
+        type: "increase",
+        count: new_happiness_count,
+        previous_total: previous_total
+      }
+      end
       redirect_to home_path, notice: "日記を投稿しました"
     else
       render :new, status: :unprocessable_entity
@@ -46,7 +58,20 @@ class DiariesController < ApplicationController
   def update
     @diary_form = DiaryForm.from_diary(@diary)
     @diary_form.assign_attributes(diary_form_params)
+    previous_happiness_count = @diary.diary_contents.count
+
     if @diary_form.update(@diary)
+      new_happiness_count = @diary_form.happiness_count
+      happiness_diff = new_happiness_count - previous_happiness_count
+
+      if happiness_diff != 0
+        flash[:happiness_animation] = {
+          type: happiness_diff > 0 ? "increase" : "decrease",
+          count: happiness_diff.abs,
+          previous_total: previous_happiness_count
+        }
+      end
+
       redirect_to home_path, notice: "日記を更新しました"
     else
       render :edit, status: :unprocessable_entity

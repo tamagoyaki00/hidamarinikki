@@ -10,6 +10,9 @@ application.register("diary", DiaryController)
 import FlashMessageController from "./flash_message_controller"
 application.register("flash-message", FlashMessageController)
 
+import HappinessJarController from "./happiness_jar_controller"
+application.register("happiness-jar", HappinessJarController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
