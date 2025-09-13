@@ -14,8 +14,6 @@ Rails.application.routes.draw do
     end
   end
 
-  post '/happiness/reset_session', to: 'homes#reset_session'
-
   get "my_diaries", to: "diaries#my_diaries", as: :my_diaries
   get "public_diaries", to: "diaries#public_diaries", as: :public_diaries
 

@@ -34,13 +34,13 @@ class DiariesController < ApplicationController
 
     if @diary_form.save
     new_happiness_count = @diary_form.happiness_count
-    
+
       if new_happiness_count > 0
         current_total = current_user.diary_contents.count
         previous_total = current_total - new_happiness_count
-        
+
        flash[:happiness_animation] = {
-        type: 'increase',
+        type: "increase",
         count: new_happiness_count,
         previous_total: previous_total
       }
@@ -63,7 +63,7 @@ class DiariesController < ApplicationController
     if @diary_form.update(@diary)
       new_happiness_count = @diary_form.happiness_count
       happiness_diff = new_happiness_count - previous_happiness_count
-      
+
       if happiness_diff != 0
         flash[:happiness_animation] = {
           type: happiness_diff > 0 ? "increase" : "decrease",
