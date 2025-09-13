@@ -188,7 +188,7 @@ export default class extends Controller {
     const col = itemIndex % cols
 
     const startX = 80
-    const startY = this.render.options.height - 10
+    const startY = this.render.options.height - 25
     const spacingX = 60
     const spacingY = 60
 
