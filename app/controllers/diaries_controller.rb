@@ -32,13 +32,22 @@ class DiariesController < ApplicationController
     @diary_form = DiaryForm.new(diary_form_params)
     @diary_form.user_id = current_user.id
 
-      Rails.logger.info "🐛 diary_form_params: #{diary_form_params.inspect}"
-  Rails.logger.info "🐛 valid_happiness_items: #{@diary_form.valid_happiness_items.inspect}"
-  Rails.logger.info "🐛 valid_happiness_items.class: #{@diary_form.valid_happiness_items.class}"
-
     if @diary_form.save
-      session[:new_happiness_count] = (session[:new_happiness_count] || 0) + @diary_form.happiness_count
-      Rails.logger.info "🎯 セッションに保存: #{session[:new_happiness_count]}個の幸せ"
+    new_happiness_count = @diary_form.happiness_count
+    
+      if new_happiness_count > 0
+        # 現在の総数から新規追加分を引いて、以前の数を計算
+        current_total = current_user.diary_contents.count
+        previous_total = current_total - new_happiness_count
+        
+       flash[:happiness_animation] = {
+        type: 'increase',
+        count: new_happiness_count,
+        previous_total: previous_total
+      }
+        
+        Rails.logger.info "📝 新規作成: #{previous_total}個 → #{current_total}個 (#{new_happiness_count}個追加)"
+      end
       redirect_to home_path, notice: "日記を投稿しました"
     else
       render :new, status: :unprocessable_entity
@@ -51,10 +60,21 @@ class DiariesController < ApplicationController
 
   def update
     @diary_form = DiaryForm.from_diary(@diary)
+    previous_happiness_count = @diary.diary_contents.count
     @diary_form.assign_attributes(diary_form_params)
+
     if @diary_form.update(@diary)
-      session[:new_happiness_count] = @diary_form.diary.happiness_count
-      Rails.logger.info "🎯 セッションに保存: #{session[:new_happiness_count]}個の幸せ"
+      new_happiness_count = @diary_form.happiness_count
+      happiness_diff = new_happiness_count - previous_happiness_count
+      
+      if happiness_diff != 0
+        flash[:happiness_animation] = {
+          type: happiness_diff > 0 ? "increase" : "decrease",
+          count: happiness_diff.abs,
+          previous_total: previous_happiness_count
+        }
+      end
+
       redirect_to home_path, notice: "日記を更新しました"
     else
       render :edit, status: :unprocessable_entity

@@ -9,17 +9,31 @@
 <div class="flex flex-col items-center justify-center p-4">
   <h1 class="text-3xl font-bold text-gray-800 my-8">幸せ瓶</h1>
 
-  <!-- happiness_countをdata属性として追加 -->
-  <div class="happiness-jar-container" 
-     data-controller="happiness-jar"
-     data-happiness-jar-image-urls-value="<%= @happiness_image_urls.to_json %>"
-     data-happiness-jar-new-count-value="<%= @new_happiness_count %>">
+  <!-- デバッグ情報（後で削除） -->
+  <div class="debug-info bg-gray-100 p-2 mb-4 text-sm">
+    <p>既存の幸せ: <%= @existing_happiness_count %>個</p>
+    <p>新しい幸せ: <%= @new_happiness_count %>個</p>
+    <p>合計: <%= @total_happiness_count %>個</p>
+  </div>
+
+  <%= @animation_type.inspect %>
+
+  <div id="happiness-jar-container" 
+      data-controller="happiness-jar"
+      data-happiness-jar-existing-count-value="<%= @existing_happiness_count %>"
+      data-happiness-jar-animation-type-value="<%= @animation_type %>"
+      data-happiness-jar-animation-count-value="<%= @animation_count %>"
+      data-happiness-jar-previous-total-value="<%= @previous_total %>"
+      data-happiness-jar-image-urls-value="<%= @happiness_image_urls.to_json %>">
 
     <div class="w-full flex justify-center">
       <div id="bottle-container"
            class="relative w-[300px] h-[450px] border-2 border-gray-700 rounded-[20px/10px] bg-white bg-opacity-70 shadow-lg overflow-hidden">
 
-        <canvas id="bottleCanvas" style="position: absolute; top: 0; left: 0;"></canvas>
+        <canvas id="happiness-canvas" 
+                width="300" 
+                height="450" 
+                style="position: absolute; top: 0; left: 0; z-index: 1;"></canvas>
 
         <div id="fullMessage"
              class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-70 text-white p-5 rounded-lg text-2xl text-center hidden z-50">
@@ -27,17 +41,6 @@
         </div>
       </div>
     </div>
-
-    <!-- 開発時のテスト用ボタン（本番では削除） -->
-    <% if Rails.env.development? %>
-      <div class="w-full flex justify-center">
-        <button data-action="click->happiness-jar#addMarble"
-                class="mt-10 px-8 py-4 text-xl bg-green-600 text-white rounded-full cursor-pointer transition-colors duration-300 shadow-md hover:bg-green-700">
-          テスト用：幸せを追加
-        </button>
-      </div>
-    <% end %>
-
   </div>
 </div>
 </div>
