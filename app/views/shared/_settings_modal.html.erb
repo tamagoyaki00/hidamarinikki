@@ -10,7 +10,7 @@
     </div>
 
     <ul class="space-y-4">
-      <li><%= link_to "プロフィール編集", edit_user_registration_path, class: "btn btn-outline w-full" %></li>
+      <li><%= link_to "プロフィール", user_path(current_user), class: "btn btn-outline w-full" %></li>
       <li><%= link_to "通知設定", "#", class: "btn btn-outline w-full" %></li>
       <li><%= link_to "ログアウト", "#", data: { turbo_method: :delete }, class: "btn btn-error w-full" %></li>
     </ul>

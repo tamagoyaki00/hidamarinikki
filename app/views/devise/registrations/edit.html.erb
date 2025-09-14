@@ -10,7 +10,7 @@
 
       <% if resource.avatar.attached? %>
         <div class="mt-2">
-          <%= image_tag resource.avatar.variant(:thumb), class: "rounded-full w-24 h-24 mt-1" %>
+          <%= image_tag resource.avatar_thumbnail, class: "rounded-full w-24 h-24 mt-1" %>
         </div>
       <% else %>
         <%= avatar_placeholder(resource) %>
@@ -23,15 +23,15 @@
     <!-- ユーザー名 -->
     <div class="w-full mt-8">
       <%= f.label :name, class: "font-medium mb-2" %>
-      <%= f.text_field :name, class: "input input-bordered w-full" %>
+      <%= f.text_field :name, class: "input input-bordered bg-white w-full" %>
     </div>
 
     <div class="w-full mt-8">
       <%= f.label :introduction, class: "font-medium mb-2" %>
-      <%= f.text_area :introduction, placeholder: "200文字まで", class: "textarea textarea-bordered textarea-profile w-full" %>
+      <%= f.text_area :introduction, placeholder: "200文字まで", class: "textarea textarea-bordered textarea-profile bg-white lg:w-[1024px]" %>
     </div>
 
     <div class="w-full mt-8">
-      <%= f.submit "更新する", class: "btn btn-primary w-full" %>
+      <%= f.submit "更新", class: "btn btn-primary w-full" %>
     </div>
   <% end %>
