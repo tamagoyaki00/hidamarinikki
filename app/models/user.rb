@@ -13,6 +13,7 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: [ :google_oauth2 ]
 
   validates :name, presence: true, length: { maximum: 20 }
+  validates :introduction, length: { maximum: 200 }
   validates :uid, uniqueness: { scope: :provider }, if: :provider?
   validate :validate_avatar_format
   validate :avatar_size
