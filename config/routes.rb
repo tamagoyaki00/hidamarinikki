@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   get "my_diaries", to: "diaries#my_diaries", as: :my_diaries
   get "public_diaries", to: "diaries#public_diaries", as: :public_diaries
 
+  resources :users, only: %i[show]
+
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
