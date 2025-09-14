@@ -3,9 +3,9 @@ module UsersHelper
   def avatar_placeholder(user, size: "w-24 h-24")
     initials = if user.name.present?
                  user.name[0..1].upcase
-               else
+    else
                  "?"
-               end
+    end
 
     content_tag :div, class: "avatar avatar-placeholder #{size}" do
       content_tag :div, class: "bg-neutral text-neutral-content #{size} rounded-full flex items-center justify-center" do
