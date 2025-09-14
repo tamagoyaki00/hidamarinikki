@@ -6,11 +6,11 @@
 
     <!-- アバター -->
     <div class="flex flex-col items-center w-full space-y-6">
-      <%= f.label :avatar, class: "font-mdium" %>
+      <%= f.label :avatar, class: "font-medium mb-2" %>
 
       <% if resource.avatar.attached? %>
         <div class="mt-2">
-          <%= image_tag resource.avatar.variant(:thumb), class: "rounded-full mt-1" %>
+          <%= image_tag resource.avatar.variant(:thumb), class: "rounded-full w-24 h-24 mt-1" %>
         </div>
       <% else %>
         <%= avatar_placeholder(resource) %>
@@ -22,13 +22,13 @@
 
     <!-- ユーザー名 -->
     <div class="w-full mt-8">
-      <%= f.label :name, class: "font-medium mb-1" %>
+      <%= f.label :name, class: "font-medium mb-2" %>
       <%= f.text_field :name, class: "input input-bordered w-full" %>
     </div>
 
     <div class="w-full mt-8">
-      <%= f.label :introduction, class: "font-medium mb-1" %>
-      <%= f.text_field :introduction, placeholder: "自己紹介文２００文字まで", class: "textarea py-24 w-full" %>
+      <%= f.label :introduction, class: "font-medium mb-2" %>
+      <%= f.text_area :introduction, placeholder: "200文字まで", class: "textarea textarea-bordered textarea-profile w-full" %>
     </div>
 
     <div class="w-full mt-8">

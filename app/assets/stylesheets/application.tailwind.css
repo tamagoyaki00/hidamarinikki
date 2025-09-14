@@ -52,11 +52,12 @@
   opacity: 0.5;
 }
 
-.alert-success {
-  background-color: #81c784 !important;
-}
-
 .textarea {
   min-height: auto;
   height: 48px;
+}
+
+.textarea-profile {
+  min-height: auto;
+  height: 200px;
 }
