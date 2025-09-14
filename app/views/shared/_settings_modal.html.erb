@@ -1,0 +1,18 @@
+<dialog id="settingsModal"
+        data-modal-target="modal"
+        data-action="click->modal#closeOnBackdrop"
+        class="modal modal-bottom md:modal-middle">
+  <div class="modal-box rounded-t-2xl md:rounded-2xl p-4 bg-base-100 max-h-[90vh] overflow-auto">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="font-bold text-lg">設定</h3>
+      <button class="btn btn-sm btn-circle btn-ghost"
+              data-action="click->modal#close">✕</button>
+    </div>
+
+    <ul class="space-y-4">
+      <li><%= link_to "プロフィール編集", "#", class: "btn btn-outline w-full" %></li>
+      <li><%= link_to "通知設定", "#", class: "btn btn-outline w-full" %></li>
+      <li><%= link_to "ログアウト", "#", data: { turbo_method: :delete }, class: "btn btn-error w-full" %></li>
+    </ul>
+  </div>
+</dialog>
