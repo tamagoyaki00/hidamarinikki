@@ -32,7 +32,7 @@ class User < ApplicationRecord
 
   def validate_avatar_format
     if avatar.attached? && !avatar.content_type.in?(%w[image/jpeg image/png image/gif])
-      errors.add(:image, "：ファイル形式が、JPEG, PNG, GIF以外になってます。ファイル形式をご確認ください")
+      errors.add(:avatar, "：ファイル形式が、JPEG, PNG, GIF以外になってます。ファイル形式をご確認ください")
     end
   end
 
