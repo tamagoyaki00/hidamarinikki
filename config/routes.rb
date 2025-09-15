@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get "public_diaries", to: "diaries#public_diaries", as: :public_diaries
 
   resources :users, only: %i[show]
+  resource :notification_settings, only:  %i[edit update]
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
