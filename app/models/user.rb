@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_many :diaries, dependent: :destroy
   has_many :diary_contents, through: :diaries, dependent: :destroy
+  has_one :notification_settings
 
   has_one_attached :avatar
 
