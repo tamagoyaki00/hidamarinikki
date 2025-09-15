@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_15_041513) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_15_102045) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -71,6 +71,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_15_041513) do
     t.index ["tag_id"], name: "index_diary_tags_on_tag_id"
   end
 
+  create_table "notification_settings", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.time "notification_time"
+    t.boolean "reminder_enabled", default: false, null: false
+    t.integer "scene_type", null: false
+    t.string "scene_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notification_settings_on_user_id"
+  end
+
   create_table "tags", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -102,4 +113,5 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_15_041513) do
   add_foreign_key "diary_contents", "diaries"
   add_foreign_key "diary_tags", "diaries"
   add_foreign_key "diary_tags", "tags"
+  add_foreign_key "notification_settings", "users"
 end
