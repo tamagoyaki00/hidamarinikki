@@ -52,12 +52,7 @@ export default class extends Controller {
       } else {
         return;
       }
-      
-      // External IDを設定
-      if (this.externalIdValue) {
-        OneSignal.User.addAlias("user_id", this.externalIdValue);
-      }
-      
+
       // トグルを有効化
       this.enableToggle(true);
     } catch (error) {
