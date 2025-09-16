@@ -3,5 +3,5 @@ class NotificationSetting < ApplicationRecord
 
   validates :scene_type, presence: true
   validates :scene_name, presence: true, if: -> { scene_type == 'custom' }
-  enum scene_type: { preset: 0, custom: 1 }
+  enum :scene_type, { preset: 0, custom: 1 }
 end
