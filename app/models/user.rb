@@ -31,7 +31,7 @@ class User < ApplicationRecord
 
   def onesignal_external_id!
     return self.onesignal_external_id if self.onesignal_external_id.present?
-    
+
     update!(onesignal_external_id: SecureRandom.uuid)
     self.onesignal_external_id
   end

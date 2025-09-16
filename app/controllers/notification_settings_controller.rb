@@ -8,11 +8,11 @@ class NotificationSettingsController < ApplicationController
   def update
     # 変更前の状態を記録
     previous_state = @notification_setting.reminder_enabled
-    
+
     if @notification_setting.update(notification_setting_params)
       # 変更後の状態を取得
       current_state = @notification_setting.reminder_enabled
-      
+
       # 状態変更に応じたメッセージを設定
       if previous_state != current_state
         if current_state
@@ -23,7 +23,7 @@ class NotificationSettingsController < ApplicationController
       else
         flash[:notice] = "通知設定を確認しました。"
       end
-      
+
       head :ok
     else
       # バリデーションエラーの場合
@@ -35,7 +35,7 @@ class NotificationSettingsController < ApplicationController
   private
 
   def set_notification_setting
-    # レコードが存在しなければ作成
+      # レコードが存在しなければ作成
       @notification_setting = current_user.notification_setting ||
                           current_user.build_notification_setting(scene_type: :preset)
   end
