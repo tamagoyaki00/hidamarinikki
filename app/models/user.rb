@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_many :diaries, dependent: :destroy
   has_many :diary_contents, through: :diaries, dependent: :destroy
-  has_one :notification_settings
+  has_one :notification_setting, dependent: :destroy
 
   has_one_attached :avatar
 
@@ -27,6 +27,13 @@ class User < ApplicationRecord
 
   def avatar_thumbnail
     self.avatar.variant(resize_to_fill: [ 100, 100 ]).processed
+  end
+
+  def onesignal_external_id!
+    return self.onesignal_external_id if self.onesignal_external_id.present?
+    
+    update!(onesignal_external_id: SecureRandom.uuid)
+    self.onesignal_external_id
   end
 
   private
