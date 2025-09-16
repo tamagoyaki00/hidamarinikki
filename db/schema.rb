@@ -75,7 +75,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_15_102045) do
     t.bigint "user_id", null: false
     t.time "notification_time"
     t.boolean "reminder_enabled", default: false, null: false
-    t.integer "scene_type", null: false
+    t.integer "scene_type", default: 0, null: false
     t.string "scene_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
