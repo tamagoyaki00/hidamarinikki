@@ -1,0 +1,25 @@
+<div class="flex flex-col items-center max-w-5xl mx-auto px-4 mt-8">
+  <h2 class="text-2xl font-bold mb-6">通知設定</h2>
+
+  <div class="form-control"
+       data-controller="notification"
+       data-notification-external-id-value="<%= current_user.onesignal_external_id! %>">
+    
+    <div class="flex flex-col items-center">
+      <label class="cursor-pointer label">
+        <span class="label-text">プッシュ通知</span>
+        <input type="checkbox"
+               data-notification-target="toggle"
+               data-action="change->notification#toggle"
+               <%= "checked" if current_user.notification_setting&.reminder_enabled? %>
+               class="toggle toggle-accent">
+      </label>
+      
+      <!-- 状態表示 -->
+      <span data-notification-target="status" class="ml-2 mt-2">
+        <%= current_user.notification_setting&.reminder_enabled? ? "ON" : "OFF" %>
+      </span>
+    </div>
+  </div>
+</div>
+
