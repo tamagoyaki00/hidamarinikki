@@ -41,6 +41,6 @@ class NotificationSettingsController < ApplicationController
   end
 
   def notification_setting_params
-    params.require(:notification_setting).permit(:reminder_enabled)
+    params.require(:notification_setting).permit(:reminder_enabled, :scene_type, :scene_name, :notification_time)
   end
 end

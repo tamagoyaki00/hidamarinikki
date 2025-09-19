@@ -8,14 +8,11 @@ export default class extends Controller {
   }
 
   toggle() {
-    const selected = this.element.querySelector("input[name='notification_setting[scene_type]']:checked")?.value
+    const selected = this.element.querySelector(
+      "input[name='notification_setting[scene_type]']:checked"
+    )?.value
 
-    if (selected === "preset") {
-      this.presetTarget.classList.remove("hidden")
-      this.customTarget.classList.add("hidden")
-    } else if (selected === "custom") {
-      this.customTarget.classList.remove("hidden")
-      this.presetTarget.classList.add("hidden")
-    }
+    this.presetTarget.classList.toggle("hidden", selected !== "preset")
+    this.customTarget.classList.toggle("hidden", selected !== "custom")
   }
 }
