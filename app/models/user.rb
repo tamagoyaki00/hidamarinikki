@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   before_validation :set_onesignal_external_id, on: :create
+  after_create :create_default_notification_setting
+
 
   has_many :diaries, dependent: :destroy
   has_many :diary_contents, through: :diaries, dependent: :destroy
@@ -49,5 +51,9 @@ class User < ApplicationRecord
 
   def set_onesignal_external_id
     self.onesignal_external_id ||= SecureRandom.uuid
+  end
+
+  def create_default_notification_setting
+    self.create_notification_setting
   end
 end
