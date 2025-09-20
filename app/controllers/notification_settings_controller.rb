@@ -6,29 +6,12 @@ class NotificationSettingsController < ApplicationController
   end
 
   def update
-    # 変更前の状態を記録
-    previous_state = @notification_setting.reminder_enabled
-
     if @notification_setting.update(notification_setting_params)
-      # 変更後の状態を取得
-      current_state = @notification_setting.reminder_enabled
-
-      # 状態変更に応じたメッセージを設定
-      if previous_state != current_state
-        if current_state
-          flash[:notice] = "プッシュ通知をONにしました"
-        else
-          flash[:notice] = "プッシュ通知をOFFにしました"
-        end
-      else
-        flash[:notice] = "通知設定を確認しました。"
-      end
-
-      head :ok
+      flash[:notice] = "通知設定を更新しました"
+      redirect_to edit_notification_setting_path
     else
-      # バリデーションエラーの場合
-      flash[:alert] = "通知設定の保存に失敗しました。#{@notification_setting.errors.full_messages.join('、')}"
-      render json: @notification_setting.errors, status: :unprocessable_entity
+      flash[:alert] = "通知設定の更新に失敗しました"
+      render :edit, status: :unprocessable_entity
     end
   end
 
