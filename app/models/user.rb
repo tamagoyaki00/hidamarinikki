@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  before_validation :set_onesignal_external_id, on: :create
+
   has_many :diaries, dependent: :destroy
   has_many :diary_contents, through: :diaries, dependent: :destroy
   has_one :notification_setting, dependent: :destroy
@@ -16,24 +18,19 @@ class User < ApplicationRecord
   validates :uid, uniqueness: { scope: :provider }, if: :provider?
   validate :validate_avatar_format
   validate :avatar_size
+  validates :onesignal_external_id, presence: true
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.name = auth.info.name
       user.email = auth.info.email
       user.password = Devise.friendly_token[0, 20]
+      user.onesignal_external_id = SecureRandom.uuid
     end
   end
 
   def avatar_thumbnail
     self.avatar.variant(resize_to_fill: [ 100, 100 ]).processed
-  end
-
-  def onesignal_external_id!
-    return self.onesignal_external_id if self.onesignal_external_id.present?
-
-    update!(onesignal_external_id: SecureRandom.uuid)
-    self.onesignal_external_id
   end
 
   private
@@ -48,5 +45,9 @@ class User < ApplicationRecord
     if avatar.attached? && avatar.byte_size > 5.megabytes
       errors.add(:avatar, "のファイルサイズは5MB以内にしてください")
     end
+  end
+
+  def set_onesignal_external_id
+    self.onesignal_external_id ||= SecureRandom.uuid
   end
 end
