@@ -1,9 +1,8 @@
-<div class="flex flex-col items-center max-w-5xl mx-auto px-4 mt-8">
-  <h2 class="font-mplus text-2xl font-bold mb-2">通知設定</h2>
+<div class="flex flex-col items-center max-w-5xl mx-auto px-4 mt-8"
+     data-controller="notification"
+     data-notification-external-id-value="<%= current_user.onesignal_external_id! %>">
 
-  <div class="form-control"
-       data-controller="notification"
-       data-notification-external-id-value="<%= current_user.onesignal_external_id! %>">
+  <h2 class="font-mplus text-2xl font-bold mb-2">通知設定</h2>
     
     <div class="flex flex-col items-center">
       <label class="cursor-pointer label">
@@ -15,70 +14,71 @@
                class="toggle toggle-accent">
       </label>
     </div>
-  </div>
 
-  <%= form_with model: @notification_setting, url: notification_setting_path, local: true,
-                class: "space-y-6", data: { controller: "scene" } do |f| %>
-    <div class="form-control">
-      <label class="label">
-        <span class="label-text font-semibold mt-8 mb-2">利用シーン</span>
-      </label>
-      <p class="text-sm mb-6">
-        日常のルーティンに合わせて通知を設定しましょう。
-      </p>
-
-      <div class="space-y-4">
-        <label class="cursor-pointer flex items-center space-x-2">
-          <%= f.radio_button :scene_type, :preset,
-              id: "scene_preset", class: "radio radio-accent",
-              data: { action: "scene#toggle" } %>
-          <span>日常のルーティンから選ぶ</span>
-        </label>
-
-        <div data-scene-target="preset" class="ml-6 space-y-3">
-          <div class="form-control">
-            <label class="label">
-              <span class="label-text">シーン</span>
-            </label>
-            <%= f.select :scene_name, [
-              ["朝のスタート", "morning"],
-              ["お昼のひと休み", "noon"],
-              ["帰宅後", "evening"],
-              ["寝る前", "night"]
-            ], { prompt: "ルーティンを選択" },
-            class: "select select-bordered w-full max-w-xs",
-            data: { "scene-target" => "presetSelect" } %>
-          </div>
-        </div>
-
-        <label class="cursor-pointer flex items-center space-x-2">
-          <%= f.radio_button :scene_type, :custom,
-              id: "scene_custom", class: "radio radio-accent",
-              data: { action: "scene#toggle" } %>
-          <span>利用シーンをカスタマイズ</span>
-        </label>
-
-        <div data-scene-target="custom" class="ml-6 space-y-3 hidden">
-          <div class="form-control">
-            <label class="label">
-              <span class="label-text">シーン名</span>
-            </label>
-            <%= f.text_field :scene_name, class: "input input-bordered w-full max-w-xs",
-            data: { "scene-target" => "customText" } %>
-          </div>
-        </div>
-      </div>
-      
-      <div class="form-control mt-6">
+  <div data-notification-target="settingsForm" class="<%= 'hidden' unless current_user.notification_setting&.reminder_enabled? %>">
+    <%= form_with model: @notification_setting, url: notification_setting_path,
+                  class: "space-y-6", data: { controller: "scene" } do |f| %>
+      <div class="form-control">
         <label class="label">
-          <span class="label-text">通知時間</span>
+          <span class="label-text font-semibold mt-8 mb-2">利用シーン</span>
         </label>
-        <%= f.time_field :notification_time, class: "input input-bordered w-full max-w-xs" %>
-      </div>
-    </div>
+        <p class="text-sm mb-6">
+          日常のルーティンに合わせて通知を設定しましょう。
+        </p>
 
-    <div class="flex items-center justify-center">
-      <%= f.submit "保存する", class: "btn btn-primary" %>
-    </div>
-  <% end %>
+        <div class="space-y-4">
+          <label class="cursor-pointer flex items-center space-x-2">
+            <%= f.radio_button :scene_type, :preset,
+                id: "scene_preset", class: "radio radio-accent",
+                data: { action: "scene#toggle" } %>
+            <span>日常のルーティンから選ぶ</span>
+          </label>
+
+          <div data-scene-target="preset" class="ml-6 space-y-3">
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">シーン</span>
+              </label>
+              <%= f.select :scene_name, [
+                ["朝のスタート", "morning"],
+                ["お昼のひと休み", "noon"],
+                ["帰宅後", "evening"],
+                ["寝る前", "night"]
+              ], { prompt: "ルーティンを選択" },
+              class: "select select-bordered w-full max-w-xs",
+              data: { "scene-target" => "presetSelect" } %>
+            </div>
+          </div>
+
+          <label class="cursor-pointer flex items-center space-x-2">
+            <%= f.radio_button :scene_type, :custom,
+                id: "scene_custom", class: "radio radio-accent",
+                data: { action: "scene#toggle" } %>
+            <span>利用シーンをカスタマイズ</span>
+          </label>
+
+          <div data-scene-target="custom" class="ml-6 space-y-3 hidden">
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">シーン名</span>
+              </label>
+              <%= f.text_field :scene_name, class: "input input-bordered w-full max-w-xs",
+              data: { "scene-target" => "customText" } %>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-control mt-6">
+          <label class="label">
+            <span class="label-text">通知時間</span>
+          </label>
+          <%= f.time_field :notification_time, class: "input input-bordered w-full max-w-xs" %>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center">
+        <%= f.submit "保存する", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
 </div>

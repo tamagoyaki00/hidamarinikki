@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
   static values = { externalId: String }
-  static targets = ["toggle", "error", "success", "loading", "errorText", "successText"]
+  static targets = ["toggle", "successText","settingsForm"]
 
   connect() {
     // OneSignalの読み込み待ち処理を改善
@@ -53,6 +53,8 @@ export default class extends Controller {
         return;
       }
 
+      this.updateSettingsFormVisibility(isOptedIn);
+
       // トグルを有効化
       this.enableToggle(true);
     } catch (error) {
@@ -72,6 +74,7 @@ export default class extends Controller {
       // OneSignalの準備状態を確認
       if (!this.isOneSignalReady()) {
         this.toggleTarget.checked = !this.toggleTarget.checked;
+        this.updateSettingsFormVisibility(this.toggleTarget.checked);
         return;
       }
       
@@ -93,14 +96,16 @@ export default class extends Controller {
         // 状態を再確認して表示を更新
         const finalState = OneSignal.User.PushSubscription.optedIn;
         this.toggleTarget.checked = finalState;
+        this.updateSettingsFormVisibility(finalState);
         
-        // サーバーに状態を保存（必要に応じて）
+        // サーバーに状態を保存
         await this.saveNotificationState(finalState);
       }
     } catch (error) {
       // エラー時は元の状態に戻す
       const currentState = OneSignal.User.PushSubscription?.optedIn || false;
       this.toggleTarget.checked = currentState;
+      this.updateSettingsFormVisibility(currentState);
       
     } finally {
       // トグルを再度有効化
@@ -124,5 +129,15 @@ export default class extends Controller {
         })
       });
     } catch (error) {}
+  }
+
+  updateSettingsFormVisibility(isEnabled) {
+    console.log("updateSettingsFormVisibility called. isEnabled:", isEnabled);
+    if (this.hasSettingsFormTarget) {
+      console.log("settingsFormTarget found:", this.settingsFormTarget);
+      this.settingsFormTarget.classList.toggle("hidden", !isEnabled);
+    } else {
+      console.warn("settingsFormTarget not found!");
+    }
   }
 }
