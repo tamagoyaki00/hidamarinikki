@@ -25,6 +25,9 @@ application.register("notification", NotificationController)
 import PhotoPreviewController from "./photo_preview_controller"
 application.register("photo-preview", PhotoPreviewController)
 
+import SceneController from "./scene_controller"
+application.register("scene", SceneController)
+
 import StatusSelectorController from "./status_selector_controller"
 application.register("status-selector", StatusSelectorController)
 
