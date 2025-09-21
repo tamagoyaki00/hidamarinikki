@@ -27,6 +27,16 @@
         await OneSignal.init({
           appId: "916a5045-7817-411e-b961-b4447b56c7ba",
         });
+
+        const currentUserUuid = "<%= current_user&.onesignal_external_id %>"; 
+    
+        if (currentUserUuid) {
+          OneSignal.login(currentUserUuid);
+          console.log('OneSignal.login called with UUID:', currentUserUuid);
+        } else {
+          console.error('Current user UUID is not available. OneSignal.login was not called.');
+          OneSignal.logout();
+        }
       });
     </script>
   </head>

@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
   static values = { externalId: String }
-  static targets = ["toggle", "successText","settingsForm"]
+  static targets = ["toggle", "settingsForm"]
 
   connect() {
     // OneSignalの読み込み待ち処理を改善

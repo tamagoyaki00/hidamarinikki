@@ -12,5 +12,5 @@ set :output, "log/cron.log"
 
 #一分毎に以下のファイルを実行
 every 1.minutes do
-  runner "DiaryReminderJob.perform_now"
+  runner "DiaryReminderJob.perform_later"
 end
