@@ -33,6 +33,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+        
 volumes:
   bundle_data:
   postgresql_data:

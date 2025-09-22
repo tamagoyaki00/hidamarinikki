@@ -1,6 +1,5 @@
 <div class="flex flex-col items-center max-w-5xl mx-auto px-4 mt-8"
-     data-controller="notification"
-     data-notification-external-id-value="<%= current_user.onesignal_external_id! %>">
+     data-controller="notification">
 
   <h2 class="font-mplus text-2xl font-bold mb-2">通知設定</h2>
     
@@ -16,7 +15,7 @@
     </div>
 
   <div data-notification-target="settingsForm" class="<%= 'hidden' unless current_user.notification_setting&.reminder_enabled? %>">
-    <%= form_with model: @notification_setting, url: notification_setting_path,
+    <%= form_with model: @notification_setting, url: notification_setting_path, local: true,
                   class: "space-y-6", data: { controller: "scene" } do |f| %>
       <div class="form-control">
         <label class="label">
