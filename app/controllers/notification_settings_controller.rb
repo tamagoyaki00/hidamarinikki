@@ -18,9 +18,7 @@ class NotificationSettingsController < ApplicationController
   private
 
   def set_notification_setting
-      # レコードが存在しなければ作成
-      @notification_setting = current_user.notification_setting ||
-                          current_user.build_notification_setting(scene_type: :preset)
+      @notification_setting = current_user.notification_setting
   end
 
   def notification_setting_params
