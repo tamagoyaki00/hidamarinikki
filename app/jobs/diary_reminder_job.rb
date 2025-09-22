@@ -67,11 +67,11 @@ class DiaryReminderJob < ApplicationJob
 
     payload = {
       app_id: app_id,
-      include_external_user_ids: [user.onesignal_external_id],
+      include_external_user_ids: [ user.onesignal_external_id ],
       headings: { "en" => "Diary Reminder 🌞", "ja" => "日記リマインダー 🌸" },
-      contents: { 
-        "en" => "Let's jot down today's happy moments in Hidamari Diary! ✨", 
-        "ja" => "今日あった良いことを、ひだまり日記に残しませんか？🌼" 
+      contents: {
+        "en" => "Let's jot down today's happy moments in Hidamari Diary! ✨",
+        "ja" => "今日あった良いことを、ひだまり日記に残しませんか？🌼"
       }
     }
 
