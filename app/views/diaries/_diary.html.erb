@@ -64,11 +64,12 @@
         </div>
         
         <!-- タグと公開ステータス -->
-        <div class="flex items-center gap-2 mt-4">
+        <div class="mt-4">
           <div class="badge badge-outline badge-primary glass-secondary">
             <%= diary.is_public? ? "公開" : "非公開" %>
           </div>
-          <div class="flex flex-wrap gap-2">
+          
+          <div class="flex flex-wrap gap-2 mt-2">
             <% diary.tags.each do |tag| %>
               <div class="badge badge-outline badge-accent">
                 <%= tag.name %>
