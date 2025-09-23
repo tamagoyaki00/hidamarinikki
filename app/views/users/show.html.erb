@@ -38,10 +38,10 @@
       <div class="flex justify-center">
         <%= link_to 'アカウントを削除', user_registration_path,
             data: { turbo_method: :delete, turbo_confirm: '本当にアカウントを削除してもよろしいですか？' },
-            class: "btn btn-warning w-40" %>
+            class: "btn btn-error w-40" %>
       </div>
 
-      <div class="flex items-start gap-2 text-warning max-w-lg mx-auto">
+      <div class="flex items-start gap-2 text-error max-w-lg mx-auto">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                 d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 
