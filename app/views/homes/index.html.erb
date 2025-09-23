@@ -32,11 +32,21 @@
     </div>
   </div>
 
+  <div class="flex space-x-8">
     <!-- 継続日数 -->
-  <div class="flex flex-col items-center mt-8">
-    <span class="text-xl font-semibold">継続日数</span>
-    <div class="text-4xl font-bold p-8 rounded-2xl border-2 border-primary shadow-md mt-2">
-      <%= current_user.diary_streak %>日
+    <div class="flex flex-col items-center mt-8">
+      <span class="text-xl font-semibold">継続日数</span>
+      <div class="text-4xl font-bold p-8 bg-white rounded-2xl border-2 border-primary shadow-md mt-2">
+        <%= current_user.diary_streak %>日
+      </div>
+    </div>  
+
+      <!-- 幸せのかけら-->
+    <div class="flex flex-col items-center mt-8">
+      <span class="text-xl font-semibold">幸せのかけら</span>
+      <div class="text-4xl font-bold p-8 bg-white rounded-2xl border-2 border-primary shadow-md mt-2">
+        <%= @existing_happiness_count %>個
+      </div>
     </div>
   </div>
 </div>
