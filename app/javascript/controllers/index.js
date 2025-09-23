@@ -22,6 +22,9 @@ application.register("modal", ModalController)
 import NotificationController from "./notification_controller"
 application.register("notification", NotificationController)
 
+import PasswordVisibilityController from "./password_visibility_controller"
+application.register("password-visibility", PasswordVisibilityController)
+
 import PhotoPreviewController from "./photo_preview_controller"
 application.register("photo-preview", PhotoPreviewController)
 

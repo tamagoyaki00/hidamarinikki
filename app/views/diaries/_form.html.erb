@@ -1,16 +1,14 @@
 <div class="flex flex-col items-center max-w-5xl mx-auto px-4 mt-8 space-y-4">
-  <% unless @diary_form.persisted? %>
-    <p class="text-lg lg:2xl font-bold font-mplus">今日の一日を振り返ってみよう</p>
-    <div class="flex items-center mr-80">
-      <div class="tooltip tooltip-open tooltip-right" data-tip="今日、ほっとしたことはありましたか？">
-        <%= image_tag "himawari.svg", alt: "ロゴ", class: "h-12 w-12 md:h-16 w-16" %>
-      </div>
-    </div>
-  <% end %>
-
   <% if @diary_form.persisted? %>
     <p class="text-lg lg:2xl font-bold font-mplus">日記の編集</p>
   <% end %>
+
+  <p class="text-lg lg:2xl font-bold font-mplus">今日の一日を振り返ってみよう</p>
+  <div class="flex items-center mr-80">
+    <div class="tooltip tooltip-open tooltip-right" data-tip="<%= random_diary_tip %>">
+      <%= image_tag "himawari.svg", alt: "ロゴ", class: "h-12 w-12 md:h-16 w-16" %>
+    </div>
+  </div>
 
   <%= form_with model: @diary_form, url: @diary_form.persisted? ? diary_path(@diary) : diaries_path, method: @diary_form.persisted? ? :patch : :post, class: "w-full" do |f| %>
     <% if @diary_form.errors.any? %>

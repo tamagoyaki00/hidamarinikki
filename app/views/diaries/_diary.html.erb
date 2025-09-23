@@ -1,60 +1,83 @@
 <div class="card bg-white shadow-xl mb-6">
-  <div class="card-body relative">
-    <% if diary.user_id == current_user.id %>
-      <div class="absolute top-4 right-4 dropdown dropdown-end">
-        <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path fill="#a9a2a2" d="M96 320C96 289.1 121.1 264 152 264C182.9 264 208 289.1 208 320C208 350.9 182.9 376 152 376C121.1 376 96 350.9 96 320zM264 320C264 289.1 289.1 264 320 264C350.9 264 376 289.1 376 320C376 350.9 350.9 376 320 376C289.1 376 264 350.9 264 320zM488 264C518.9 264 544 289.1 544 320C544 350.9 518.9 376 488 376C457.1 376 432 350.9 432 320C432 289.1 457.1 264 488 264z"/></svg>
-        </div>
-        <ul tabindex="0" class="menu dropdown-content bg-base-100 rounded-box z-[1] w-32 p-2 shadow">
-          <li>
-            <div class="flex items-center gap-2">
-              <i class="fa-solid fa-pen-to-square" style="color: #333333;"></i>
-              <%= link_to '編集', edit_diary_path(diary) %>
-            </div>
-          </li>
-          <li>
-            <div class="flex items-center gap-2">
-              <i class="fa-solid fa-trash-can" style="color: #ef4444;"></i>
-              <%= link_to '削除', diary_path(diary), data: { turbo_method: :delete, turbo_confirm: '本当に削除しますか？' }, class: "text-red-500" %>
-            </div>
-          </li>
-        </ul>
-      </div>
-    <% end %>
-
-    <div class="flex space-x-8">
-      <span><%= diary.user.name %></span>
-      <span><%= diary.created_at.strftime('%Y年%m月%d日') %></span>
-    </div>
-    <ol class="list-none space-y-2">
-      <% diary.diary_contents.each_with_index do |content, i| %>
-        <li>
-          <span class="mr-2"><%= i + 1 %>.</span>
-          <%= content.body %>
-        </li>
-      <% end %>
-    </ol>
-    
-    <% if diary.photos.attached? %>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-        <% diary.photos.each do |photo| %>
-          <div class="relative w-full">
-            <%= image_tag photo.variant(:thumb), class: "w-full h-full object-contain rounded-lg shadow-sm" %>
-          </div>
+  <div class="card-body p-6">
+    <div class="flex items-start gap-4">
+      <div class="flex-none">
+        <% if diary.user.avatar.attached? %>
+          <%= image_tag diary.user.avatar_thumbnail, class: "rounded-full w-12 h-12" %>
+        <% else %>
+          <%= avatar_placeholder(diary.user, size: "w-12 h-12", class:"text-sm") %>
         <% end %>
       </div>
-    <% end %>
 
-    <div class="badge badge-outline badge-primary glass-secondary">
-      <%= diary.is_public? ? "公開" : "非公開" %>
-    </div>
-
-    <div class="flex flex-wrap space-x-2">
-      <% diary.tags.each do |tag| %>
-        <div class="badge badge-outline badge-accent mt-2">
-          <%= tag.name %>
+      <div class="flex-1 flex flex-col">
+        <div class="flex items-center justify-between">
+          <div class="flex flex-col">
+            <span class="text-base md:text-lg font-bold"><%= diary.user.name %></span>
+            <span class="text-sm text-gray-500"><%= diary.posted_date.strftime('%Y年%m月%d日') %></span>
+          </div>
+          <% if diary.user_id == current_user.id %>
+            <div class="dropdown dropdown-end">
+              <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" class="h-6 w-6"><path fill="#a9a2a2" d="M96 320C96 289.1 121.1 264 152 264C182.9 264 208 289.1 208 320C208 350.9 182.9 376 152 376C121.1 376 96 350.9 96 320zM264 320C264 289.1 289.1 264 320 264C350.9 264 376 289.1 376 320C376 350.9 350.9 376 320 376C289.1 376 264 350.9 264 320zM488 264C518.9 264 544 289.1 544 320C544 350.9 518.9 376 488 376C457.1 376 432 350.9 432 320C432 289.1 457.1 264 488 264z"/></svg>
+              </div>
+              <ul tabindex="0" class="menu dropdown-content bg-base-100 rounded-box z-[1] w-32 p-2 shadow">
+                <li>
+                  <%= link_to edit_diary_path(diary), class: "flex items-center gap-2 w-full" do %>
+                    <i class="fa-solid fa-pen-to-square text-gray-700"></i>
+                    <span>編集</span>
+                  <% end %>
+                </li>
+                <li>
+                  <%= link_to diary_path(diary),
+                              data: { turbo_method: :delete, turbo_confirm: '本当に削除しますか？' },
+                              class: "flex items-center gap-2 w-full text-red-500" do %>
+                    <i class="fa-solid fa-trash-can text-red-500"></i>
+                    <span>削除</span>
+                  <% end %>
+                </li>
+              </ul>
+            </div>
+          <% end %>
         </div>
-      <% end %>
+
+        <!-- 本文 -->
+        <div class="mt-4">
+          <ol class="list-none space-y-2">
+            <% diary.diary_contents.each_with_index do |content, i| %>
+              <li>
+                <span class="mr-2 text-sm md:text-base text-gray-700"><%= i + 1 %>.</span>
+                <span class="text-sm md:text-base"><%= content.body %></span>
+              </li>
+            <% end %>
+          </ol>
+          
+          <!-- 写真 -->
+          <% if diary.photos.attached? %>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+              <% diary.photos.each do |photo| %>
+                <div class="relative w-full">
+                  <%= image_tag photo.variant(:thumb), class: "w-full h-full object-contain rounded-lg shadow-sm" %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+        
+        <!-- タグと公開ステータス -->
+        <div class="mt-4">
+          <div class="badge badge-outline badge-primary glass-secondary">
+            <%= diary.is_public? ? "公開" : "非公開" %>
+          </div>
+
+          <div class="flex flex-wrap gap-2 mt-2">
+            <% diary.tags.each do |tag| %>
+              <div class="badge badge-outline badge-accent">
+                <%= tag.name %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
