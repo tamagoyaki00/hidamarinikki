@@ -8,8 +8,8 @@ module UsersHelper
     end
 
     # optionsからclass属性を取得し、既存のクラスと結合
-    merged_classes = ["avatar-placeholder", size, options[:class]].compact.join(" ")
-    
+    merged_classes = [ "avatar-placeholder", size, options[:class] ].compact.join(" ")
+
     # 文字サイズを動的に設定するためのクラスを抽出
     text_size_class = options[:class].to_s.split.find { |c| c.start_with?("text-") } || "text-3xl"
 
