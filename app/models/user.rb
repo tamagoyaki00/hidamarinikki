@@ -35,6 +35,24 @@ class User < ApplicationRecord
     self.avatar.variant(resize_to_fill: [ 100, 100 ]).processed
   end
 
+  def diary_streak
+    dates = diaries.order(posted_date: :desc).pluck(:posted_date)
+    return 0 if dates.empty?
+
+    count = 0
+    previous_date = Date.today
+
+    dates.each do |date|
+      if previous_date - date == count
+        count += 1
+      else
+        break
+      end
+    end
+
+    count
+  end
+
   private
 
   def validate_avatar_format
