@@ -11,16 +11,7 @@
   </div>
 
   <%= form_with model: @diary_form, url: @diary_form.persisted? ? diary_path(@diary) : diaries_path, method: @diary_form.persisted? ? :patch : :post, class: "w-full" do |f| %>
-    <% if @diary_form.errors.any? %>
-      <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-        <strong class="font-bold">入力内容に不備があります</strong>
-        <ul class="list-disc ml-5 mt-2">
-          <% @diary_form.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+    <%= render 'shared/error_message', object: @diary_form %>
 
     <!-- 日付 -->
     <div class="space-x-2">
