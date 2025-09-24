@@ -17,6 +17,8 @@
   <div data-notification-target="settingsForm" class="<%= 'hidden' unless current_user.notification_setting&.reminder_enabled? %>">
     <%= form_with model: @notification_setting, url: notification_setting_path, local: true,
                   class: "space-y-6", data: { controller: "scene" } do |f| %>
+      <%= render 'shared/error_message', object: @notification_setting %>
+
       <div class="form-control">
         <label class="label">
           <span class="label-text font-semibold mt-8 mb-2">利用シーン</span>
