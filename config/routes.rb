@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   root "pages#top"
   get "top", to: "pages#top"
+  get "diary/writing_tips", to: "pages#diary_writing_tips"
   get "home", to: "homes#index"
 
   resources :diaries do
@@ -19,6 +20,7 @@ Rails.application.routes.draw do
 
   resources :users, only: %i[show]
   resource :notification_setting, only: %i[edit update]
+
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
