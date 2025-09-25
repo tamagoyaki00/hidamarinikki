@@ -105,10 +105,10 @@
       </section>
 
       <div class="mt-12 flex justify-center fade-in" style="animation-delay: 0.9s;">
-        <button class="btn btn-primary p-6 transition-transform hover:scale-105">
+        <%= link_to new_diary_path, class: "btn btn-primary p-6 transition-transform hover:scale-105" do %>
           <span class="material-symbols-outlined"> edit_note </span>
           <span class="truncate">日記を書いてみる</span>
-        </button>
+        <% end %>
       </div>
     </div>
   </div>
