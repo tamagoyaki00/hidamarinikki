@@ -34,5 +34,3 @@ application.register("scene", SceneController)
 import StatusSelectorController from "./status_selector_controller"
 application.register("status-selector", StatusSelectorController)
 
-import WarmLightController from "./warm_light_controller"
-application.register("warm-light", WarmLightController)
