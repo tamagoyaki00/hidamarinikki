@@ -11,7 +11,7 @@ class HomesController < ApplicationController
 
     ]
 
-    @existing_happiness_count = current_user.diary_contents.count
+    @existing_happiness_count = current_user.total_happiness_count
 
     animation_data = flash[:happiness_animation] || {}
     if animation_data.present?
