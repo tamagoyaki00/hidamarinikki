@@ -18,7 +18,7 @@
   </div>
 </div>
 
-<!-- 特徴セクション -->
+<!-- 特徴 -->
   <section class="py-20 px-6 bg-white/70">
     <h2 class="font-mplus text-3xl font-bold text-center mb-12 text-primary">
       ひだまり日記の6つの特徴
@@ -163,5 +163,16 @@
           </p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- 再度促し -->
+  <section class="max-w-3xl mx-auto py-24 px-6 bg-base-100">
+    <h2 class="text-lg mb-6 text-center">
+      今日の小さな幸せを、今すぐ記録してみませんか？
+    </h2>
+    <div class="mt-6 flex flex-col justify-center gap-4">
+      <%= link_to "はじめる(無料)", new_user_registration_path, class: "btn btn-primary font-bold text-white lg:py-6" %>
+      <%= link_to "ログイン", new_user_session_path, class: "btn btn-outline btn-primary font-bold lg:py-6" %>
     </div>
   </section>
