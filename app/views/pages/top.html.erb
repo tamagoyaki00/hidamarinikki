@@ -1,22 +1,79 @@
-<div 
-  class="relative w-full h-screen bg-gradient-to-b from-[#FFFAE8] via-[#F7F2E2] to-[#E9E4D3] flex items-center justify-center overflow-hidden"
-  data-controller="warm-light"
->
-  <canvas data-warm-light-target="canvas" class="absolute inset-0 z-0"></canvas>
+<div class="w-full min-h-screen bg-base-100 flex flex-col items-center justify-center overflow-hidden">
 
-  <div class="relative z-10 text-center px-6">
+  <!-- タイトル・サブタイトル-->
+  <div class="text-center px-6">
     <h1 class="font-mplus text-5xl md:text-6xl font-bold text-primary drop-shadow-lg">
       ひだまり日記
     </h1>
-    <p class="font-zen_maru mt-4 text-lg md:text-xl">
+    <p class="mt-4 text-lg md:text-xl">
       心あたたまる毎日を、ここに残そう
     </p>
-    <div class="mt-6 flex justify-center gap-4">
-      <%= link_to "新規登録", new_user_registration_path, class: "btn btn-secondary font-bold" %>
-      <%= link_to "ログイン", new_user_session_path, class: "btn btn-secondary font-bold" %>
+    <p class="mt-6 text-md md:text-lg max-w-2xl mx-auto">
+      ひだまり日記は、日常の幸せや、自分の頑張りを記録し、振り返ることができる日記アプリです。
+    </p>
+    <div class="mt-6 flex flex-col justify-center gap-4">
+      <%= link_to "はじめる(無料)", new_user_registration_path, class: "btn btn-primary font-bold text-white lg:py-6" %>
+      <%= link_to "ログイン", new_user_session_path, class: "btn btn-outline btn-primary font-bold lg:py-6" %>
     </div>
   </div>
 </div>
+
+<!-- 特徴セクション -->
+  <section class="py-20 px-6 bg-white/70">
+    <h2 class="font-mplus text-3xl font-bold text-center mb-12 text-primary">
+      ひだまり日記の6つの特徴
+    </h2>
+
+    <div class="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center">
+      <div class="flex flex-col items-center text-center space-y-3 w-64 h-64 rounded-full bg-white shadow-xl p-6 transition hover:-translate-y-1 hover:shadow-2xl duration-300 border-2 border-accent/50">
+        <span class="material-symbols-outlined text-5xl text-primary">edit_square</span>
+        <h3 class="text-lg font-bold text-primary">気軽に記録できる</h3>
+          <p class="text-sm">
+            一言だけでもOK。「コーヒーが美味しかった」「掃除した、えらい！」そんな小さな幸せや自分の頑張りを残せます。
+          </p>
+      </div>
+
+      <div class="flex flex-col items-center text-center space-y-3 w-64 h-64 rounded-full bg-white shadow-xl p-6 transition hover:-translate-y-1 hover:shadow-2xl duration-300 border-2 border-accent/50">
+        <span class="material-symbols-outlined text-5xl text-primary">heart_plus</span>
+        <h3 class="text-lg font-bold text-primary">あたたかいコミュニティ</h3>
+          <p class="text-sml">
+            日記の共有の場には、みんなの幸せが投稿され、読むだけで心が安らぎます。
+          </p>
+      </div>
+
+      <div class="flex flex-col items-center text-center space-y-3 w-64 h-64 rounded-full bg-white shadow-xl p-6 transition hover:-translate-y-1 hover:shadow-2xl duration-300 border-2 border-accent/50">
+        <span class="material-symbols-outlined text-5xl text-primary">alarm_on</span>
+        <h3 class="text-lg font-bold text-primary">リマインド通知で習慣化</h3>
+          <p class="text-sm">
+            毎日設定した時間に通知が届くので、忙しい日でも「書き忘れ」を防ぎます。
+          </p>
+      </div>
+
+      <div class="flex flex-col items-center text-center space-y-3 w-64 h-64 rounded-full bg-white shadow-xl p-6 transition hover:-translate-y-1 hover:shadow-2xl duration-300 border-2 border-accent/50">
+        <span class="material-symbols-outlined text-5xl text-primary">celebration</span>
+        <h3 class="text-lg font-bold text-primary">幸せの可視化</h3>
+          <p class="text-sm">
+            書いた幸せは瓶に貯まっていきます。自分だけの「幸せ瓶」をつくりましょう。
+          </p>
+      </div>
+
+      <div class="flex flex-col items-center text-center space-y-3 w-64 h-64 rounded-full bg-white shadow-xl p-6 transition hover:-translate-y-1 hover:shadow-2xl duration-300 border-2 border-accent/50">
+        <span class="material-symbols-outlined text-5xl text-primary">lock_open</span>
+        <h3 class="text-lg font-bold text-primary">公開・非公開の選択</h3>
+          <p class="text-sm">
+            誰かと共有したい日記は公開、内緒にしておきたい日記は非公開を選べます。自分にあった方法で日記を記録することができます。
+          </p>
+      </div>
+      
+      <div class="flex flex-col items-center text-center space-y-3 w-64 h-64 rounded-full bg-white shadow-xl p-6 transition hover:-translate-y-1 hover:shadow-2xl duration-300 border-2 border-accent/50">
+        <span class="material-symbols-outlined text-5xl text-primary">sell</span>
+        <h3 class="text-lg font-bold text-primary">タグ付けと過去の検索</h3>
+          <p class="text-sm">
+            記録にタグを付けて整理。気分や出来事の種類で過去の幸せを瞬時に見つけ、振り返りをサポートします。
+          </p>
+      </div>
+    </div>
+  </section>
 
 
 
