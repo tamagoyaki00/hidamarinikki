@@ -54,6 +54,10 @@ class User < ApplicationRecord
     count
   end
 
+  def total_happiness_count
+    diaries.sum(:happiness_count)
+  end
+
   private
 
   def validate_avatar_format
