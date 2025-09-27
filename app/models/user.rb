@@ -39,12 +39,13 @@ class User < ApplicationRecord
     dates = diaries.order(posted_date: :desc).pluck(:posted_date)
     return 0 if dates.empty?
 
-    count = 0
-    previous_date = Date.today
+    count = 1
+    previous_date = dates.first
 
-    dates.each do |date|
-      if previous_date - date == count
+    dates.drop(1).each do |date|
+      if previous_date - date == 1
         count += 1
+        previous_date = date
       else
         break
       end
