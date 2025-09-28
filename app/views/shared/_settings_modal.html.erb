@@ -9,7 +9,7 @@
               data-action="click->modal#close">✕</button>
     </div>
 
-    <ul class="space-y-4">
+    <ul class="space-y-6">
       <li><%= link_to "プロフィール", user_path(current_user), class: "btn btn-outline w-full" %></li>
       <li><%= link_to "通知設定",  edit_notification_setting_path, class: "btn btn-outline w-full" %></li>
       <li><%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-error w-full" %></li>
