@@ -113,7 +113,7 @@
         <%= f.text_field :tag_names, placeholder: "タグを複数つけるには','かスペースで区切ってください。", class: "input w-full" %>
       </div>
         
-      <%= f.submit @diary_form.persisted? ? "更新" : "投稿する", class: "btn btn-primary mt-8 w-full btn-lg font-bold" %>
+      <%= f.submit @diary_form.persisted? ? "更新" : "投稿する", class: "btn btn-primary mt-8 w-full btn-lg  max-w-sm mx-auto block font-bold" %>
     </div>
   <% end %>
 
