@@ -9,7 +9,7 @@ class NotificationSetting < ApplicationRecord
 
   def notification_time_must_be_15_min_interval
     return unless notification_time
-    unless [0, 15, 30, 45].include?(notification_time.min)
+    unless [ 0, 15, 30, 45 ].include?(notification_time.min)
       errors.add(:notification_time, "は15分単位で設定してください")
     end
   end

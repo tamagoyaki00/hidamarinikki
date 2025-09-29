@@ -9,7 +9,7 @@ class DiaryReminderJob < ApplicationJob
     Rails.logger.info "DiaryReminderJob started at #{Time.current.in_time_zone('Asia/Tokyo').strftime('%Y-%m-%d %H:%M:%S %z')}"
 
     current_time_in_jst = Time.current.in_time_zone("Asia/Tokyo")
-    current_hour_minute = current_time_in_jst.strftime('%H:%M')
+    current_hour_minute = current_time_in_jst.strftime("%H:%M")
 
     # 通知時間が一致するユーザーだけを取得
     users_to_notify = User.joins(:notification_setting)
