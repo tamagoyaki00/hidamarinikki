@@ -70,11 +70,12 @@
           </div>
         </div>
         
-        <div class="form-control mt-6">
+        <div class="form-control mt-6" data-controller="notification-time">
           <label class="label">
-            <span class="label-text">通知時間</span>
+            <span class="label-text font-semibold">通知時間</span>
           </label>
-          <%= f.time_field :notification_time, class: "input input-bordered w-full max-w-xs" %>
+          <p class="text-sm mt-1">※選択した時間は15分単位に調整されます。</p>
+          <%= f.time_field :notification_time, class: "input input-bordered w-full max-w-xs mt-4", data: { notification_time_target: "input" } %>
         </div>
       </div>
 

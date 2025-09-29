@@ -22,6 +22,9 @@ application.register("modal", ModalController)
 import NotificationController from "./notification_controller"
 application.register("notification", NotificationController)
 
+import NotificationTimeController from "./notification_time_controller"
+application.register("notification-time", NotificationTimeController)
+
 import PasswordVisibilityController from "./password_visibility_controller"
 application.register("password-visibility", PasswordVisibilityController)
 
@@ -33,4 +36,3 @@ application.register("scene", SceneController)
 
 import StatusSelectorController from "./status_selector_controller"
 application.register("status-selector", StatusSelectorController)
-
