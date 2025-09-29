@@ -16,6 +16,6 @@ set :job_template, "/bin/bash -l -c ':job'"
 job_type :runner, "cd :path && /usr/local/bundle/bin/bundle exec rails runner -e :environment ':task' :output"
 
 # 1分ごとにジョブ実行
-every 1.minutes do
+every 15.minutes do
   rake "diary_reminder:remind"
 end
