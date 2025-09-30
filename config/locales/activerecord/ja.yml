@@ -10,3 +10,5 @@ ja:
     attributes:
       notification_setting:
         notification_time: 設定時間
+        scene_type: 利用シーンのタイプ
+        scene_name: シーン名
