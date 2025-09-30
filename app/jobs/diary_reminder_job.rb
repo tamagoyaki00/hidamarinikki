@@ -14,7 +14,7 @@ class DiaryReminderJob < ApplicationJob
     # 通知時間が一致するユーザーだけを取得
     users_to_notify = User.joins(:notification_setting)
                       .where(notification_settings: { reminder_enabled: true })
-                      .where("to_char(notification_settings.notification_time, 'HH24:MI') = ?", current_hour_minute)
+                      .where(notification_settings: { notification_time: current_hour_minute })
 
     users_to_notify.each do |user|
       if user.onesignal_external_id.present?
