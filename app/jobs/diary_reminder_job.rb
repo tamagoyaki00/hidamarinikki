@@ -7,6 +7,10 @@ class DiaryReminderJob < ApplicationJob
 
   def perform
     Rails.logger.info "DiaryReminderJob started at #{Time.current.in_time_zone('Asia/Tokyo').strftime('%Y-%m-%d %H:%M:%S %z')}"
+    Rails.logger.info "Time.current: #{Time.current}"
+    Rails.logger.info "Time.zone.name: #{Time.zone.name}"
+    Rails.logger.info "Time.current.in_time_zone('Asia/Tokyo'): #{Time.current.in_time_zone('Asia/Tokyo')}"
+
 
     current_time_in_jst = Time.current.in_time_zone("Asia/Tokyo")
     current_hour_minute = current_time_in_jst.strftime("%H:%M")
@@ -16,6 +20,7 @@ class DiaryReminderJob < ApplicationJob
                       .where(notification_settings: { reminder_enabled: true })
                       .where(notification_settings: { notification_time: current_hour_minute })
 
+    Rails.logger.info "Users to notify count: #{users_to_notify.count}"                  
     users_to_notify.each do |user|
       if user.onesignal_external_id.present?
         Rails.logger.info "Attempting to send notification to user ID: #{user.id} (External ID: #{user.onesignal_external_id}) for scheduled time: #{user.notification_setting.notification_time.strftime('%H:%M')}"
