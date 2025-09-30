@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_15_102045) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_30_010107) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -79,6 +79,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_15_102045) do
     t.string "scene_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["notification_time"], name: "index_notification_settings_on_notification_time"
     t.index ["user_id"], name: "index_notification_settings_on_user_id"
   end
 

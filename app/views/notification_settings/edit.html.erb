@@ -2,7 +2,8 @@
      data-controller="notification">
 
   <h2 class="font-mplus text-2xl font-bold mb-2">通知設定</h2>
-    
+    <p class="text-sm mb-4">※iOS端末は通知機能が未対応です。</p>
+
     <div class="flex flex-col items-center">
       <label class="cursor-pointer label">
         <span class="label-text">プッシュ通知</span>
@@ -69,16 +70,17 @@
           </div>
         </div>
         
-        <div class="form-control mt-6">
+        <div class="form-control mt-10" data-controller="notification-time">
           <label class="label">
-            <span class="label-text">通知時間</span>
+            <span class="label-text font-semibold">通知時間</span>
           </label>
-          <%= f.time_field :notification_time, class: "input input-bordered w-full max-w-xs" %>
+          <p class="text-sm mt-1">※選択した時間は15分単位に調整されます。</p>
+          <%= f.time_field :notification_time, class: "input input-bordered w-full max-w-xs mt-4", data: { notification_time_target: "input" } %>
         </div>
       </div>
 
-      <div class="flex items-center justify-center">
-        <%= f.submit "保存する", class: "btn btn-primary" %>
+      <div class="flex items-center justify-center mt-10">
+        <%= f.submit "保存", class: "btn btn-primary w-full max-w-sm mx-auto block font-bold" %>
       </div>
     <% end %>
   </div>

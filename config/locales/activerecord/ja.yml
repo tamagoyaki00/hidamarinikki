@@ -5,4 +5,10 @@ ja:
         photos: 写真
         tag_names: タグ
   activerecord:
+    models:
+      notification_setting: 通知設定
     attributes:
+      notification_setting:
+        notification_time: 設定時間
+        scene_type: 利用シーンのタイプ
+        scene_name: シーン名
