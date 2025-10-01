@@ -55,7 +55,7 @@
           <div
             data-controller="photo-modal"
             data-photo-modal-images-value="<%= diary.photos.map { |p| url_for(p.variant(:display)) }.to_json %>"
-            data-action="keydown.window->photo-modal#keyPress">
+            data-action="keydown@window->photo-modal#keyPress">
 
             <% if diary.photos.attached? %>
               <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
