@@ -19,7 +19,7 @@ class DiaryReminderJob < ApplicationJob
     users_to_notify = User.joins(:notification_setting)
                       .where(notification_settings: { reminder_enabled: true })
                       .where(
-                        "(EXTRACT(HOUR FROM notification_settings.notification_time) * 60 + EXTRACT(MINUTE FROM notification_settings.notification_time))
+                        "(EXTRACT(HOUR FROM notification_settings.notification_time AT TIME ZONE 'Asia/Tokyo') * 60 + EXTRACT(MINUTE FROM notification_settings.notification_time AT TIME ZONE 'Asia/Tokyo'))
                         BETWEEN ? AND ?",
                         current_minutes - 1, current_minutes + 1
                       )
