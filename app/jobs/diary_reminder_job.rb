@@ -11,15 +11,13 @@ class DiaryReminderJob < ApplicationJob
     Rails.logger.info "Time.zone.name: #{Time.zone.name}"
     Rails.logger.info "Time.current.in_time_zone('Asia/Tokyo'): #{Time.current.in_time_zone('Asia/Tokyo')}"
 
-
-    current_time_in_jst = Time.current.in_time_zone("Asia/Tokyo")
-    current_minutes = current_time_in_jst.hour * 60 + current_time_in_jst.min
+    current_minutes = Time.current.utc.hour * 60 + Time.current.utc.min
 
     # 通知時間が一致するユーザーだけを取得
     users_to_notify = User.joins(:notification_setting)
                       .where(notification_settings: { reminder_enabled: true })
                       .where(
-                        "(EXTRACT(HOUR FROM notification_settings.notification_time AT TIME ZONE 'Asia/Tokyo') * 60 + EXTRACT(MINUTE FROM notification_settings.notification_time AT TIME ZONE 'Asia/Tokyo'))
+                        "(EXTRACT(HOUR FROM notification_settings.notification_time) * 60 + EXTRACT(MINUTE FROM notification_settings.notification_time))
                         BETWEEN ? AND ?",
                         current_minutes - 1, current_minutes + 1
                       )
