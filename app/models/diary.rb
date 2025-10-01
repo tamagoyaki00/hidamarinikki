@@ -6,6 +6,7 @@ class Diary < ApplicationRecord
 
   has_many_attached :photos do |attachable|
     attachable.variant :thumb, resize_to_limit: [ 200, 200 ]
+    attachable.variant :display, resize_to_limit: [ 1024, 1024 ]
   end
 
   validates :happiness_count, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
