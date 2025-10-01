@@ -58,6 +58,10 @@ class User < ApplicationRecord
     diaries.sum(:happiness_count)
   end
 
+  def remember_me
+    true
+  end
+
   private
 
   def validate_avatar_format
