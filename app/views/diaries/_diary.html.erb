@@ -52,16 +52,62 @@
           </ol>
           
           <!-- 写真 -->
-          <% if diary.photos.attached? %>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-              <% diary.photos.each do |photo| %>
-                <div class="relative w-full">
-                  <%= image_tag photo.variant(:thumb), class: "w-full h-full object-contain rounded-lg shadow-sm" %>
-                </div>
-              <% end %>
+          <div
+            data-controller="photo-modal"
+            data-photo-modal-images-value="<%= diary.photos.map { |p| url_for(p.variant(:display)) }.to_json %>"
+            data-action="keydown.window->photo-modal#keyPress">
+
+            <% if diary.photos.attached? %>
+              <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+                <% diary.photos.each_with_index do |photo, index| %>
+                  <div class="relative w-full cursor-pointer">
+                    <%#
+                      - actionを "photo-modal#open" に変更
+                      - paramを "photo-modal-index-param" に変更
+                    %>
+                    <%= image_tag photo.variant(:thumb),
+                                  class: "w-full h-full object-contain rounded-lg shadow-sm",
+                                  data: {
+                                    action: "click->photo-modal#open",
+                                    photo_modal_index_param: index
+                                  } %>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+
+          <dialog data-photo-modal-target="modal" data-action="click->photo-modal#closeOnBackdrop" class="modal">
+            <div class="modal-box w-11/12 max-w-5xl p-0 md:p-4 relative">
+              
+              <!-- 閉じるボタン -->
+              <button data-action="click->photo-modal#close"
+                      class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 z-10">✕</button>
+
+              <!-- 画像表示 -->
+              <div class="flex items-center justify-center">
+                <img data-photo-modal-target="slide"
+                    src=""
+                    alt="拡大画像"
+                    class="max-h-[80vh] w-auto object-contain">
+              </div>
+
+              <!-- ナビゲーションを画像の下に配置 -->
+              <div class="flex items-center justify-center gap-4 mt-4">
+                <button data-photo-modal-target="previousButton"
+                        data-action="click->photo-modal#previous"
+                        class="btn btn-circle">❮</button>
+                <span data-photo-modal-target="counter"
+                      class="text-lg font-mono w-20 text-center"></span>
+                <button data-photo-modal-target="nextButton"
+                        data-action="click->photo-modal#next"
+                        class="btn btn-circle">❯</button>
+              </div>
+
             </div>
-          <% end %>
-        </div>
+            <form method="dialog" class="modal-backdrop">
+              <button>close</button>
+            </form>
+          </dialog>
         
         <!-- タグと公開ステータス -->
         <div class="mt-4">
