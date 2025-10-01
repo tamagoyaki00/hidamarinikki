@@ -33,6 +33,7 @@ class DiaryReminderJob < ApplicationJob
       else
         Rails.logger.warn "User ID: #{user.id} has no OneSignal External ID. Skipping notification."
       end
+      Rails.logger.info "User #{user.id} reminder_enabled=#{user.notification_setting.reminder_enabled}, notification_time=#{user.notification_setting.notification_time}"
     end
 
     Rails.logger.info "DiaryReminderJob finished."
