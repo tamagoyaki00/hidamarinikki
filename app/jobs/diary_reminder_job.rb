@@ -25,7 +25,7 @@ class DiaryReminderJob < ApplicationJob
                       )
 
 
-    Rails.logger.info "Users to notify count: #{users_to_notify.count}"                  
+    Rails.logger.info "Users to notify count: #{users_to_notify.count}"
     users_to_notify.each do |user|
       if user.onesignal_external_id.present?
         Rails.logger.info "Attempting to send notification to user ID: #{user.id} (External ID: #{user.onesignal_external_id}) for scheduled time: #{user.notification_setting.notification_time.strftime('%H:%M')}"
