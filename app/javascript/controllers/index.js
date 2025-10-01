@@ -31,6 +31,9 @@ application.register("password-visibility", PasswordVisibilityController)
 import PhotoPreviewController from "./photo_preview_controller"
 application.register("photo-preview", PhotoPreviewController)
 
+import PhotoModalController from "./photo_modal_controller"
+application.register("photo-modal", PhotoModalController)
+
 import SceneController from "./scene_controller"
 application.register("scene", SceneController)
 
