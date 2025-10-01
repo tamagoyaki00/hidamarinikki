@@ -13,14 +13,19 @@ class DiaryReminderJob < ApplicationJob
 
 
     current_time_in_jst = Time.current.in_time_zone("Asia/Tokyo")
-    current_hour_minute = current_time_in_jst.strftime("%H:%M")
+    current_minutes = current_time_in_jst.hour * 60 + current_time_in_jst.min
 
     # 通知時間が一致するユーザーだけを取得
     users_to_notify = User.joins(:notification_setting)
                       .where(notification_settings: { reminder_enabled: true })
-                      .where(notification_settings: { notification_time: current_hour_minute })
+                      .where(
+                        "(EXTRACT(HOUR FROM notification_settings.notification_time) * 60 + EXTRACT(MINUTE FROM notification_settings.notification_time))
+                        BETWEEN ? AND ?",
+                        current_minutes - 1, current_minutes + 1
+                      )
 
-    Rails.logger.info "Users to notify count: #{users_to_notify.count}"                  
+
+    Rails.logger.info "Users to notify count: #{users_to_notify.count}"
     users_to_notify.each do |user|
       if user.onesignal_external_id.present?
         Rails.logger.info "Attempting to send notification to user ID: #{user.id} (External ID: #{user.onesignal_external_id}) for scheduled time: #{user.notification_setting.notification_time.strftime('%H:%M')}"
@@ -28,6 +33,7 @@ class DiaryReminderJob < ApplicationJob
       else
         Rails.logger.warn "User ID: #{user.id} has no OneSignal External ID. Skipping notification."
       end
+      Rails.logger.info "User #{user.id} reminder_enabled=#{user.notification_setting.reminder_enabled}, notification_time=#{user.notification_setting.notification_time}"
     end
 
     Rails.logger.info "DiaryReminderJob finished."
