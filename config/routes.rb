@@ -1,10 +1,17 @@
 Rails.application.routes.draw do
+  authenticated :user do
+    root to: "homes#index", as: :authenticated_root
+  end
+
+  unauthenticated do
+    root to: "pages#top", as: :unauthenticated_root
+  end
+
   devise_for :users, controllers: {
     registrations: "users/registrations",
     omniauth_callbacks: "users/omniauth_callbacks"
   }
 
-  root "pages#top"
   get "top", to: "pages#top"
   get "diary/writing_tips", to: "pages#diary_writing_tips"
   get "home", to: "homes#index"
