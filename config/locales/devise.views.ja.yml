@@ -133,12 +133,12 @@ ja:
         sign_up: 新規登録
       minimum_password_length:
         other: "（%{count}文字以上）"
-      name: "名前"
+      name: "ユーザー名"
       email: "メールアドレス"
       password: "パスワード"
       password_confirmation: "パスワード（確認用）"
       placeholders:
-        name: "名前を入力"
+        name: "ユーザー名を入力"
         email: "mail@site.com"
         password: "パスワードを入力"
         password_confirmation: "もう一度パスワードを入力"
