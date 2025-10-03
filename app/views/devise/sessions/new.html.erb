@@ -1,5 +1,5 @@
-<div class="h-screen flex items-center justify-center">
-  <div class="card w-full max-w-lg bg-gradient-to-b from-secondary to-base-100 shadow-xl p-8 flex items-center justify-center flex-col space-y-8">
+<div class="flex items-center justify-center mt-0 md:mt-10 px-0 md:px-4">
+  <div class="card w-full max-w-lg bg-gradient-to-b from-secondary to-base-100 rounded-none shadow-none md:shadow-xl md:rounded-4xl p-8 flex items-center justify-center flex-col space-y-8">
     <h2 class="font-mplus text-xl md:text-2xl font-bold"><%= t('devise.sessions.new.title') %></h2>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "flex flex-col space-y-8 items-center" }) do |f| %>
@@ -54,7 +54,7 @@
     <% end %>
 
     <div class="divider"></div>
-    <p>お持ちのアカウントで登録</p>
+    <p>お持ちのアカウントでログイン</p>
 
     <%= button_to user_google_oauth2_omniauth_authorize_path, data: { turbo: false }, class: "btn bg-white text-black border-[#e5e5e5]" do %>
       <svg aria-label="Google logo" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
