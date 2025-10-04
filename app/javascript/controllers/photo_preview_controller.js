@@ -16,7 +16,7 @@ export default class extends Controller {
       
       const deleteButton = document.createElement('button')
       deleteButton.type = 'button'
-      deleteButton.className = 'absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold shadow-lg delete-existing-btn'
+      deleteButton.className = 'absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-secondary-content rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold shadow-lg delete-existing-btn'
       deleteButton.innerHTML = '×'
       deleteButton.dataset.action = 'click->photo-preview#removeExisting'
       deleteButton.dataset.photoId = photoDiv.dataset.photoId
@@ -68,7 +68,7 @@ export default class extends Controller {
         <img src="${e.target.result}" 
             class="w-full h-32 sm:h-40 md:h-48 lg:h-56 object-cover rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
         <button type="button" 
-                class="absolute top-1 right-1 sm:top-2 sm:right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center text-xs sm:text-sm font-bold shadow-lg transition-all duration-200 z-10"
+                class="absolute top-1 right-1 sm:top-2 sm:right-2 bg-red-500 hover:bg-red-600 text-secondary-content rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center text-xs sm:text-sm font-bold shadow-lg transition-all duration-200 z-10"
                 data-action="click->photo-preview#removeNew"
                 data-index="${index}">
           ×
