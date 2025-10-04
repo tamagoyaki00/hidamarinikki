@@ -28,7 +28,10 @@
         <% @diary_form.happiness_items.each_with_index do |item, i| %>
           <div class="form-control relative">
             <div class="label">
-              <span class="label-text"><%= i + 1 %></span>
+                <span class="label-text">
+                  <%= i + 1 %><% if i == 0 %><span class="text-red-500 ml-1">*</span><% end %>
+                </span>
+
               <% if i > 0 %> <!-- 最初の項目は削除不可 -->
                 <button type="button" class="btn btn-xs btn-circle btn-ghost absolute top-0 right-0" data-action="diary#removeItem">
                   ✕
