@@ -6,7 +6,7 @@
 @plugin "daisyui/theme" {
   name: "hidamarinikki";
   default: true;
-  prefersdark: true;
+  prefersdark: false;
   color-scheme: "light";
   --color-base-100: #FFFAE8;
   --color-base-200: #F7F2E2;
@@ -42,7 +42,7 @@
 @plugin "daisyui/theme" {
   name: "sunset";
   default: false;
-  prefersdark: false;
+  prefersdark: true;
   color-scheme: "dark";
   --color-base-100: oklch(22% 0.019 237.69);
   --color-base-200: oklch(20% 0.019 237.69);
