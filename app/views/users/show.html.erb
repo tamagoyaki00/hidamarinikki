@@ -14,7 +14,7 @@
   <div class="w-full mt-8">
     <h3 class="font-medium mb-2">ユーザー名</h3>
     <!-- `p`タグにも input クラスを適用 -->
-    <p class="input input-bordered w-full bg-white flex items-center h-12"><%= @user.name %></p>
+    <p class="input input-bordered w-full bg-base-200 flex items-center h-12"><%= @user.name %></p>
   </div>
 
   <!-- 自己紹介 -->
@@ -22,7 +22,7 @@
     <div class="w-full mt-8">
       <h3 class="font-medium mb-2">自己紹介</h3>
       <!-- `p`タグにも textarea クラスを適用 -->
-      <p class="textarea textarea-bordered textarea-profile w-full bg-white h-auto"><%= @user.introduction %></p>
+      <p class="textarea textarea-bordered textarea-profile w-full bg-base-200 h-auto"><%= @user.introduction %></p>
     </div>
   <% end %>
 
