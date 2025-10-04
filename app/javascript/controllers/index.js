@@ -28,14 +28,17 @@ application.register("notification-time", NotificationTimeController)
 import PasswordVisibilityController from "./password_visibility_controller"
 application.register("password-visibility", PasswordVisibilityController)
 
-import PhotoPreviewController from "./photo_preview_controller"
-application.register("photo-preview", PhotoPreviewController)
-
 import PhotoModalController from "./photo_modal_controller"
 application.register("photo-modal", PhotoModalController)
+
+import PhotoPreviewController from "./photo_preview_controller"
+application.register("photo-preview", PhotoPreviewController)
 
 import SceneController from "./scene_controller"
 application.register("scene", SceneController)
 
 import StatusSelectorController from "./status_selector_controller"
 application.register("status-selector", StatusSelectorController)
+
+import ThemeController from "./theme_controller"
+application.register("theme", ThemeController)
