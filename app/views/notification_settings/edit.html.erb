@@ -23,6 +23,7 @@
       <div class="form-control">
         <label class="label">
           <span class="label-text font-semibold mt-8 mb-2">利用シーン</span>
+          <span class="text-red-500">*</span>
         </label>
         <p class="text-sm mb-6">
           日常のルーティンに合わせて通知を設定しましょう。
@@ -40,6 +41,7 @@
             <div class="form-control">
               <label class="label">
                 <span class="label-text">シーン</span>
+                <span class="text-red-500">*</span>
               </label>
               <%= f.select :scene_name, [
                 ["朝のスタート", "morning"],
@@ -63,6 +65,7 @@
             <div class="form-control">
               <label class="label">
                 <span class="label-text">シーン名</span>
+                <span class="text-red-500">*</span>
               </label>
               <%= f.text_field :scene_name, class: "input input-bordered w-full max-w-xs",
               data: { "scene-target" => "customText" } %>
@@ -73,6 +76,7 @@
         <div class="form-control mt-10" data-controller="notification-time">
           <label class="label">
             <span class="label-text font-semibold">通知時間</span>
+            <span class="text-red-500">*</span>
           </label>
           <p class="text-sm mt-1">※選択した時間は15分単位に調整されます。</p>
           <%= f.time_field :notification_time, class: "input input-bordered w-full max-w-xs mt-4", data: { notification_time_target: "input" } %>

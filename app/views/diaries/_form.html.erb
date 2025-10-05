@@ -28,7 +28,10 @@
         <% @diary_form.happiness_items.each_with_index do |item, i| %>
           <div class="form-control relative">
             <div class="label">
-              <span class="label-text"><%= i + 1 %></span>
+                <span class="label-text">
+                  <%= i + 1 %><% if i == 0 %><span class="text-red-500 ml-1">*</span><% end %>
+                </span>
+
               <% if i > 0 %> <!-- 最初の項目は削除不可 -->
                 <button type="button" class="btn btn-xs btn-circle btn-ghost absolute top-0 right-0" data-action="diary#removeItem">
                   ✕
@@ -86,7 +89,7 @@
 
       <div class="w-full flex justify-center mt-4">
         <%= f.file_field :photos, 
-                        class: "file-input file-input-secondary", 
+                        class: "file-input file-input-accent", 
                         multiple: true,
                         accept: "image/*",
                         data: {
@@ -98,11 +101,11 @@
       <!-- 公開・非公開ボタン -->
       <div data-controller="status-selector" class="flex items-center space-x-4 mt-8">
         <div data-action="click->status-selector#select" data-value="is_public">
-          <button type="button" data-status-selector-target="button" class="btn btn-outline <%= @diary_form.status == 'is_public' ? 'btn-active btn-secondary' : '' %>">公開</button>
+          <button type="button" data-status-selector-target="button" class="btn btn-outline <%= @diary_form.status == 'is_public' ? 'btn-active btn-accent' : '' %>">公開</button>
           <%= f.radio_button :status, :is_public, class: "hidden", checked: @diary_form.status == 'is_public' %>
         </div>
         <div data-action="click->status-selector#select" data-value="is_private">
-          <button type="button" data-status-selector-target="button" class="btn btn-outline <%= @diary_form.status == 'is_private' ? 'btn-active btn-secondary' : '' %>">非公開</button>
+          <button type="button" data-status-selector-target="button" class="btn btn-outline <%= @diary_form.status == 'is_private' ? 'btn-active btn-accent' : '' %>">非公開</button>
           <%= f.radio_button :status, :is_private, class: "hidden", checked: @diary_form.status == 'is_private' %>
         </div>
       </div>
