@@ -1,0 +1,25 @@
+services:
+  db:
+    image: postgres
+    environment:
+      TZ: Asia/Tokyo
+      POSTGRES_PASSWORD: password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: bash -c "bundle exec rails db:prepare && bundle exec rspec"
+    volumes:
+      - .:/myapp
+    environment:
+      RAILS_ENV: test
+      TZ: Asia/Tokyo
+    depends_on:
+      db:
+        condition: service_healthy

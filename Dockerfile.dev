@@ -10,15 +10,37 @@ RUN apt-get update -qq \
 && NODE_MAJOR=20 \
 && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
 && wget --quiet -O - /tmp/pubkey.gpg https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-&& echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+&& echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+&& curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /etc/apt/keyrings/google-chrome.gpg \
+&& echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list
 
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs yarn vim libvips-dev cron && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+RUN apt-get update -qq && apt-get install -y \
+  build-essential \
+  libpq-dev \
+  nodejs \
+  yarn \
+  vim \
+  libvips-dev \
+  cron \
+  google-chrome-stable \
+  && rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+#Chromeのバージョンに合った ChromeDriver を手動でインストール
+ARG CHROMEDRIVER_VERSION=141.0.7390.54
+RUN curl -fSL -o /tmp/chromedriver.zip \
+    "https://storage.googleapis.com/chrome-for-testing-public/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip" \
+  && unzip -q /tmp/chromedriver.zip -d /tmp \
+  && mv /tmp/chromedriver-linux64/chromedriver /usr/bin/chromedriver \
+  && chmod +x /usr/bin/chromedriver \
+  && rm -rf /tmp/chromedriver.zip /tmp/chromedriver-linux64
 
 
 RUN mkdir /myapp
 WORKDIR /myapp
 
 RUN gem install bundler
+
+COPY Gemfile Gemfile.lock ./
+RUN bundle install --jobs 4 --retry 3
 
 COPY . /myapp
