@@ -40,4 +40,6 @@ WORKDIR /myapp
 
 RUN gem install bundler
 
+COPY Gemfile Gemfile.lock ./
+
 COPY . /myapp
