@@ -1,0 +1,15 @@
+services:
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: bash -c "bundle exec rails db:prepare && bundle exec rspec"
+    volumes:
+      - .:/myapp
+      - node_modules:/myapp/node_modules
+    environment:
+      RAILS_ENV: test
+      TZ: Asia/Tokyo
+    depends_on:
+      db:
+        condition: service_healthy
