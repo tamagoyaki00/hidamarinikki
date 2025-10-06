@@ -62,17 +62,10 @@ jobs:
         run: docker compose build
 
       - name: Set up database for tests
-        run: docker compose run --rm test bin/rails db:create db:migrate
-
-
+        run: docker compose -f docker-compose.yml -f docker-compose.ci.yml run --rm test bin/rails db:create db:migrate
 
       - name: Run tests
-        env:
-          RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432
-          # REDIS_URL: redis://localhost:6379/0
-        run: docker compose run --rm test bundle exec rspec
-
+        run: docker compose -f docker-compose.yml -f docker-compose.ci.yml run --rm test bundle exec rspec
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
