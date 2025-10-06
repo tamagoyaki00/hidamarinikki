@@ -8,6 +8,8 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - postgresql_data:/var/lib/postgresql
+    ports:
+      - 5432:5432
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d myapp_development -U postgres"]
       interval: 10s
@@ -31,21 +33,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-  test:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    command: bash -c "bundle install && bundle exec rails db:prepare && bundle exec rspec"
-    volumes:
-      - .:/myapp
-      - node_modules:/myapp/node_modules
-    environment:
-      TZ: Asia/Tokyo
-      RAILS_ENV: test
-    depends_on:
-      db:
-        condition: service_healthy
-      
+        
 volumes:
   bundle_data:
   postgresql_data:
