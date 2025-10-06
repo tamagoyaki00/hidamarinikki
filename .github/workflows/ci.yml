@@ -64,6 +64,9 @@ jobs:
       - name: Set up database for tests
         run: docker compose -f docker-compose.ci.yml run --rm test bin/rails db:create db:migrate
 
+      - name: Build CSS
+        run: docker compose -f docker-compose.ci.yml run --rm test bin/rails assets:precompile
+
       - name: Run tests
         run: docker compose -f docker-compose.ci.yml run --rm test bundle exec rspec
 
