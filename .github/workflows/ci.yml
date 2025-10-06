@@ -59,13 +59,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build images
-        run: docker compose build
+        run: docker compose -f docker-compose.ci.yml build
 
       - name: Set up database for tests
-        run: docker compose -f compose.yml -f docker-compose.ci.yml run --rm test bin/rails db:create db:migrate
+        run: docker compose -f docker-compose.ci.yml run --rm test bin/rails db:create db:migrate
 
       - name: Run tests
-        run: docker compose -f compose.yml -f docker-compose.ci.yml run --rm test bundle exec rspec
+        run: docker compose -f docker-compose.ci.yml run --rm test bundle exec rspec
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
