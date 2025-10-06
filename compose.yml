@@ -33,7 +33,23 @@ services:
     depends_on:
       db:
         condition: service_healthy
-        
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: bash -c "bundle install && bundle exec rails db:prepare && bundle exec rspec"
+    volumes:
+      - .:/myapp
+      - bundle_data:/usr/local/bundle:cached
+      - node_modules:/myapp/node_modules
+    environment:
+      TZ: Asia/Tokyo
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:password@db:5432/myapp_test
+    depends_on:
+      db:
+        condition: service_healthy
+      
 volumes:
   bundle_data:
   postgresql_data:
