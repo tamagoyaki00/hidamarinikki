@@ -41,5 +41,6 @@ WORKDIR /myapp
 RUN gem install bundler
 
 COPY Gemfile Gemfile.lock ./
+RUN bundle install --jobs 4 --retry 3
 
 COPY . /myapp
