@@ -45,7 +45,6 @@ services:
     environment:
       TZ: Asia/Tokyo
       RAILS_ENV: test
-      DATABASE_URL: postgres://postgres:password@db:5432/myapp_test
     depends_on:
       db:
         condition: service_healthy
