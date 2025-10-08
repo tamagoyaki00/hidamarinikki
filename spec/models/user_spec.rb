@@ -13,21 +13,31 @@ RSpec.describe User, type: :model do
       expect(user.onesignal_external_id).to be_present
     end
 
+    it 'name が20文字ちょうどの場合、有効であること' do
+      user = build(:user, name: 'a' * 20)
+      expect(user).to be_valid
+    end
+
+    it 'introduction が200文字ちょうどの場合、有効であること' do
+      user = build(:user, introduction: 'a' * 200)
+      expect(user).to be_valid      
+    end
+
     context '無効な時' do
       it 'nameが必須であること' do
-        user.name = nil
+        user = build(:user, name: nil)
         expect(user).to be_invalid
         expect(user.errors.full_messages).to include('ユーザー名を入力してください')
       end
 
       it 'nameが20文字以上の場合、無効であること' do
-        user.name = 'a' * 21
+        user = build(:user, name: 'a' * 21)
         expect(user).to be_invalid
         expect(user.errors.full_messages).to include('ユーザー名は20文字以内で入力してください')
       end
 
       it 'introductionが200文字以上の場合、無効であること' do
-        user.introduction = 'a' * 201
+        user = build(:user, introduction: 'a' * 201)
         expect(user).to be_invalid
         expect(user.errors.full_messages).to include('自己紹介は200文字以内で入力してください')
       end
