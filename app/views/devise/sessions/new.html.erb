@@ -4,18 +4,16 @@
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "flex flex-col space-y-8 items-center" }) do |f| %>
       <div class="form-control w-full max-w-md">
-        <label class="label">
-          <span class="label-text font-semibold"><%= t('devise.shared.email') %></span>
-        </label>
+        <%= f.label :email, t('devise.shared.email'), class: "label-text font-semibold" %>
         <%= f.email_field :email, placeholder: t('devise.shared.placeholders.email'), class: "input input-primary w-full" %>
       </div>
 
       <div class="form-control w-full max-w-md" data-controller="password-visibility">
-        <label class="label">
-          <span class="label-text font-semibold"><%= t('devise.shared.password') %></span>
-        </label>
+        <%= f.label :password, t('devise.shared.password'), class: "label-text font-semibold" %>
         <% if @minimum_password_length %>
-          <em><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></em>
+          <em class="font-semibold">
+            <%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %>
+          </em>
         <% end %>
 
         <div class="input-group relative">
