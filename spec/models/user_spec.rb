@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   let(:user) { create(:user) }
 
-
   describe 'バリデーション' do
     it '全ての必須項目が入力されていれば有効' do
       expect(user).to be_valid
@@ -21,16 +20,32 @@ RSpec.describe User, type: :model do
         expect(user.errors.full_messages).to include('ユーザー名を入力してください')
       end
 
-      it 'nameが20文字以内であること' do
+      it 'nameが20文字以上の場合、無効であること' do
         user.name = 'a' * 21
         expect(user).to be_invalid
         expect(user.errors.full_messages).to include('ユーザー名は20文字以内で入力してください')
       end
 
-      it 'introductionが200文字以内であること' do
+      it 'introductionが200文字以上の場合、無効であること' do
         user.introduction = 'a' * 201
         expect(user).to be_invalid
         expect(user.errors.full_messages).to include('自己紹介は200文字以内で入力してください')
+      end
+
+      context 'アバター画像のフォーマットが正しくない場合' do
+        it 'エラーを返すこと' do
+          file_path = Rails.root.join('spec/fixtures/files/test.txt')
+          user.avatar.attach(io: File.open(file_path), filename: 'test.txt', content_type: 'text/plain')
+          expect(user).to be_invalid
+          expect(user.errors[:avatar]).to include("：ファイル形式が、JPEG, PNG, GIF以外になってます。ファイル形式をご確認ください")
+        end
+      end
+
+      it '5MBを超える画像が添付されている場合、無効であること' do
+        file_path = Rails.root.join('spec/fixtures/files/6mb_test.jpeg')
+        user.avatar.attach(io: File.open(file_path), filename: '6mb_test.jpeg', content_type: 'image/jpeg')
+        expect(user).to be_invalid
+        expect(user.errors[:avatar]).to include("のファイルサイズは5MB以内にしてください")
       end
     end
   end
