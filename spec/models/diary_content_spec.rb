@@ -6,6 +6,11 @@ RSpec.describe DiaryContent, type: :model do
       it '有効なファクトリを持つこと' do
         expect(build(:diary_content)).to be_valid
       end
+
+      it 'body が1000文字ちょうどの場合、有効であること' do
+        diary_content = build(:diary_content, body: 'a' * 1000)
+        expect(diary_content).to be_valid
+      end
     end
 
     context '無効な場合' do
