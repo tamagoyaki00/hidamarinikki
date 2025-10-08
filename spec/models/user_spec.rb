@@ -20,7 +20,7 @@ RSpec.describe User, type: :model do
 
     it 'introduction が200文字ちょうどの場合、有効であること' do
       user = build(:user, introduction: 'a' * 200)
-      expect(user).to be_valid      
+      expect(user).to be_valid
     end
 
     context '無効な時' do
