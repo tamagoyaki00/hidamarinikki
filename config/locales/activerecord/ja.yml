@@ -6,9 +6,22 @@ ja:
         tag_names: タグ
   activerecord:
     models:
+      diary: 日記
+      diary_content: 日記の内容
+      tag: タグ
+      diary_tag: タグ
       notification_setting: 通知設定
     attributes:
+      diary:
+        status: 公開ステータス
+        happiness_count: 幸せの数
+        posted_date: 日付
+      diary_content:
+        body: 日記の内容
+      tag:
+        name: タグ
       notification_setting:
         notification_time: 設定時間
         scene_type: 利用シーンのタイプ
         scene_name: シーン名
+
