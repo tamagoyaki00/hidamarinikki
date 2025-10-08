@@ -27,6 +27,5 @@ RSpec.describe "Users", type: :system do
         expect(page).to have_content 'メールアドレスを入力してください'
         expect(page).to have_content 'パスワードを入力してください'
       end
-
   end
 end
