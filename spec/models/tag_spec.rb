@@ -10,7 +10,7 @@ RSpec.describe Tag, type: :model do
       end
 
       it 'name が20文字の場合、有効であること' do
-        tag = build(:tag, name: 'a' * 20 )
+        tag = build(:tag, name: 'a' * 20)
         expect(tag).to be_valid
       end
     end
@@ -23,13 +23,13 @@ RSpec.describe Tag, type: :model do
       end
 
       it 'name は空の場合も無効であること' do
-        tag = build(:tag, name: '' )
+        tag = build(:tag, name: '')
         expect(tag).to be_invalid
         expect(tag.errors[:name]).to include('を入力してください')
       end
 
       it 'name は20文字以上の場合、無効であること' do
-        tag = build(:tag, name: 'a' * 21 )
+        tag = build(:tag, name: 'a' * 21)
         expect(tag).to be_invalid
         expect(tag.errors[:name]).to include('は20文字以内で入力してください')
       end

@@ -18,10 +18,10 @@ RSpec.describe Tag, type: :model do
     context '無効な場合' do
       context 'リマインダーが有効な場合' do
         it 'notification_time が存在しない場合、無効なこと' do
-          invalid_setting = build(:notification_setting, 
-                                  reminder_enabled: true, 
-                                  notification_time: nil) 
-                                  
+          invalid_setting = build(:notification_setting,
+                                  reminder_enabled: true,
+                                  notification_time: nil)
+
           expect(invalid_setting).to be_invalid
           expect(invalid_setting.errors.full_messages).to include('設定時間を入力してください')
         end
@@ -30,7 +30,7 @@ RSpec.describe Tag, type: :model do
       it 'scene_type が存在しない場合、無効なこと' do
         invalid_scene_type = build(:notification_setting, scene_type: nil)
         expect(invalid_scene_type).to be_invalid
-        expect(invalid_scene_type.errors.full_messages).to include('利用シーンのタイプを入力してください') 
+        expect(invalid_scene_type.errors.full_messages).to include('利用シーンのタイプを入力してください')
       end
 
       it 'scene_type が custom の場合、scene_name がない場合、無効なこと' do
