@@ -22,6 +22,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.include FactoryBot::Syntax::Methods
+  config.include LoginHelper, type: :system
 
   config.before(:each, type: :system) do
     driven_by(:selenium_chrome_headless)
