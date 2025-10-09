@@ -30,13 +30,13 @@ RSpec.describe User, type: :model do
         expect(user.errors.full_messages).to include('ユーザー名を入力してください')
       end
 
-      it 'nameが20文字以上の場合、無効であること' do
+      it 'nameが21文字以上の場合、無効であること' do
         user = build(:user, name: 'a' * 21)
         expect(user).to be_invalid
         expect(user.errors.full_messages).to include('ユーザー名は20文字以内で入力してください')
       end
 
-      it 'introductionが200文字以上の場合、無効であること' do
+      it 'introductionが201文字以上の場合、無効であること' do
         user = build(:user, introduction: 'a' * 201)
         expect(user).to be_invalid
         expect(user.errors.full_messages).to include('自己紹介は200文字以内で入力してください')
