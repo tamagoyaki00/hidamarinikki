@@ -40,6 +40,12 @@ RSpec.describe "Users", type: :system do
         expect(page).to have_current_path new_user_session_path
         expect(page).to have_content 'ログインもしくはアカウント登録してください'
       end
+
+      it '名前編集ページに直接アクセスするとrootページにリダイレクトされる' do
+      visit edit_user_registration_path
+        expect(page).to have_current_path new_user_session_path
+        expect(page).to have_content 'ログインもしくはアカウント登録してください'
+      end
     end
 
     context 'ログイン時' do
@@ -84,6 +90,84 @@ RSpec.describe "Users", type: :system do
         click_link 'ログアウト'
         visit authenticated_root_path
         expect(page).to have_current_path unauthenticated_root_path
+      end
+    end
+  end
+
+  describe 'ユーザー編集に関すること' do
+    let(:user) { create(:user) }
+
+    context '編集フォームの初期値' do
+    before { login_as(user) }
+      it '編集フォームに現在の名前、自己紹介が表示されていること' do
+        visit edit_user_registration_path
+        expect(find_field('user_name').value).to eq(user.name)
+        expect(find_field('user_introduction').value).to eq(user.introduction)
+      end
+    end
+
+    context '名前編集' do
+      before { login_as(user) }
+      it '名前を正常に編集できる' do
+        visit user_path(user)
+        click_link '編集'
+
+        fill_in 'ユーザー名', with: '新しい名前'
+        click_button '更新'
+
+        expect(page).to have_content('アカウント情報を変更しました')
+        expect(page).to have_content('新しい名前')
+        expect(page).to have_current_path user_path(user)
+      end
+
+      it '空の名前では編集できない' do
+        visit user_path(user)
+        click_link '編集'
+        fill_in 'ユーザー名', with: ''
+        click_button '更新'
+
+        expect(page).to have_content("ユーザー名を入力してください")
+        expect(page).to have_current_path edit_user_registration_path
+      end
+    end
+
+    context '自己紹介文の編集' do
+      before { login_as(user) }
+      it '自己紹介文を正常に編集できる' do
+        visit user_path(user)
+        click_link '編集'
+        fill_in '自己紹介', with: '自己紹介テスト'
+        click_button '更新'
+        
+        expect(page).to have_content('アカウント情報を変更しました')
+        expect(page).to have_content('自己紹介テスト')
+        expect(page).to have_current_path user_path(user)
+      end
+
+      it '自己紹介文が201文字以上の場合、無効になる' do
+        visit user_path(user)
+        click_link '編集'
+        fill_in '自己紹介', with: 'あ' * 201
+        click_button '更新'
+
+        expect(page).to have_content('自己紹介は200文字以内で入力してください')
+      end
+
+    end
+
+    context 'アバター画像' do
+      before { login_as(user) }
+
+      it 'アバター画像を正常に編集できる' do
+        visit user_path(user)
+        click_link '編集'
+
+        attach_file 'user_avatar', Rails.root.join('spec/fixtures/files/test.jpg')
+        click_button '更新'
+
+        expect(page).to have_content('アカウント情報を変更しました')
+        expect(page).to have_current_path user_path(user)
+        expect(page).to have_selector("img[src*='test.jpg']")
       end
     end
   end
