@@ -96,5 +96,16 @@ RSpec.describe User, type: :model do
         expect(user.total_happiness_count).to eq(5)
       end
     end
+
+
+    describe 'ユーザー削除時' do
+      it 'ユーザー削除時に関連する日記も削除されること' do
+        user = create(:user)
+        diary = create(:diary, user: user)
+
+        expect { user.destroy }.to change(User, :count).by(-1)
+                              .and change(Diary, :count).by(-1)
+      end
+    end
   end
 end
