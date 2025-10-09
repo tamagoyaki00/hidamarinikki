@@ -3,7 +3,7 @@ FactoryBot.define do
     user_id { create(:user).id }
     status { "is_public" }
     posted_date { Date.current }
-    happiness_items { ["楽しかったこと"] }
+    happiness_items { [ "楽しかったこと" ] }
     tag_names { "tag1, tag2" }
 
     trait :with_11tags do

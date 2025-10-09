@@ -39,13 +39,13 @@ RSpec.describe DiaryForm, type: :model do
       end
 
       it 'happiness_items が全て空だと無効' do
-        invalid_form = build(:diary_form, happiness_items: [''])
+        invalid_form = build(:diary_form, happiness_items: [ '' ])
         expect(invalid_form).to be_invalid
         expect(invalid_form.errors.full_messages).to include("少なくとも1つの幸せを入力してください")
       end
 
       it 'happiness_items が1000文字を超えると無効' do
-        invalid_form = build(:diary_form, happiness_items: ['a' * 1001])
+        invalid_form = build(:diary_form, happiness_items: [ 'a' * 1001 ])
         expect(invalid_form).to be_invalid
       end
 
@@ -58,7 +58,7 @@ RSpec.describe DiaryForm, type: :model do
 
       it '写真が非対応形式だと無効' do
         photo = fixture_file_upload('spec/fixtures/files/test.txt')
-        invalid_form = build(:diary_form, photos: [photo])
+        invalid_form = build(:diary_form, photos: [ photo ])
         expect(invalid_form).to be_invalid
         expect(invalid_form.errors[:photos]).to include("はJPEG、PNG、GIF形式でアップロードしてください")
       end
@@ -80,12 +80,12 @@ RSpec.describe DiaryForm, type: :model do
     let(:form) { build(:diary_form) }
 
     it '#valid_happiness_items /空白を除いた配列を返すこと' do
-      form = build(:diary_form, happiness_items: ['楽しい', '', '嬉しい'])
-      expect(form.valid_happiness_items).to eq ['楽しい', '嬉しい']
+      form = build(:diary_form, happiness_items: [ '楽しい', '', '嬉しい' ])
+      expect(form.valid_happiness_items).to eq [ '楽しい', '嬉しい' ]
     end
 
     it '#happiness_count /有効な happiness_items（日記の項目） の数を返すこと' do
-      form = build(:diary_form, happiness_items: ['楽しい','嬉しい'])
+      form = build(:diary_form, happiness_items: [ '楽しい', '嬉しい' ])
       expect(form.happiness_count).to eq 2
     end
 
