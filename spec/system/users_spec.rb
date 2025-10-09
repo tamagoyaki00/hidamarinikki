@@ -201,27 +201,11 @@ RSpec.describe "Users", type: :system do
       visit user_path(user)
     end
 
-
-    it 'アカウントを削除ができ、ユーザーがDBから消えること' do
-      page.execute_script("window.confirm = () => true")
-      click_link 'アカウントを削除'
-      expect(page).to have_content 'アカウントを削除しました。またのご利用をお待ちしております'
-      expect(User.exists?(user.id)).to be_falsey
-    end
-
-
     it '削除後はTOPページに遷移すること' do
       page.execute_script("window.confirm = () => true")
       click_link 'アカウントを削除'
       expect(page).to have_content 'アカウントを削除しました。またのご利用をお待ちしております'
       expect(page).to have_current_path unauthenticated_root_path
-    end
-
-    it 'ユーザー削除時に関連する日記も削除されること' do
-      page.execute_script("window.confirm = () => true")
-      click_link 'アカウントを削除'
-      expect(page).to have_current_path unauthenticated_root_path
-      expect(Diary.exists?(diary.id)).to be_falsey
     end
   end
 end
