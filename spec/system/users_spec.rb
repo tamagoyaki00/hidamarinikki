@@ -108,7 +108,8 @@ RSpec.describe "Users", type: :system do
     end
 
     context '編集フォームの初期値' do
-    before { login_as(user) }
+      before { login_as(user) }
+
       it '編集フォームに現在の名前、自己紹介が表示されていること' do
         visit edit_user_registration_path
         expect(find_field('user_name').value).to eq(user.name)
@@ -118,49 +119,48 @@ RSpec.describe "Users", type: :system do
 
     context '名前編集' do
       before { login_as(user) }
+
       it '名前を正常に編集できる' do
-        visit user_path(user)
-        click_link '編集'
+        visit edit_user_registration_path
 
         fill_in 'ユーザー名', with: '新しい名前'
         click_button '更新'
 
-        expect(page).to have_content('アカウント情報を変更しました')
-        expect(page).to have_content('新しい名前')
+        expect(page).to have_content'アカウント情報を変更しました'
+        expect(page).to have_content'新しい名前'
         expect(page).to have_current_path user_path(user)
       end
 
       it '空の名前では編集できない' do
-        visit user_path(user)
-        click_link '編集'
+        visit edit_user_registration_path
         fill_in 'ユーザー名', with: ''
         click_button '更新'
 
-        expect(page).to have_content("ユーザー名を入力してください")
+        expect(page).to have_content'ユーザー名を入力してください'
         expect(page).to have_current_path edit_user_registration_path
       end
     end
 
     context '自己紹介文の編集' do
       before { login_as(user) }
+
       it '自己紹介文を正常に編集できる' do
-        visit user_path(user)
-        click_link '編集'
+        visit edit_user_registration_path
         fill_in '自己紹介', with: '自己紹介テスト'
         click_button '更新'
 
-        expect(page).to have_content('アカウント情報を変更しました')
-        expect(page).to have_content('自己紹介テスト')
+        expect(page).to have_content'アカウント情報を変更しました'
+        expect(page).to have_content'自己紹介テスト'
         expect(page).to have_current_path user_path(user)
       end
 
       it '自己紹介文が201文字以上の場合、無効になる' do
-        visit user_path(user)
-        click_link '編集'
+        visit edit_user_registration_path
         fill_in '自己紹介', with: 'あ' * 201
         click_button '更新'
 
-        expect(page).to have_content('自己紹介は200文字以内で入力してください')
+        expect(page).to have_content'自己紹介は200文字以内で入力してください'
+        expect(page).to have_current_path edit_user_registration_path
       end
     end
 
