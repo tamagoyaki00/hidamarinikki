@@ -168,15 +168,23 @@ RSpec.describe "Users", type: :system do
       before { login_as(user) }
 
       it 'アバター画像を正常に編集できる' do
-        visit user_path(user)
-        click_link '編集'
+        visit edit_user_registration_path
 
         attach_file 'user_avatar', Rails.root.join('spec/fixtures/files/test.jpg')
         click_button '更新'
 
-        expect(page).to have_content('アカウント情報を変更しました')
+        expect(page).to have_content'アカウント情報を変更しました'
         expect(page).to have_current_path user_path(user)
         expect(page).to have_selector("img[src*='test.jpg']")
+      end
+
+      it 'ファイル形式が、JPEG, PNG, GIF以外の場合、無効であること' do
+        visit edit_user_registration_path
+
+        attach_file 'user_avatar', Rails.root.join('spec/fixtures/files/test.txt')
+        click_button '更新'
+        expect(page).to have_content'ファイル形式が、JPEG, PNG, GIF以外になってます。ファイル形式をご確認ください'
+        expect(page).to have_current_path(edit_user_registration_path)
       end
     end
   end
