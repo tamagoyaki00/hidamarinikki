@@ -188,4 +188,40 @@ RSpec.describe "Users", type: :system do
       end
     end
   end
+
+  describe 'アカウント削除に関すること' do
+    let(:user) { create(:user) }
+    let!(:diary) { create(:diary, user: user) }
+
+    before do
+      visit new_user_session_path
+      fill_in 'メールアドレス', with: user.email
+      fill_in 'パスワード', with: user.password
+      click_button 'ログイン'
+      visit user_path(user)
+    end
+
+
+    it 'アカウントを削除ができ、ユーザーがDBから消えること' do
+      page.execute_script("window.confirm = () => true")
+      click_link 'アカウントを削除'
+      expect(page).to have_content 'アカウントを削除しました。またのご利用をお待ちしております'
+      expect(User.exists?(user.id)).to be_falsey
+    end
+
+
+    it '削除後はTOPページに遷移すること' do
+      page.execute_script("window.confirm = () => true")
+      click_link 'アカウントを削除'
+      expect(page).to have_content 'アカウントを削除しました。またのご利用をお待ちしております'
+      expect(page).to have_current_path unauthenticated_root_path
+    end
+
+    it 'ユーザー削除時に関連する日記も削除されること' do
+      page.execute_script("window.confirm = () => true")
+      click_link 'アカウントを削除'
+      expect(page).to have_current_path unauthenticated_root_path
+      expect(Diary.exists?(diary.id)).to be_falsey
+    end
+  end
 end
