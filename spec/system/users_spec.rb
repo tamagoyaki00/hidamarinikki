@@ -138,7 +138,7 @@ RSpec.describe "Users", type: :system do
         click_link '編集'
         fill_in '自己紹介', with: '自己紹介テスト'
         click_button '更新'
-        
+
         expect(page).to have_content('アカウント情報を変更しました')
         expect(page).to have_content('自己紹介テスト')
         expect(page).to have_current_path user_path(user)
@@ -152,7 +152,6 @@ RSpec.describe "Users", type: :system do
 
         expect(page).to have_content('自己紹介は200文字以内で入力してください')
       end
-
     end
 
     context 'アバター画像' do
