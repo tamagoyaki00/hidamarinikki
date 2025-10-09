@@ -126,8 +126,8 @@ RSpec.describe "Users", type: :system do
         fill_in 'ユーザー名', with: '新しい名前'
         click_button '更新'
 
-        expect(page).to have_content'アカウント情報を変更しました'
-        expect(page).to have_content'新しい名前'
+        expect(page).to have_content 'アカウント情報を変更しました'
+        expect(page).to have_content '新しい名前'
         expect(page).to have_current_path user_path(user)
       end
 
@@ -136,7 +136,7 @@ RSpec.describe "Users", type: :system do
         fill_in 'ユーザー名', with: ''
         click_button '更新'
 
-        expect(page).to have_content'ユーザー名を入力してください'
+        expect(page).to have_content 'ユーザー名を入力してください'
         expect(page).to have_current_path edit_user_registration_path
       end
     end
@@ -149,8 +149,8 @@ RSpec.describe "Users", type: :system do
         fill_in '自己紹介', with: '自己紹介テスト'
         click_button '更新'
 
-        expect(page).to have_content'アカウント情報を変更しました'
-        expect(page).to have_content'自己紹介テスト'
+        expect(page).to have_content 'アカウント情報を変更しました'
+        expect(page).to have_content '自己紹介テスト'
         expect(page).to have_current_path user_path(user)
       end
 
@@ -159,7 +159,7 @@ RSpec.describe "Users", type: :system do
         fill_in '自己紹介', with: 'あ' * 201
         click_button '更新'
 
-        expect(page).to have_content'自己紹介は200文字以内で入力してください'
+        expect(page).to have_content '自己紹介は200文字以内で入力してください'
         expect(page).to have_current_path edit_user_registration_path
       end
     end
@@ -173,7 +173,7 @@ RSpec.describe "Users", type: :system do
         attach_file 'user_avatar', Rails.root.join('spec/fixtures/files/test.jpg')
         click_button '更新'
 
-        expect(page).to have_content'アカウント情報を変更しました'
+        expect(page).to have_content 'アカウント情報を変更しました'
         expect(page).to have_current_path user_path(user)
         expect(page).to have_selector("img[src*='test.jpg']")
       end
@@ -183,7 +183,7 @@ RSpec.describe "Users", type: :system do
 
         attach_file 'user_avatar', Rails.root.join('spec/fixtures/files/test.txt')
         click_button '更新'
-        expect(page).to have_content'ファイル形式が、JPEG, PNG, GIF以外になってます。ファイル形式をご確認ください'
+        expect(page).to have_content 'ファイル形式が、JPEG, PNG, GIF以外になってます。ファイル形式をご確認ください'
         expect(page).to have_current_path(edit_user_registration_path)
       end
     end
