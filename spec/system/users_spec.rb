@@ -97,6 +97,16 @@ RSpec.describe "Users", type: :system do
   describe 'ユーザー編集に関すること' do
     let(:user) { create(:user) }
 
+    context 'ページ遷移' do
+      before { login_as(user) }
+
+      it 'ユーザー詳細ページから編集ページへ正しく遷移できること' do
+        visit user_path(user)
+        click_link '編集'
+        expect(page).to have_current_path edit_user_registration_path
+      end
+    end
+
     context '編集フォームの初期値' do
     before { login_as(user) }
       it '編集フォームに現在の名前、自己紹介が表示されていること' do
