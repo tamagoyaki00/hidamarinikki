@@ -28,7 +28,7 @@ RSpec.describe Tag, type: :model do
         expect(tag.errors[:name]).to include('を入力してください')
       end
 
-      it 'name は20文字以上の場合、無効であること' do
+      it 'name は21文字以上の場合、無効であること' do
         tag = build(:tag, name: 'a' * 21)
         expect(tag).to be_invalid
         expect(tag.errors[:name]).to include('は20文字以内で入力してください')
