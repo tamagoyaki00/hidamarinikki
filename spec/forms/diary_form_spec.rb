@@ -77,6 +77,7 @@ RSpec.describe DiaryForm, type: :model do
       it 'タグが20文字を超えると無効であること' do
         invalid_form = build(:diary_form, tag_names: 'a' * 21)
         expect(invalid_form).to be_invalid
+        expect(invalid_form.errors[:tag_names]).to include("は20文字以内で入力してください")
       end
     end
   end

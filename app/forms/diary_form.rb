@@ -190,7 +190,7 @@ class DiaryForm
 
     parsed_tags.each do |tag|
       if tag.length > 20
-        errors.add(:tag_names, "は20文字以内にしてください")
+        errors.add(:tag_names, "は20文字以内で入力してください")
         break
       end
     end
