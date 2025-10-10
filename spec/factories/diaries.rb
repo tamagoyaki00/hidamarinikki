@@ -14,5 +14,15 @@ FactoryBot.define do
         create_list(:diary_tag, 3, diary: diary)
       end
     end
+
+    trait :with_content do
+      transient do
+        body_text { 'テスト本文' }
+      end
+
+      after(:create) do |diary, evaluator|
+        create(:diary_content, diary: diary, body: evaluator.body_text)
+      end
+    end
   end
 end
