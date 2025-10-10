@@ -10,6 +10,11 @@ RSpec.describe DiaryForm, type: :model do
         expect(form).to be_valid
       end
 
+      it 'happiness_items が1000文字以上の場合、有効であること' do
+        form = build(:diary_form, happiness_items: [ 'a' * 1000 ])
+        expect(form).to be_valid
+      end
+
       it 'タグが10個ちょうどの場合、有効であること' do
         form = build(:diary_form, tag_names: (1..10).map { |i| "tag#{i}" }.join(','))
         expect(form).to be_valid
@@ -22,54 +27,54 @@ RSpec.describe DiaryForm, type: :model do
     end
 
     context '異常系' do
-      it 'user_id がないと無効' do
+      it 'user_id がないと無効であること' do
         invalid_form = build(:diary_form, user_id: nil)
         expect(invalid_form).to be_invalid
         expect(invalid_form.errors[:user_id]).to include("を入力してください")
       end
 
-      it 'status がないと無効' do
+      it 'status がないと無効であること' do
         invalid_form = build(:diary_form, status: nil)
         expect(invalid_form).to be_invalid
       end
 
-      it 'posted_date がないと無効' do
+      it 'posted_date がないと無効であること' do
         invalid_form = build(:diary_form, posted_date: nil)
         expect(invalid_form).to be_invalid
       end
 
-      it 'happiness_items が全て空だと無効' do
+      it 'happiness_items が全て空だと無効であること' do
         invalid_form = build(:diary_form, happiness_items: [ '' ])
         expect(invalid_form).to be_invalid
         expect(invalid_form.errors.full_messages).to include("少なくとも1つの幸せを入力してください")
       end
 
-      it 'happiness_items が1000文字を超えると無効' do
+      it 'happiness_items が1001文字以上の場合、無効であること' do
         invalid_form = build(:diary_form, happiness_items: [ 'a' * 1001 ])
         expect(invalid_form).to be_invalid
       end
 
-      it '写真が7枚以上だと無効' do
+      it '写真が7枚以上だと無効であること' do
         photos = Array.new(7) { fixture_file_upload('spec/fixtures/files/test.png', 'image/png') }
         invalid_form = build(:diary_form, photos: photos)
         expect(invalid_form).to be_invalid
         expect(invalid_form.errors[:photos]).to include("は6枚以内でアップロードしてください")
       end
 
-      it '写真が非対応形式だと無効' do
+      it '写真が非対応形式だと無効であること' do
         photo = fixture_file_upload('spec/fixtures/files/test.txt')
         invalid_form = build(:diary_form, photos: [ photo ])
         expect(invalid_form).to be_invalid
         expect(invalid_form.errors[:photos]).to include("はJPEG、PNG、GIF形式でアップロードしてください")
       end
 
-      it 'タグが11個以上だと無効' do
+      it 'タグが11個以上だと無効であること' do
         invalid_form = build(:diary_form, :with_11tags)
         expect(invalid_form).to be_invalid
         expect(invalid_form.errors[:tag_names]).to include("は10個以内にしてください")
       end
 
-      it 'タグが20文字を超えると無効' do
+      it 'タグが20文字を超えると無効であること' do
         invalid_form = build(:diary_form, tag_names: 'a' * 21)
         expect(invalid_form).to be_invalid
       end
