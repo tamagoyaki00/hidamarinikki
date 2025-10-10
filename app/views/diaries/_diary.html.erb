@@ -63,7 +63,7 @@
               <% diary.photos.each_with_index do |photo, index| %>
                 <div class="relative w-full cursor-pointer">
                   <%= image_tag photo.variant(:thumb),
-                                class: "w-full h-full object-contain rounded-lg shadow-sm",
+                                class: "diary-photo w-full h-full object-contain rounded-lg shadow-sm",
                                 data: {
                                   action: "click->photo-modal#open",
                                   photo_modal_index_param: index
