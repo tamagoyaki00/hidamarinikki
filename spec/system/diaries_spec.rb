@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Diaries', type: :system do
-
   let(:user) { create(:user) }
 
   before do
@@ -15,7 +14,6 @@ RSpec.describe 'Diaries', type: :system do
 
 
   describe 'ページ遷移が正常にできること' do
-
     it 'ホームページから日記作成画面にページ遷移ができること' do
       visit home_path
       click_on '日記を書く'
@@ -39,7 +37,6 @@ RSpec.describe 'Diaries', type: :system do
   end
 
   describe '日記作成機能' do
-
     before do
       visit new_diary_path
     end
@@ -68,7 +65,7 @@ RSpec.describe 'Diaries', type: :system do
 
     context '入力内容が正しくない場合' do
       it '日記内容を空のまま登録しようとすると、エラーメッセージが表示されること' do
-        invalid_form = build(:diary_form, happiness_items: [''])
+        invalid_form = build(:diary_form, happiness_items: [ '' ])
         expect(invalid_form).to be_invalid
         expect(invalid_form.errors.full_messages).to include('少なくとも1つの幸せを入力してください')
         expect(page).to have_current_path new_diary_path
