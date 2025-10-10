@@ -1,11 +1,11 @@
-<div class="card bg-base-200 shadow-xl mb-6">
+<div class="card bg-base-200 shadow-xl mb-6 diary-card">
   <div class="card-body p-6">
     <div class="flex items-start gap-4">
       <div class="flex-none">
         <% if diary.user.avatar.attached? %>
-          <%= image_tag diary.user.avatar_thumbnail, class: "rounded-full w-12 h-12" %>
+          <%= image_tag diary.user.avatar_thumbnail, class: "user-avatar rounded-full w-12 h-12" %>
         <% else %>
-          <%= avatar_placeholder(diary.user, size: "w-12 h-12", class:"text-sm") %>
+          <%= avatar_placeholder(diary.user, size: "w-12 h-12", class:"user-avatar text-sm") %>
         <% end %>
       </div>
 
@@ -13,7 +13,7 @@
         <div class="flex items-center justify-between">
           <div class="flex flex-col">
             <span class="text-base md:text-lg font-bold"><%= diary.user.name %></span>
-            <span class="text-sm text-gray-500"><%= diary.posted_date.strftime('%Y年%m月%d日') %></span>
+            <span class="diary-date text-sm text-gray-500"><%= diary.posted_date.strftime('%Y年%m月%d日') %></span>
           </div>
           <% if diary.user_id == current_user.id %>
             <div class="dropdown dropdown-end">
@@ -41,7 +41,7 @@
         </div>
 
         <!-- 本文 -->
-        <div class="mt-4">
+        <div class="mt-4 diary-body">
           <ol class="list-none space-y-2">
             <% diary.diary_contents.each_with_index do |content, i| %>
               <li>
@@ -63,7 +63,7 @@
               <% diary.photos.each_with_index do |photo, index| %>
                 <div class="relative w-full cursor-pointer">
                   <%= image_tag photo.variant(:thumb),
-                                class: "w-full h-full object-contain rounded-lg shadow-sm",
+                                class: "diary-photo w-full h-full object-contain rounded-lg shadow-sm",
                                 data: {
                                   action: "click->photo-modal#open",
                                   photo_modal_index_param: index

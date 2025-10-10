@@ -14,5 +14,25 @@ FactoryBot.define do
         create_list(:diary_tag, 3, diary: diary)
       end
     end
+
+    trait :with_content do
+      transient do
+        body_text { 'テスト本文' }
+      end
+
+      after(:create) do |diary, evaluator|
+        create(:diary_content, diary: diary, body: evaluator.body_text)
+      end
+    end
+
+    trait :with_photo do
+      after(:create) do |diary|
+        diary.photos.attach(
+          io: File.open(Rails.root.join('spec/fixtures/files/test.jpg')),
+          filename: 'test.jpg',
+          content_type: 'image/jpeg'
+        )
+      end
+    end
   end
 end
