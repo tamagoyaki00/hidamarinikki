@@ -3,9 +3,9 @@
     <div class="flex items-start gap-4">
       <div class="flex-none">
         <% if diary.user.avatar.attached? %>
-          <%= image_tag diary.user.avatar_thumbnail, class: "rounded-full w-12 h-12" %>
+          <%= image_tag diary.user.avatar_thumbnail, class: "user-avatar rounded-full w-12 h-12" %>
         <% else %>
-          <%= avatar_placeholder(diary.user, size: "w-12 h-12", class:"text-sm") %>
+          <%= avatar_placeholder(diary.user, size: "w-12 h-12", class:"user-avatar text-sm") %>
         <% end %>
       </div>
 
