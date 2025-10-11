@@ -95,6 +95,16 @@ RSpec.describe User, type: :model do
         create(:diary, user:, happiness_count: 3)
         expect(user.total_happiness_count).to eq(5)
       end
+
+      it '日記を削除すると合計値も減ること' do
+        diary1 = create(:diary, user:, happiness_count: 2)
+        diary2 = create(:diary, user:, happiness_count: 3)
+
+        expect(user.total_happiness_count).to eq(5)
+
+        diary2.destroy
+        expect(user.total_happiness_count).to eq(2)
+      end
     end
 
 
