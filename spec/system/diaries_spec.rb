@@ -259,6 +259,5 @@ RSpec.describe 'Diaries', type: :system do
         expect(page).not_to have_content 'まだ日記がありません。最初の投稿をしてみましょう！。'
       end
     end
-
   end
 end
