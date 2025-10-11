@@ -178,7 +178,7 @@ RSpec.describe 'Diaries', type: :system do
       let!(:my_diary) do
         create(:diary, :private, :with_content, :with_tags,
               user: user,
-              tag_names: ['テストタグ'],
+              tag_names: [ 'テストタグ' ],
               body_text: 'マイ日記')
       end
 
@@ -200,7 +200,7 @@ RSpec.describe 'Diaries', type: :system do
         expect(find_field('item_1').value).to eq 'マイ日記' # 本文
         expect(page).to have_content(my_diary.posted_date.to_s) # 日付
         expect(page).to have_checked_field('diary_form_status_is_private', visible: false) # ステータス
-        expect(find_field('diary_form_tag_names').value).to eq 'テストタグ' #タグ
+        expect(find_field('diary_form_tag_names').value).to eq 'テストタグ' # タグ
       end
 
       it '正常に編集できること' do

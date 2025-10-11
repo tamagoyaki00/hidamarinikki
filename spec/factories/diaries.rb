@@ -11,7 +11,7 @@ FactoryBot.define do
 
     trait :with_tags do
       transient do
-        tag_names { ['タグ1', 'タグ2', 'タグ3'] }
+        tag_names { [ 'タグ1', 'タグ2', 'タグ3' ] }
       end
 
       after(:create) do |diary, evaluator|
