@@ -239,5 +239,25 @@ RSpec.describe 'Diaries', type: :system do
         end
       end
     end
+
+    describe '日記削除に関すること' do
+      it '日記を正常に削除でき、フラッシュメッセージが表示されること' do
+        diary = create(:diary, user: user)
+
+        visit my_diaries_path
+
+        accept_confirm do
+          within first('.diary-card') do
+            find('.diary-setting').send_keys(:enter)
+            el = find('ul.dropdown-content a', text: '削除', visible: true)
+            page.execute_script("arguments[0].click();", el)
+          end
+        end
+
+        expect(page).to have_content '日記を削除しました'
+        expect(page).to have_current_path my_diaries_path
+        expect(page).not_to have_content 'まだ日記がありません。最初の投稿をしてみましょう！。'
+      end
+    end
   end
 end
