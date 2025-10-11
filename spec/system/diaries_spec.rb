@@ -46,6 +46,8 @@ RSpec.describe 'Diaries', type: :system do
       end
 
       context '本日の日記が既に存在する場合' do
+        let!(:today_diary) { create(:diary, user: user, posted_date: Date.current) }
+
         it '新規作成ボタンを押すと編集画面に遷移すること' do
           visit home_path
           click_on '日記を書く'
