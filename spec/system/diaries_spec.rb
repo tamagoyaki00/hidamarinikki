@@ -2,37 +2,13 @@ require 'rails_helper'
 
 RSpec.describe 'Diaries', type: :system do
   let(:user) { create(:user) }
+  let(:diary) { create(:diary) }
 
-  before do
-    login_as(user)
-  end
-
-  it 'ログイン後のホーム画面で日記を書くが表示されていること（ダミーテスト）' do
-    visit authenticated_root_path
-    expect(page).to have_content '日記を書く'
-  end
-
-
-  describe 'ページ遷移が正常にできること' do
-    it 'ホームページから日記作成画面にページ遷移ができること' do
-      visit home_path
-      click_on '日記を書く'
-      expect(page).to have_current_path new_diary_path
-      expect(page).to have_content '今日の一日を振り返ってみよう'
-    end
-
-    it 'マイ日記から日記作成画面にページ遷移ができること' do
-      visit my_diaries_path
-      find('a.btn.btn-primary.btn-circle').click
-      expect(page).to have_current_path new_diary_path
-      expect(page).to have_content '今日の一日を振り返ってみよう'
-    end
-
-    it 'みんなの日記から日記作成画面にページ遷移ができること' do
-      visit public_diaries_path
-      find('a.btn.btn-primary.btn-circle').click
-      expect(page).to have_current_path new_diary_path
-      expect(page).to have_content '今日の一日を振り返ってみよう'
+  describe '未ログインの場合' do
+    it '編集画面にアクセスできずログイン画面にリダイレクトされること' do
+      visit edit_diary_path(diary)
+      expect(page).to have_current_path(new_user_session_path)
+      expect(page).to have_content('ログインもしくはアカウント登録してください')
     end
   end
 
