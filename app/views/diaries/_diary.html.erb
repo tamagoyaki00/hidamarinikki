@@ -70,7 +70,7 @@
 
                   <!-- 画像本体 -->
                   <%= image_tag photo.variant(:thumb),
-                                class: "diary-photo w-full h-48 object-cover rounded-lg shadow-sm",
+                                class: "diary-photo w-full h-auto md:h-48 object-cover rounded-lg shadow-sm",
                                 data: {
                                   action: "load->photo-loader#hide click->photo-modal#open",
                                   photo_modal_index_param: index
