@@ -10,8 +10,19 @@
     </div>
   </div>
 
-  <%= form_with model: @diary_form, url: @diary_form.persisted? ? diary_path(@diary) : diaries_path, method: @diary_form.persisted? ? :patch : :post, class: "w-full" do |f| %>
+  <%= form_with model: @diary_form,
+                url: @diary_form.persisted? ? diary_path(@diary) : diaries_path,
+                method: @diary_form.persisted? ? :patch : :post,
+                class: "w-full",
+                data: { controller: "photo-upload", action: "submit->photo-upload#compressAndSubmit" } do |f| %>
+
     <%= render 'shared/error_message', object: @diary_form %>
+
+    <div data-photo-upload-target="overlay"
+        class="hidden fixed inset-0 bg-base-100 bg-opacity-50 flex flex-col items-center justify-center z-50 space-y-4">
+      <%= render "shared/loading_animation" %>
+      <p class="text-lg font-semibold">アップロード中です。</p>
+    </div>
 
     <!-- 日付 -->
     <div class="space-x-2">
@@ -116,7 +127,9 @@
         <%= f.text_field :tag_names, placeholder: "タグを複数つけるには','かスペースで区切ってください。", class: "input w-full" %>
       </div>
         
-      <%= f.submit @diary_form.persisted? ? "更新" : "投稿する", class: "btn btn-primary mt-8 w-full max-w-sm mx-auto block font-bold" %>
+      <%= f.submit @diary_form.persisted? ? "更新" : "投稿する",
+            class: "btn btn-primary mt-8 w-full max-w-sm mx-auto block font-bold",
+            data: { photo_upload_target: "submitButton" } %>
     </div>
   <% end %>
 
