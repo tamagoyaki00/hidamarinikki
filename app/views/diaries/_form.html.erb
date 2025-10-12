@@ -10,7 +10,12 @@
     </div>
   </div>
 
-  <%= form_with model: @diary_form, url: @diary_form.persisted? ? diary_path(@diary) : diaries_path, method: @diary_form.persisted? ? :patch : :post, class: "w-full" do |f| %>
+  <%= form_with model: @diary_form,
+                url: @diary_form.persisted? ? diary_path(@diary) : diaries_path,
+                method: @diary_form.persisted? ? :patch : :post,
+                class: "w-full",
+                data: { controller: "photo-upload", action: "submit->photo-upload#compressAndSubmit" } do |f| %>
+
     <%= render 'shared/error_message', object: @diary_form %>
 
     <!-- 日付 -->
@@ -116,7 +121,9 @@
         <%= f.text_field :tag_names, placeholder: "タグを複数つけるには','かスペースで区切ってください。", class: "input w-full" %>
       </div>
         
-      <%= f.submit @diary_form.persisted? ? "更新" : "投稿する", class: "btn btn-primary mt-8 w-full max-w-sm mx-auto block font-bold" %>
+      <%= f.submit @diary_form.persisted? ? "更新" : "投稿する",
+            class: "btn btn-primary mt-8 w-full max-w-sm mx-auto block font-bold",
+            data: { photo_upload_target: "submitButton" } %>
     </div>
   <% end %>
 

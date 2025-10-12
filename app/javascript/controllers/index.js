@@ -37,6 +37,9 @@ application.register("photo-modal", PhotoModalController)
 import PhotoPreviewController from "./photo_preview_controller"
 application.register("photo-preview", PhotoPreviewController)
 
+import PhotoUploadController from "./photo_upload_controller"
+application.register("photo-upload", PhotoUploadController)
+
 import SceneController from "./scene_controller"
 application.register("scene", SceneController)
 
