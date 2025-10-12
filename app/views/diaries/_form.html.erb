@@ -18,6 +18,12 @@
 
     <%= render 'shared/error_message', object: @diary_form %>
 
+    <div data-photo-upload-target="overlay"
+        class="hidden fixed inset-0 bg-base-100 bg-opacity-50 flex flex-col items-center justify-center z-50 space-y-4">
+      <%= render "shared/loading_animation" %>
+      <p class="text-lg font-semibold">アップロード中です。</p>
+    </div>
+
     <!-- 日付 -->
     <div class="space-x-2">
       <%= f.label :posted_date, "日付" %>

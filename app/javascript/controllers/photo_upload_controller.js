@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import imageCompression from "browser-image-compression"
 
 export default class extends Controller {
-  static targets = ["submitButton"] // 送信ボタンをターゲットに追加
+  static targets = ["submitButton", "overlay"] // 送信ボタンをターゲットに追加
 
 async compressAndSubmit(event) {
   event.preventDefault()
@@ -10,6 +10,7 @@ async compressAndSubmit(event) {
   this.submitButtonTarget.disabled = true
   const originalButtonText = this.submitButtonTarget.textContent
   this.submitButtonTarget.textContent = "画像を処理中..."
+  this.overlayTarget.classList.remove("hidden")
 
   const form = event.currentTarget
   const fileInputs = form.querySelectorAll("input[type='file'][multiple]")
