@@ -28,6 +28,9 @@ application.register("notification-time", NotificationTimeController)
 import PasswordVisibilityController from "./password_visibility_controller"
 application.register("password-visibility", PasswordVisibilityController)
 
+import PhotoLoaderController from "./photo_loader_controller"
+application.register("photo-loader", PhotoLoaderController)
+
 import PhotoModalController from "./photo_modal_controller"
 application.register("photo-modal", PhotoModalController)
 

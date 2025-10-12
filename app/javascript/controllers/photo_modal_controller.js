@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["modal", "slide", "counter", "previousButton", "nextButton"]
+  static targets = ["modal", "slide", "counter", "previousButton", "nextButton", "modalSpinner"]
   static values = {
     images: Array,
     index: Number
@@ -15,6 +15,13 @@ export default class extends Controller {
   open(event) {
     this.indexValue = Number(event.params.index)
     this.modalTarget.showModal()
+
+    // スピナーを表示
+    this.modalSpinnerTarget.classList.remove("hidden")
+
+    // 画像を差し替え
+    const url = this.imagesValue[this.indexValue]
+    this.slideTarget.src = url
   }
 
   // モーダルを閉じる
@@ -72,6 +79,12 @@ export default class extends Controller {
   closeOnBackdrop(event) {
     if (event.target === this.modalTarget) {
       this.close()
+    }
+  }
+
+  hideSpinner() {
+    if (this.hasModalSpinnerTarget) {
+      this.modalSpinnerTarget.classList.add("hidden")
     }
   }
 }
