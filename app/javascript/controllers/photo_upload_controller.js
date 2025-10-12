@@ -8,8 +8,6 @@ async compressAndSubmit(event) {
   event.preventDefault()
 
   this.submitButtonTarget.disabled = true
-  const originalButtonText = this.submitButtonTarget.textContent
-  this.submitButtonTarget.textContent = "画像を処理中..."
   this.overlayTarget.classList.remove("hidden")
 
   const form = event.currentTarget
