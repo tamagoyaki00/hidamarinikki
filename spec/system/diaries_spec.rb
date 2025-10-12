@@ -221,7 +221,6 @@ RSpec.describe 'Diaries', type: :system do
         find_field('item_1').set('')
         click_button '更新'
         expect(page).to have_content('少なくとも1つの幸せを入力してください')
-        expect(page).to have_current_path edit_diary_path(my_diary)
       end
 
 

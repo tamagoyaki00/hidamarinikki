@@ -5,7 +5,7 @@ class Diary < ApplicationRecord
   has_many :tags, through: :diary_tags
 
   has_many_attached :photos do |attachable|
-    attachable.variant :thumb, resize_to_limit: [ 200, 200 ]
+    attachable.variant :thumb, resize_to_limit: [ 400, 400 ]
     attachable.variant :display, resize_to_limit: [ 1024, 1024 ]
   end
 
