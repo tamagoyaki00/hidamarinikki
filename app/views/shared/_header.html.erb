@@ -52,10 +52,10 @@
     <script>
       function spinOnce(el) {
         const icon = el.querySelector(".setting-icon");
-        icon.classList.add("animate-spin");
-        setTimeout(() => {
-          icon.classList.remove("animate-spin");
-        }, 800);
+        icon.classList.add("spin-once");
+        icon.addEventListener("animationend", () => {
+          icon.classList.remove("spin-once");
+        }, { once: true });
       }
     </script>
 

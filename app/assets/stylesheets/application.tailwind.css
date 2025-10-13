@@ -154,3 +154,14 @@
     animation: hourglass 1s linear infinite;
   }
 
+/* 設定アイコンを回転 */
+@layer utilities {
+  @keyframes spin-once {
+    to { transform: rotate(360deg); }
+  }
+  .spin-once {
+    animation: spin-once 0.8s linear;
+  }
+}
+
+
