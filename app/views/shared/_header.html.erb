@@ -28,15 +28,17 @@
     </div>
 
     <div class="drawer drawer-end">
-        <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
-        <div class="drawer-content">
-        <label for="my-drawer-4" class="btn btn-circle swap swap-rotate btn-primary btn-ghost">
-            <input type="checkbox" />
-            <svg class="swap-off fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" /></svg>
-            <svg class="swap-on fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" /></svg>
+      <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content">
+        <label for="my-drawer-4" 
+              class="btn btn-circle btn-primary btn-ghost"
+              onclick="spinOnce(this)">
+          <span class="setting-icon material-symbols-outlined">
+            settings
+          </span>
         </label>
-        </div>
-        <div class="drawer-side z-50">
+      </div>
+      <div class="drawer-side z-50">
         <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
         <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
           <li><%= link_to "ひだまり日記の書き方ガイド", diary_writing_tips_path %></li>
@@ -44,7 +46,18 @@
           <li><a>プライバシーポリシー（準備中）</a></li>
           <li><a>お問い合わせ（準備中）</a></li>
         </ul>
-        </div>
+      </div>
     </div>
+
+    <script>
+      function spinOnce(el) {
+        const icon = el.querySelector(".setting-icon");
+        icon.classList.add("animate-spin");
+        setTimeout(() => {
+          icon.classList.remove("animate-spin");
+        }, 800);
+      }
+    </script>
+
   </div>
 </header>
