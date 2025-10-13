@@ -2,23 +2,23 @@
   <div class="flex h-full w-full mx-auto justify-around items-center lg:px-20">
     <%= link_to home_path, class: "flex flex-col items-center" do %>
       <i class="fa-solid fa-house text-2xl md:text-3xl <%= highlight_class(home_path) %>"></i>
-      <span class="text-xs text-gray-500 mt-1"><%= t('.links.home')%></span>
+      <span class="text-xs text-gray-500 mt-1">ホーム</span>
     <% end %>
 
     <%= link_to my_diaries_path, class: "flex flex-col items-center" do %>
       <i class="fa-solid fa-book-open text-2xl md:text-3xl <%= highlight_class(my_diaries_path) %>"></i>
-      <span class="text-xs text-gray-500 mt-1"><%= t('.links.my_diary')%></span>
+      <span class="text-xs text-gray-500 mt-1">マイ日記</span>
     <% end %>
 
     <%= link_to public_diaries_path, class: "flex flex-col items-center" do %>
       <i class="fa-solid fa-users text-2xl md:text-3xl <%= highlight_class(public_diaries_path) %>"></i>
-      <span class="text-xs text-gray-500 mt-1"><%= t('.links.public_diaries')%></span>
+      <span class="text-xs text-gray-500 mt-1">みんなの日記</span>
     <% end %>
 
     <div data-controller="modal">
       <button data-action="click->modal#open" class="flex flex-col items-center cursor-pointer">
-        <i class="fa-solid fa-gear text-2xl md:text-3xl text-gray-500"></i>
-        <span class="text-xs text-gray-500 mt-1"><%= t('.links.settings')%></span>
+        <i class="fa-solid fa-user text-2xl md:text-3xl text-gray-500"></i>
+        <span class="text-xs text-gray-500 mt-1">アカウント設定</span>
       </button>
 
       <%= render "shared/settings_modal" %>
