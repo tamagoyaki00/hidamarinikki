@@ -39,12 +39,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
     http.use_ssl = true
 
     request = Net::HTTP::Delete.new(uri)
-    request['Authorization'] = "Key #{ENV['ONESIGNAL_REST_API_KEY']}"
+    request["Authorization"] = "Key #{ENV['ONESIGNAL_REST_API_KEY']}"
 
     response = http.request(request)
     Rails.logger.info "OneSignal ユーザー削除リクエスト成功: ステータス=#{response.code}, レスポンス=#{response.body}"
   rescue => e
     Rails.logger.error "OneSignal ユーザー削除リクエスト失敗: #{e.message}"
   end
-
 end
