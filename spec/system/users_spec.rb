@@ -77,7 +77,7 @@ RSpec.describe "Users", type: :system do
       end
 
       it 'ログアウトができること' do
-        click_button '設定'
+        click_button 'アカウント設定'
         click_link 'ログアウト'
         expect(page).to have_content 'ログアウトしました'
       end
@@ -86,7 +86,7 @@ RSpec.describe "Users", type: :system do
     context 'ログアウト後' do
       it 'ログアウト後は認証必須ページにアクセスできない' do
         login_as(user)
-        click_button '設定'
+        click_button 'アカウント設定'
         click_link 'ログアウト'
         visit authenticated_root_path
         expect(page).to have_current_path unauthenticated_root_path
