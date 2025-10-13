@@ -4,6 +4,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [ :create ]
   before_action :configure_account_update_params, only: [ :update ]
 
+  def destroy
+    external_id = resource.id.to_s
+
+    # OneSignalのユーザー削除
+    delete_onesignal_user(current_user.onesignal_external_id)
+
+    super
+  end
+
   private
 
   def update_resource(resource, params)
@@ -24,13 +33,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
     user_path(resource)
   end
 
-  # The path used after sign up.
-  # def after_sign_up_path_for(resource)
-  #   super(resource)
-  # end
+  def delete_onesignal_user(external_id)
+    uri = URI("https://api.onesignal.com/apps/#{ENV['ONESIGNAL_APP_ID']}/users/by/external_id/#{external_id}")
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
 
-  # The path used after sign up for inactive accounts.
-  # def after_inactive_sign_up_path_for(resource)
-  #   super(resource)
-  # end
+    request = Net::HTTP::Delete.new(uri)
+    request['Authorization'] = "Key #{ENV['ONESIGNAL_REST_API_KEY']}"
+
+    response = http.request(request)
+    Rails.logger.info "OneSignal ユーザー削除リクエスト成功: ステータス=#{response.code}, レスポンス=#{response.body}"
+  rescue => e
+    Rails.logger.error "OneSignal ユーザー削除リクエスト失敗: #{e.message}"
+  end
+
 end
