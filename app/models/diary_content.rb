@@ -1,7 +1,7 @@
 class DiaryContent < ApplicationRecord
   belongs_to :diary
 
-  validates :body, presence: true, length: { maximum: 1000 }
+  validates :body, presence: true, length: { maximum: 1000 }, blocked_words: true
 
   def self.ransackable_attributes(auth_object = nil)
     %w[body]
