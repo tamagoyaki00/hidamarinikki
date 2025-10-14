@@ -57,6 +57,18 @@ RSpec.describe User, type: :model do
         expect(user).to be_invalid
         expect(user.errors[:avatar]).to include("のファイルサイズは5MB以内にしてください")
       end
+
+      it '禁止ワードに設定されているワードをユーザー名に設定した場合、無効であること' do
+        user = build(:user, name: '死ねマン')
+        expect(user).to be_invalid
+        expect(user.errors[:name]).to include("に不適切な表現（死ね）が含まれています")
+      end
+
+      it '禁止ワードに設定されているワードを自己紹介に設定した場合、無効であること' do
+        user= build(:user, introduction: '私は、死にたいです。')
+        expect(user).to be_invalid
+        expect(user.errors[:introduction]).to include('に不適切な表現（死にたい）が含まれています')
+      end
     end
   end
 

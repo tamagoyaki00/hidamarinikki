@@ -31,6 +31,12 @@ RSpec.describe DiaryContent, type: :model do
         expect(diary_content).to be_invalid
         expect(diary_content.errors[:body]).to include('は1000文字以内で入力してください')
       end
+
+      it '禁止ワードに設定されているワードを日記の内容に入力し投稿した場合、無効であること' do
+        invalid_form = build(:diary_form, happiness_items: 'ばかやろう')
+        expect(invalid_form).to be_invalid
+        expect(invalid_form.errors[:happiness_items]).to include("に不適切な表現（ばか）が含まれています")
+      end
     end
   end
 end
