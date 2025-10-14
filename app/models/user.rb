@@ -15,8 +15,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: [ :google_oauth2 ]
 
-  validates :name, presence: true, length: { maximum: 20 }
-  validates :introduction, length: { maximum: 200 }
+  validates :name, presence: true, length: { maximum: 20 }, blocked_words: true
+  validates :introduction, length: { maximum: 200 }, blocked_words: true
   validates :uid, uniqueness: { scope: :provider }, if: :provider?
   validate :validate_avatar_format
   validate :avatar_size
