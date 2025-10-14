@@ -33,6 +33,12 @@ RSpec.describe Tag, type: :model do
         expect(tag).to be_invalid
         expect(tag.errors[:name]).to include('は20文字以内で入力してください')
       end
+
+      it '禁止ワードに設定されているワードをタグに入力し投稿した場合、無効であること' do
+        invalid_form = build(:diary_form, tag_names: '暴力')
+        expect(invalid_form).to be_invalid
+        expect(invalid_form.errors[:tag_names]).to include("に不適切な表現（暴力）が含まれています")
+      end
     end
   end
 end
