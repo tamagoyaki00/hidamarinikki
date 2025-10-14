@@ -8,7 +8,6 @@ class BlockedWordsValidator < ActiveModel::EachValidator
       blocked_words.each do |word|
         if v.match?(word)
           record.errors.add(attribute, "に不適切な表現（#{word.source}）が含まれています")
-          break
         end
       end
     end
