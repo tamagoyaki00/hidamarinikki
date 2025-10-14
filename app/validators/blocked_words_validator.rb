@@ -2,7 +2,7 @@ class BlockedWordsValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     return if value.blank?
 
-    values = value.is_a?(Array) ? value : [value]
+    values = value.is_a?(Array) ? value : [ value ]
 
     values.each do |v|
       blocked_words.each do |word|
