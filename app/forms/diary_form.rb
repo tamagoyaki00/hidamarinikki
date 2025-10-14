@@ -15,6 +15,10 @@ class DiaryForm
   validates :user_id, presence: true
   validates :status, presence: true
   validates :posted_date, presence: true
+  validates :happiness_items, blocked_words: true
+  validates :tag_names, blocked_words: true
+
+
 
   attr_accessor :existing_photos
 
