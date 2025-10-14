@@ -4,6 +4,15 @@ ja:
       diary_form:
         photos: 写真
         tag_names: タグ
+        user_id: ユーザー
+        status: 公開ステータス
+        posted_date: 投稿日
+        diary_id: 日記
+        happiness_items: 日記の内容
+        happiness_count: 幸せの数
+        delete_photo_ids: 削除対象の写真
+
+
   activerecord:
     models:
       diary: 日記
