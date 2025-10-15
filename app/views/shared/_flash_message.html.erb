@@ -2,8 +2,8 @@
   <div class="fixed top-2 z-50 left-1/2 -translate-x-1/2 rounded-full transform transition-transform duration-500 ease-in-out pointer-events-auto"
        data-controller="flash-message"
        data-action="animationend->flash-message#remove"
-       data-flash-message-target="container">
-
+       data-flash-message-target="container"
+        data-flash-message-type-value="<%= type.to_s %>">
 
     <div class="flex items-center">
       <% if type == 'notice'%>
@@ -22,8 +22,8 @@
         </div>
       <% elsif type == 'ai_comment'%>
         <div role="alert" class="alert alert-success">
-          <%= image_tag "himawari.svg", alt: "ロゴ", class: "h-12 w-12 md:h-16 w-16" %>
-          <span class="ml-1 flex-grow"><%= message %></span>
+          <%= image_tag "himawari.svg", alt: "ロゴ", class: "h-12 w-12 md:h-16 w-16 animate-bounce" %>
+          <span class="ml-1 flex-grow"><%= simple_format(message, {}, wrapper_tag: nil) %></span>
         </div>
       <% end %>
     </div>
