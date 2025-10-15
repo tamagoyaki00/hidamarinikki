@@ -20,6 +20,8 @@ services:
     environment:
       RAILS_ENV: test
       TZ: Asia/Tokyo
+      OPENAI_ACCESS_TOKEN: dummy_for_test
+
     depends_on:
       db:
         condition: service_healthy
