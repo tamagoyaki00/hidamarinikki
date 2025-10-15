@@ -66,7 +66,7 @@ class DiariesController < ApplicationController
       )
 
       ai_comment = response.dig("choices", 0, "message", "content")
-      flash[:ai_comment] = ai_comment
+      flash[:ai_comment] = "日記投稿ありがとう！\n#{ai_comment}"
 
       redirect_to home_path
     else
