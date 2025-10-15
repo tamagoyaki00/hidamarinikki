@@ -20,6 +20,11 @@
           </svg>
           <span class="ml-1 flex-grow"><%= message %></span>
         </div>
+      <% elsif type == 'ai_comment'%>
+        <div role="alert" class="alert alert-success">
+          <%= image_tag "himawari.svg", alt: "ロゴ", class: "h-12 w-12 md:h-16 w-16" %>
+          <span class="ml-1 flex-grow"><%= message %></span>
+        </div>
       <% end %>
     </div>
   </div>
