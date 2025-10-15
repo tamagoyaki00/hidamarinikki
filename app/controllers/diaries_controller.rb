@@ -53,13 +53,13 @@ class DiariesController < ApplicationController
 
       # 継続日数に応じた応援メッセージの指示を生成
       cheering_instruction = case diary_streak
-                            when 1
+      when 1
                               "継続日数1日目です。「今日から素敵な習慣の始まりですね！」のように、新しいスタートを祝福する言葉を必ず添えてください。"
-                            when 2..10
+      when 2..10
                               "ユーザーは現在#{diary_streak}日連続で日記を続けています。「この調子で、ポジティブ習慣を身につけましょう！」のように、今後も続けやすいように温かい言葉で褒めてください。"
-                            else
+      else
                               "ユーザーは現在#{diary_streak}日連続で日記を続けています。「#{diary_streak}日も続いていて素晴らしい習慣ですね！」のように、習慣化してきた努力を称賛してください。"
-                            end
+      end
 
       # 全体のシステムプロンプトを組み立て
       system_prompt = <<~PROMPT
