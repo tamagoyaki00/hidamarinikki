@@ -35,7 +35,7 @@ class DiariesController < ApplicationController
     if @diary_form.save
     new_happiness_count = @diary_form.happiness_count
 
-    # 幸せ瓶に入れる幸せの数をカウント
+      # 幸せ瓶に入れる幸せの数をカウント
       if new_happiness_count > 0
         current_total = current_user.total_happiness_count
         previous_total = current_total - new_happiness_count
@@ -51,17 +51,19 @@ class DiariesController < ApplicationController
       contents_text = @diary_form.valid_happiness_items.join("\n")
       diary_streak = current_user.diary_streak
 
-      client = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
+      client = OpenAI::Client.new(access_token: ENV["OPENAI_API_KEY"])
       response = client.chat(
         parameters: {
           model: "gpt-5-nano",
           messages: [
             { role: "system", content: "あなたはユーザーの毎日の日記を応援するAIパートナーです。
             あなたの役割は寄り添いと、モチベーションアップです。
+            日記の一文ごとにコメントするのではなく、日記全体を読んだ上で、一言の短いコメントを返してください。
+            コメントは日記内容に対して、一緒に喜んだり、感謝や自分を褒めている表現には「素敵」「すごい」「えらい」などの温かい褒め言葉で共感してください。
             否定的な言葉は使わないでください。
             また、ユーザーは現在#{diary_streak} 日連続で日記を続けています。
             この継続日数にも触れて、継続習慣を応援する言葉を添えてください。
-            出力は日本語で、必ず1〜3文に収めてください。
+            出力は日本語で、必ず80文字以内に収めてください。
             漢字を使う場合は旧字体や異体字は使わず、常用漢字で自然な表記にしてください。" },
             { role: "user", content: contents_text }
           ],
@@ -103,16 +105,17 @@ class DiariesController < ApplicationController
       # AIコメントを生成
       contents_text = @diary_form.valid_happiness_items.join("\n")
 
-      client = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
+      client = OpenAI::Client.new(access_token: ENV["OPENAI_API_KEY"])
       response = client.chat(
         parameters: {
-          model: "gpt-5-nano",
+          model: "gpt-5-mini",
           messages: [
             { role: "system", content: "あなたはユーザーの毎日の日記を応援するAIパートナーです。
             あなたの役割は寄り添いと、モチベーションアップです。
+            日記の一文ごとにコメントするのではなく、日記全体を読んだ上で、一言の短いコメントを返してください。
             日記内容に対して、一緒に喜んだり、感謝や自分を褒めている表現には「素敵」「すごい」「えらい」などの温かい褒め言葉で共感してください。
             否定的な言葉は使わないでください。
-            出力は日本語で、必ず1〜2文に収めてください。
+            出力は日本語で、必ず100文字以内に収めてください
             漢字を使う場合は旧字体や異体字は使わず、常用漢字で自然な表記にしてください。" },
             { role: "user", content: contents_text }
           ],
