@@ -4,10 +4,14 @@ export default class extends Controller {
   static targets = ["container"]
   static values = {
     showDelay: { type: Number, default: 10 },
-    hideDelay: { type: Number, default: 8000 }
+    hideDelay: { type: Number, default: 8000 },
+    type: String
   }
 
   connect() {
+    // ai_comment の場合だけ消える時間を25秒後に変更
+    const delay = this.typeValue === "ai_comment" ? 25000 : this.hideDelayValue
+
     setTimeout(() => {
       this.show()
     }, this.showDelayValue);
@@ -15,7 +19,7 @@ export default class extends Controller {
 
     this.timer = setTimeout(() => {
       this.hide()
-    }, this.hideDelayValue);
+    }, delay);
   }
 
   show() {
