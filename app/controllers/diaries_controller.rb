@@ -1,6 +1,6 @@
 class DiariesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_diary, only: %i[ edit update destroy generate_ai_comment]
+  before_action :set_diary, only: %i[ edit update destroy]
 
   def my_diaries
     @q = current_user.diaries.ransack(params[:q])
@@ -35,6 +35,7 @@ class DiariesController < ApplicationController
     if @diary_form.save
     new_happiness_count = @diary_form.happiness_count
 
+    # 幸せ瓶に入れる幸せの数をカウント
       if new_happiness_count > 0
         current_total = current_user.total_happiness_count
         previous_total = current_total - new_happiness_count
@@ -46,7 +47,7 @@ class DiariesController < ApplicationController
       }
       end
 
-      #AIコメントを生成
+      # AIコメントを生成
       contents_text = @diary_form.valid_happiness_items.join("\n")
 
       client = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
@@ -56,7 +57,7 @@ class DiariesController < ApplicationController
           messages: [
             { role: "system", content: "あなたはユーザーの毎日の日記を応援するAIパートナーです。
             あなたの役割は寄り添いと、モチベーションアップです。
-            ユーザーの日記の内容に共感したり、励ましたりする短いコメントを1〜2文で書いてください。
+            日記の内容に共感したり、励ましたりする短いコメントを1〜2文で書いてください。
             やさしく温かいトーンで、否定的な言葉は使わないでください。
             出力は日本語で、必ず1〜2文に収めてください。" },
             { role: "user", content: contents_text }
@@ -96,7 +97,30 @@ class DiariesController < ApplicationController
         }
       end
 
-      redirect_to home_path, notice: "日記を更新しました"
+      # AIコメントを生成
+      contents_text = @diary_form.valid_happiness_items.join("\n")
+
+      client = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
+      response = client.chat(
+        parameters: {
+          model: "gpt-5-nano",
+          messages: [
+            { role: "system", content: "あなたはユーザーの毎日の日記を応援するAIパートナーです。
+            あなたの役割は寄り添いと、モチベーションアップです。
+            日記内容に共感したり、励ましたりする短いコメントを1〜2文で書いてください。
+            やさしく温かいトーンで、否定的な言葉は使わないでください。
+            出力は日本語で、必ず1〜2文に収めてください。" },
+            { role: "user", content: contents_text }
+          ],
+          temperature: 1
+        }
+      )
+
+      ai_comment = response.dig("choices", 0, "message", "content")
+      flash[:ai_comment] = "日記更新ありがとう！\n#{ai_comment}"
+
+
+      redirect_to home_path
     else
       render :edit, status: :unprocessable_entity
     end
