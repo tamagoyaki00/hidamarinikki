@@ -13,7 +13,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <span class="ml-1 flex-grow break-words text-sm md:text-base"><%= message %></span>
+        <span class="ml-1 flex-grow break-words text-sm"><%= message %></span>
       </div>
 
     <% elsif type == 'alert' %>
@@ -24,15 +24,15 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <span class="ml-1 flex-grow break-words text-sm md:text-base"><%= message %></span>
+        <span class="ml-1 flex-grow break-words text-sm"><%= message %></span>
       </div>
 
     <% elsif type == 'ai_comment' %>
       <div role="alert" class="alert alert-success inline-flex items-center
                               min-w-[200px] max-w-[90vw] md:max-w-md lg:max-w-lg
                               pointer-events-auto">
-        <%= image_tag "himawari.svg", alt: "ロゴ", class: "h-12 w-12 md:h-16 w-16 animate-bounce mr-2" %>
-        <span class="ml-1 flex-grow break-words text-sm md:text-base">
+        <%= image_tag "himawari.svg", alt: "ロゴ", class: "h-12 w-12 md:h-16 w-16 animate-bounce mr-1 md:mr-2" %>
+        <span class="flex-grow break-words text-sm">
           <%= simple_format(message, {}, wrapper_tag: nil) %>
         </span>
       </div>
