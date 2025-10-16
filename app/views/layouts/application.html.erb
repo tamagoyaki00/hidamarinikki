@@ -58,7 +58,9 @@
     <% if user_signed_in? %>
       <%= render 'shared/header' %>
     <% end %>
-    <%= render 'shared/flash_message' %>
+    <div id="flash">
+      <%= render 'shared/flash_message' %>
+    </div>
     <main class="min-h-screen pb-20">
       <%= yield %>
     </main>

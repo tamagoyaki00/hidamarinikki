@@ -1,6 +1,6 @@
 class DiariesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_diary, only: %i[ edit update destroy]
+  before_action :set_diary, only: %i[ edit update destroy ai_comment]
 
   def my_diaries
     @q = current_user.diaries.ransack(params[:q])
@@ -32,6 +32,7 @@ class DiariesController < ApplicationController
     @diary_form = DiaryForm.new(diary_form_params)
     @diary_form.user_id = current_user.id
 
+
     if @diary_form.save
     new_happiness_count = @diary_form.happiness_count
 
@@ -47,47 +48,11 @@ class DiariesController < ApplicationController
       }
       end
 
-      # AIコメントを生成
-      contents_text = @diary_form.valid_happiness_items.join("\n")
-      diary_streak = current_user.diary_streak
+            flash[:ai_comment] = "日記投稿ありがとう！<br>" \
+                     "<span class='loading loading-spinner'></span> コメント生成中..."
+      @diary = @diary_form.diary
 
-      # 継続日数に応じた応援メッセージの指示を生成
-      cheering_instruction = case diary_streak
-      when 1
-                              "継続日数1日目です。「今日から素敵な習慣の始まりですね！」のように、新しいスタートを祝福する言葉を必ず添えてください。"
-      when 2..10
-                              "ユーザーは現在#{diary_streak}日連続で日記を続けています。「この調子で、ポジティブ習慣を身につけましょう！」のように、今後も続けやすいように温かい言葉で褒めてください。"
-      else
-                              "ユーザーは現在#{diary_streak}日連続で日記を続けています。「#{diary_streak}日も続いていて素晴らしい習慣ですね！」のように、習慣化してきた努力を称賛してください。"
-      end
-
-      # 全体のシステムプロンプトを組み立て
-      system_prompt = <<~PROMPT
-        あなたはユーザーの毎日の日記を応援するAIパートナーです。あなたの役割は寄り添いとモチベーションアップです。
-        日記に書かれている出来事を一つ一つ取り上げるのではなく、日記全体から感じられるポジティブな雰囲気に対して、温かい感想を一言で返してください。
-        ユーザーが感じた幸せな気持ちや、自分を褒めている素敵な行動に共感を示しましょう。
-        否定的な言葉は使わないでください。
-        #{cheering_instruction}
-        出力は日本語で、必ず100文字以内に収めてください。
-        漢字を使う場合は旧字体や異体字は使わず、常用漢字で自然な表記にしてください。
-      PROMPT
-
-      client = OpenAI::Client.new(access_token: ENV["OPENAI_API_KEY"])
-      response = client.chat(
-        parameters: {
-          model: "gpt-5-mini",
-          messages: [
-            { role: "system", content: system_prompt },
-            { role: "user", content: contents_text }
-          ],
-          temperature: 1
-        }
-      )
-
-      ai_comment = response.dig("choices", 0, "message", "content")
-      flash[:ai_comment] = "日記投稿ありがとう！\n#{ai_comment}"
-
-      redirect_to home_path
+      redirect_to home_path(from: "create", diary_id: @diary_form.diary.id)
     else
       render :new, status: :unprocessable_entity
     end
@@ -115,32 +80,10 @@ class DiariesController < ApplicationController
         }
       end
 
-      # AIコメントを生成
-      contents_text = @diary_form.valid_happiness_items.join("\n")
+      flash[:ai_comment] = "日記更新ありがとう！<br>" \
+                     "<span class='loading loading-spinner'></span> コメント生成中..."
 
-      client = OpenAI::Client.new(access_token: ENV["OPENAI_API_KEY"])
-      response = client.chat(
-        parameters: {
-          model: "gpt-5-mini",
-          messages: [
-            { role: "system", content: "あなたはユーザーの毎日の日記を応援するAIパートナーです。
-            あなたの役割は寄り添いと、モチベーションアップです。
-            日記に書かれている出来事を一つ一つ取り上げるのではなく、日記全体から感じられるポジティブな雰囲気に対して、温かい感想を一言で返してください。
-            ユーザーが感じた幸せな気持ちや、自分を褒めている素敵な行動に共感を示しましょう。
-            否定的な言葉は使わないでください。
-            出力は日本語で、必ず100文字以内に収めてください。
-            漢字を使う場合は旧字体や異体字は使わず、常用漢字で自然な表記にしてください。" },
-            { role: "user", content: contents_text }
-          ],
-          temperature: 1
-        }
-      )
-
-      ai_comment = response.dig("choices", 0, "message", "content")
-      flash[:ai_comment] = "日記更新ありがとう！\n#{ai_comment}"
-
-
-      redirect_to home_path
+      redirect_to home_path(from: "update", diary_id: @diary.id)
     else
       render :edit, status: :unprocessable_entity
     end
@@ -155,6 +98,75 @@ class DiariesController < ApplicationController
     @tags = Tag.where("name like ?", "%#{params[:q]}%").limit(10)
     respond_to do |format|
       format.js
+    end
+  end
+
+  def ai_comment
+    contents_text = @diary.diary_contents.map(&:body).join("\n")
+
+    # 投稿か更新かを判定（例: params[:from] に "create" or "update" を渡す）
+    if params[:from] == "create"
+      diary_streak = @diary.user.diary_streak
+
+      cheering_instruction = case diary_streak
+      when 1
+                              "継続日数1日目です。「今日から素敵な習慣の始まりですね！」のように、新しいスタートを祝福する言葉を必ず添えてください。"
+      when 2..10
+                              "ユーザーは現在#{diary_streak}日連続で日記を続けています。「この調子で、ポジティブ習慣を身につけましょう！」のように、今後も続けやすいように温かい言葉で褒めてください。"
+      else
+                              "ユーザーは現在#{diary_streak}日連続で日記を続けています。「#{diary_streak}日も続いていて素晴らしい習慣ですね！」のように、習慣化してきた努力を称賛してください。"
+      end
+
+      system_prompt = <<~PROMPT
+        あなたはユーザーの毎日の日記を応援するAIパートナーです。あなたの役割は寄り添いとモチベーションアップです。
+        日記に書かれている出来事を一つ一つ取り上げるのではなく、日記全体から感じられるポジティブな雰囲気に対して、温かい感想を一言で返してください。
+        ユーザーが感じた幸せな気持ちや、自分を褒めている素敵な行動に共感を示しましょう。
+        否定的な言葉は使わないでください。
+        #{cheering_instruction}
+        出力は日本語で、必ず100文字以内に収めてください。
+        漢字を使う場合は旧字体や異体字は使わず、常用漢字で自然な表記にしてください。
+      PROMPT
+
+      client = OpenAI::Client.new(access_token: ENV["OPENAI_API_KEY"])
+      response = client.chat(
+        parameters: {
+          model: "gpt-5-mini",
+          messages: [
+            { role: "system", content: system_prompt },
+            { role: "user", content: contents_text }
+          ],
+          temperature: 1
+        }
+      )
+
+      ai_comment = response.dig("choices", 0, "message", "content")
+      flash.now[:ai_comment] = "日記投稿ありがとう！\n#{ai_comment}"
+
+    else # 更新後
+      client = OpenAI::Client.new(access_token: ENV["OPENAI_API_KEY"])
+      response = client.chat(
+        parameters: {
+          model: "gpt-5-mini",
+          messages: [
+            { role: "system", content: "あなたはユーザーの毎日の日記を応援するAIパートナーです。
+              あなたの役割は寄り添いと、モチベーションアップです。
+              日記に書かれている出来事を一つ一つ取り上げるのではなく、日記全体から感じられるポジティブな雰囲気に対して、温かい感想を一言で返してください。
+              ユーザーが感じた幸せな気持ちや、自分を褒めている素敵な行動に共感を示しましょう。
+              否定的な言葉は使わないでください。
+              出力は日本語で、必ず100文字以内に収めてください。
+              漢字を使う場合は旧字体や異体字は使わず、常用漢字で自然な表記にしてください。" },
+            { role: "user", content: contents_text }
+          ],
+          temperature: 1
+        }
+      )
+
+      ai_comment = response.dig("choices", 0, "message", "content")
+      flash.now[:ai_comment] = "日記更新ありがとう！\n#{ai_comment}"
+    end
+
+    respond_to do |format|
+      format.turbo_stream
     end
   end
 

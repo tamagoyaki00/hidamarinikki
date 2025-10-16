@@ -19,8 +19,9 @@ class DiaryForm
   validates :tag_names, blocked_words: true
 
 
-
   attr_accessor :existing_photos
+  attr_reader :diary
+
 
   # 最低1つは入力必須
   validate :at_least_one_happiness_present
@@ -84,9 +85,9 @@ class DiaryForm
     return false unless valid?
 
     ActiveRecord::Base.transaction do
-      diary = create_diary
-      create_diary_contents(diary)
-      create_tags(diary)
+      @diary = create_diary
+      create_diary_contents(@diary)
+      create_tags(@diary)
     end
 
     true
