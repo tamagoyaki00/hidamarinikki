@@ -1,31 +1,42 @@
 <% flash.each do |type, message| %>
-  <div class="fixed top-2 z-50 left-1/2 -translate-x-1/2 rounded-full transform transition-transform duration-500 ease-in-out pointer-events-auto"
+  <div class="fixed top-2 z-50 left-1/2 -translate-x-1/2 flex justify-center w-full pointer-events-none"
        data-controller="flash-message"
        data-action="animationend->flash-message#remove"
        data-flash-message-target="container"
-        data-flash-message-type-value="<%= type.to_s %>">
+       data-flash-message-type-value="<%= type.to_s %>">
 
-    <div class="flex items-center">
-      <% if type == 'notice'%>
-        <div role="alert" class="alert alert-success">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <span class="ml-1 flex-grow"><%= message %></span>
-        </div>
-      <% elsif type == 'alert'%>
-        <div role="alert" class="alert alert-error">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <span class="ml-1 flex-grow"><%= message %></span>
-        </div>
-      <% elsif type == 'ai_comment'%>
-        <div role="alert" class="alert alert-success">
-          <%= image_tag "himawari.svg", alt: "ロゴ", class: "h-12 w-12 md:h-16 w-16 animate-bounce" %>
-          <span class="ml-1 flex-grow"><%= simple_format(message, {}, wrapper_tag: nil) %></span>
-        </div>
-      <% end %>
-    </div>
+    <% if type == 'notice' %>
+      <div role="alert" class="alert alert-success inline-flex items-center
+                              min-w-[200px] max-w-[90vw] md:max-w-md lg:max-w-lg
+                              pointer-events-auto">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span class="ml-1 flex-grow break-words text-sm md:text-base"><%= message %></span>
+      </div>
+
+    <% elsif type == 'alert' %>
+      <div role="alert" class="alert alert-error inline-flex items-center
+                              min-w-[200px] max-w-[90vw] md:max-w-md lg:max-w-lg
+                              pointer-events-auto">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span class="ml-1 flex-grow break-words text-sm md:text-base"><%= message %></span>
+      </div>
+
+    <% elsif type == 'ai_comment' %>
+      <div role="alert" class="alert alert-success inline-flex items-center
+                              min-w-[200px] max-w-[90vw] md:max-w-md lg:max-w-lg
+                              pointer-events-auto">
+        <%= image_tag "himawari.svg", alt: "ロゴ", class: "h-12 w-12 md:h-16 w-16 animate-bounce mr-2" %>
+        <span class="ml-1 flex-grow break-words text-sm md:text-base">
+          <%= simple_format(message, {}, wrapper_tag: nil) %>
+        </span>
+      </div>
+    <% end %>
+
   </div>
 <% end %>
