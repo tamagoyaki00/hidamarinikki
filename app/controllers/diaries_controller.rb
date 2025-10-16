@@ -109,13 +109,13 @@ class DiariesController < ApplicationController
       diary_streak = @diary.user.diary_streak
 
       cheering_instruction = case diary_streak
-                            when 1
+      when 1
                               "継続日数1日目です。「今日から素敵な習慣の始まりですね！」のように、新しいスタートを祝福する言葉を必ず添えてください。"
-                            when 2..10
+      when 2..10
                               "ユーザーは現在#{diary_streak}日連続で日記を続けています。「この調子で、ポジティブ習慣を身につけましょう！」のように、今後も続けやすいように温かい言葉で褒めてください。"
-                            else
+      else
                               "ユーザーは現在#{diary_streak}日連続で日記を続けています。「#{diary_streak}日も続いていて素晴らしい習慣ですね！」のように、習慣化してきた努力を称賛してください。"
-                            end
+      end
 
       system_prompt = <<~PROMPT
         あなたはユーザーの毎日の日記を応援するAIパートナーです。あなたの役割は寄り添いとモチベーションアップです。
@@ -168,7 +168,6 @@ class DiariesController < ApplicationController
     respond_to do |format|
       format.turbo_stream
     end
-
   end
 
   private
