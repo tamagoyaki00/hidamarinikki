@@ -48,7 +48,8 @@ class DiariesController < ApplicationController
       }
       end
 
-      flash[:notice] = "日記投稿ありがとう！"
+            flash[:ai_comment] = "日記投稿ありがとう！<br>" \
+                     "<span class='loading loading-spinner'></span> コメント生成中..."
       @diary = @diary_form.diary
 
       redirect_to home_path(from: "create", diary_id: @diary_form.diary.id)
@@ -79,7 +80,9 @@ class DiariesController < ApplicationController
         }
       end
 
-      flash[:notice] = "日記更新ありがとう！"
+      flash[:ai_comment] = "日記更新ありがとう！<br>" \
+                     "<span class='loading loading-spinner'></span> コメント生成中..."
+
       redirect_to home_path(from: "update", diary_id: @diary.id)
     else
       render :edit, status: :unprocessable_entity
@@ -127,7 +130,7 @@ class DiariesController < ApplicationController
       client = OpenAI::Client.new(access_token: ENV["OPENAI_API_KEY"])
       response = client.chat(
         parameters: {
-          model: "gpt-5-nano",
+          model: "gpt-5-mini",
           messages: [
             { role: "system", content: system_prompt },
             { role: "user", content: contents_text }
