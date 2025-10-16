@@ -7,7 +7,12 @@
     <% end %>
   </div>
 
-  <div class="flex flex-col items-center justify-center p-4">
+  <div class="flex flex-col items-center justify-center p-4"
+     data-controller="ai-comment"
+     data-ai-comment-diary-id-value="<%= params[:diary_id] %>"
+     data-ai-comment-from-value="<%= params[:from] %>">
+
+
     <h1 class="text-2xl font-bold mb-2">幸せ瓶</h1>
 
     <div id="happiness-jar-container" 
