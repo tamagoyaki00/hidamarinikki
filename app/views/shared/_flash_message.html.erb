@@ -1,8 +1,10 @@
 <% flash.each do |type, message| %>
-  <div class="fixed top-2 z-50 left-1/2 -translate-x-1/2 rounded-full <% if type == 'notice' %>alert-success<% elsif type == 'alert' %>alert-error<% else %>alert-info<% end %> transform transition-transform duration-500 ease-in-out pointer-events-auto"
+  <div class="fixed top-2 z-50 left-1/2 -translate-x-1/2 rounded-full transform transition-transform duration-500 ease-in-out pointer-events-auto"
        data-controller="flash-message"
        data-action="animationend->flash-message#remove"
-       data-flash-message-target="container">
+       data-flash-message-target="container"
+        data-flash-message-type-value="<%= type.to_s %>">
+
     <div class="flex items-center">
       <% if type == 'notice'%>
         <div role="alert" class="alert alert-success">
@@ -17,6 +19,11 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           <span class="ml-1 flex-grow"><%= message %></span>
+        </div>
+      <% elsif type == 'ai_comment'%>
+        <div role="alert" class="alert alert-success">
+          <%= image_tag "himawari.svg", alt: "ロゴ", class: "h-12 w-12 md:h-16 w-16 animate-bounce" %>
+          <span class="ml-1 flex-grow"><%= simple_format(message, {}, wrapper_tag: nil) %></span>
         </div>
       <% end %>
     </div>

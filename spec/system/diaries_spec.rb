@@ -72,13 +72,14 @@ RSpec.describe 'Diaries', type: :system do
 
 
       context '入力内容が正しい場合' do
-        it 'ホームページにリダイレクトされること' do
+        it 'ホームページにリダイレクトされること', openai: true do
           fill_in 'item_1', with: '楽しかったこと1'
           fill_in 'item_2', with: '楽しかったこと2'
           fill_in 'item_3', with: '楽しかったこと3'
           fill_in 'diary_form[tag_names]', with: '日常, 幸せ'
           click_button '投稿する'
-          expect(page).to have_content '日記を投稿しました'
+          expect(page).to have_content '日記投稿ありがとう！'
+          expect(page).to have_content 'テスト用AIコメント'
           expect(page).to have_current_path home_path
         end
       end
@@ -205,12 +206,13 @@ RSpec.describe 'Diaries', type: :system do
         expect(find_field('diary_form_tag_names').value).to eq 'テストタグ' # タグ
       end
 
-      it '正常に編集できること' do
+      it '正常に編集できること', openai: true do
         visit edit_diary_path(my_diary)
         fill_in 'item_1', with: '更新後の内容'
         click_button '更新'
 
-        expect(page).to have_content '日記を更新しました'
+        expect(page).to have_content '日記更新ありがとう！'
+        expect(page).to have_content 'テスト用AIコメント'
         expect(page).to have_current_path home_path
         click_link 'マイ日記'
         expect(page).to have_content '更新後の内容'

@@ -75,3 +75,5 @@ gem "aws-sdk-s3", require: false
 gem "ransack"
 
 gem "whenever", require: false
+
+gem "ruby-openai"
