@@ -20,6 +20,10 @@ Rails.application.routes.draw do
     collection do
       get :autocomplete
     end
+
+    member do
+      get :ai_comment
+    end
   end
 
   get "my_diaries", to: "diaries#my_diaries", as: :my_diaries
