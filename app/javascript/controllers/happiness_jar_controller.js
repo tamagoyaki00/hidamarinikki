@@ -149,7 +149,7 @@ export default class extends Controller {
     }
 
     if (selectedImg) {
-      const size = 50
+      const size = 40
       const scaleX = selectedImg.width ? (size / selectedImg.width) : 0.06
       const scaleY = selectedImg.height ? (size / selectedImg.height) : 0.06
       const happiness = Matter.Bodies.circle(pos.x, pos.y, size / 2, {
@@ -204,7 +204,7 @@ export default class extends Controller {
     const selectedImg = (this.images && this.images.length > 0) ? this.images[itemIndex % this.images.length] : null
 
     if (selectedImg) {
-      const size = 50
+      const size = 40
       const scaleX = selectedImg.width ? (size / selectedImg.width) : 0.06
       const scaleY = selectedImg.height ? (size / selectedImg.height) : 0.06
       const happiness = Matter.Bodies.circle(150, 50, size / 2, {
@@ -233,5 +233,20 @@ export default class extends Controller {
     })
     Matter.World.add(this.engine.world, fallback)
     this.happinessList.push(fallback)
+  }
+
+
+  checkIfFull(body) {
+    const height = this.render.options.height
+    const fullThresholdY = height * 0.1
+
+    if (body.position.y <= fullThresholdY) {
+      this.onJarFull()
+    }
+  }
+
+  onJarFull() {
+    console.log("Happiness jar is full!")
+    // 🎉 ここでお祝い演出を呼び出す
   }
 }
