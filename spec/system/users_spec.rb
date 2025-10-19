@@ -123,7 +123,7 @@ RSpec.describe "Users", type: :system do
         create(:diary, user:, happiness_count: 119) # レベル0
         visit user_path(user)
 
-        expect(page).not_to have_content '幸せコレクターレベル'
+        expect(page).not_to have_content '幸せコレクター'
         expect(page).to have_css '.level-1.opacity-30'
         expect(page).to have_css '.level-5.opacity-30'
         expect(page).to have_css '.level-15.opacity-30'
