@@ -10,12 +10,20 @@
     <% end %>
   </div>
 
+  <div class= "text-center mt-4">
+    <% if @user.happiness_level.to_i > 0 %>
+      <span class="ml-2 text-base text-primary font-semibold">
+        幸せコレクター Lv<%= @user.happiness_level %>
+      </span>
+    <% end %>
+  </div>
+
   <!-- ユーザー名 -->
   <div class="w-full mt-8">
     <h3 class="font-medium mb-2">ユーザー名</h3>
-    <!-- `p`タグにも input クラスを適用 -->
     <p class="input input-bordered w-full bg-base-200 flex items-center h-12"><%= @user.name %></p>
   </div>
+
 
   <!-- 自己紹介 -->
   <% if @user.introduction.present? %>
@@ -30,6 +38,33 @@
     <% if current_user == @user %>
         <%= link_to "編集", edit_user_registration_path, class: "btn btn-primary px-10" %>
     <% end %>
+    </div>
+
+    <div class="divider mt-16"></div>
+
+
+    <!-- バッジ一覧 -->
+    <div class="w-full mt-8">
+      <h3 class="font-medium mb-4">バッジ一覧</h3>
+      <div class="grid grid-cols-3 gap-6 justify-items-center">
+        <% badges = [
+          { level: 1, image: "level1.svg" },
+          { level: 5, image: "level5.svg" },
+          { level: 15, image: "level15.png" }
+        ] %>
+
+        <% badges.each do |badge| %>
+          <div class="flex flex-col items-center">
+            <% if @user.happiness_level >= badge[:level] %>
+              <%= image_tag badge[:image], class: "w-24 h-24 level-#{badge[:level]}" %>
+              <span class="mt-2 text-sm">Lv<%= badge[:level] %></span>
+            <% else %>
+              <%= image_tag badge[:image], class: "w-24 h-24 opacity-30 level-#{badge[:level]}" %>
+              <span class="mt-2 text-sm text-gray-400">Lv<%= badge[:level] %></span>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
     </div>
 
     <div class="divider mt-16"></div>

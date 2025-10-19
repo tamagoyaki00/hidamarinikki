@@ -58,6 +58,11 @@ class User < ApplicationRecord
     diaries.sum(:happiness_count)
   end
 
+  def happiness_level
+    total_happiness_count / 120
+  end
+
+
   def remember_me
     true
   end

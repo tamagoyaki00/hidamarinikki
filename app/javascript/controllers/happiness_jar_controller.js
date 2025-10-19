@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import confetti from "canvas-confetti"
 
 export default class extends Controller {
   static values = {
@@ -10,6 +11,8 @@ export default class extends Controller {
   }
 
   connect() {
+    this.overflowQueue = []
+
     const canvas = this.element.querySelector("#happiness-canvas")
     if (!canvas) return
 
@@ -107,16 +110,31 @@ export default class extends Controller {
       this.handleDecreaseAnimation(prev, count)
     }
   }
+  
+  capacity = 120
+
 
   // 追加アニメーション
   handleIncreaseAnimation(previousTotal, animationCount) {
     for (let i = 0; i < animationCount; i++) {
       setTimeout(() => {
         const itemIndex = previousTotal + i
-        this.addAnimatedHappiness(itemIndex)
+
+        // まだ満杯でないなら通常追加
+        if (this.happinessList.length < this.capacity) {
+          this.addAnimatedHappiness(itemIndex)
+
+          if (this.happinessList.length >= this.capacity) {
+            this.onJarFull()
+          }
+        } else {
+          // 満杯ならオーバーフロー分をキューへ
+          this.overflowQueue.push(itemIndex)
+        }
       }, i * 350)
     }
   }
+
 
   // 削除アニメーション
   handleDecreaseAnimation(previousTotal, animationCount) {
@@ -149,7 +167,7 @@ export default class extends Controller {
     }
 
     if (selectedImg) {
-      const size = 50
+      const size = 45
       const scaleX = selectedImg.width ? (size / selectedImg.width) : 0.06
       const scaleY = selectedImg.height ? (size / selectedImg.height) : 0.06
       const happiness = Matter.Bodies.circle(pos.x, pos.y, size / 2, {
@@ -183,7 +201,7 @@ export default class extends Controller {
   }
   // 静的表示の位置計算
   calculateStaticPosition(itemIndex) {
-    const cols = 4
+    const cols = 7
     const row = Math.floor(itemIndex / cols)
     const col = itemIndex % cols
 
@@ -204,7 +222,7 @@ export default class extends Controller {
     const selectedImg = (this.images && this.images.length > 0) ? this.images[itemIndex % this.images.length] : null
 
     if (selectedImg) {
-      const size = 50
+      const size = 45
       const scaleX = selectedImg.width ? (size / selectedImg.width) : 0.06
       const scaleY = selectedImg.height ? (size / selectedImg.height) : 0.06
       const happiness = Matter.Bodies.circle(150, 50, size / 2, {
@@ -222,7 +240,7 @@ export default class extends Controller {
       happiness.itemIndex = itemIndex
       Matter.World.add(this.engine.world, happiness)
       this.happinessList.push(happiness)
-      return
+      return happiness
     }
 
     // fallback
@@ -233,5 +251,79 @@ export default class extends Controller {
     })
     Matter.World.add(this.engine.world, fallback)
     this.happinessList.push(fallback)
+    return fallback
   }
+
+
+  onJarFull() {
+    // コンフェッティ
+    confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } })
+
+    // モーダルを表示
+    const modalToggle = document.getElementById("full-jar-modal")
+    if (modalToggle) modalToggle.checked = true
+
+    // フォールバック: 15秒後に自動で新しい瓶へ
+    this.autoReplaceTimer = setTimeout(() => {
+      this.replaceWithNewBottle()
+      if (modalToggle) modalToggle.checked = false
+    }, 15000)
+
+    // 「次の瓶へ」ボタンにイベントを付与
+    const button = document.getElementById("next-jar-button")
+    if (button) {
+      button.addEventListener("click", () => {
+        clearTimeout(this.autoReplaceTimer) // 自動遷移をキャンセル
+        this.replaceWithNewBottle()
+        if (modalToggle) modalToggle.checked = false // ← モーダルを閉じる
+      }, { once: true }) // ← 複数回バインド防止
+    }
+  }
+
+
+
+  replaceWithNewBottle() {
+    // Matter.js のワールドをクリア
+    Matter.World.clear(this.engine.world, false)
+    Matter.Engine.clear(this.engine)
+
+    // 古い瓶を削除
+    const oldBottle = document.getElementById("bottle-container")
+    if (oldBottle) {
+      oldBottle.remove()
+    }
+
+    // 新しい瓶を DOM に追加
+    const container = this.element.querySelector(".w-full.flex.justify-center")
+    const newBottle = document.createElement("div")
+    newBottle.id = "bottle-container"
+    newBottle.className = "relative w-[300px] h-[450px] border-2 border-accent rounded-md bg-base-200 bg-opacity-70 shadow-lg overflow-hidden"
+
+    const newCanvas = document.createElement("canvas")
+    newCanvas.id = "happiness-canvas"
+    newCanvas.width = 300
+    newCanvas.height = 450
+    newCanvas.style = "position: absolute; top: 0; left: 0; z-index: 1;"
+
+    newBottle.appendChild(newCanvas)
+    container.appendChild(newBottle)
+
+    // Matter.js を新しいキャンバスで再初期化
+    this.happinessList = []
+    this.setupMatterJS(newCanvas)
+
+    // ★ キューに溜まっていた分を新瓶へ流し込む
+    const carry = [...this.overflowQueue]
+    this.overflowQueue = []
+
+    carry.forEach((itemIndex, idx) => {
+      setTimeout(() => {
+        this.addAnimatedHappiness(itemIndex)
+        if (this.happinessList.length >= this.capacity) {
+          this.onJarFull()
+        }
+      }, idx * 350)
+    })
+  }
+
 }
