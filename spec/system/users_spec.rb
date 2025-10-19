@@ -94,6 +94,63 @@ RSpec.describe "Users", type: :system do
     end
   end
 
+  describe 'ユーザー詳細画面に関すること' do
+    let(:user) { create(:user) }
+
+    before do
+      visit user_path(user)
+    end
+
+    it '未ログイン状態でも画面にアクセスができること' do
+      expect(page).to have_content 'プロフィール'
+    end
+
+    it '未ログイン時は編集ボタンは表示されないこと' do
+      expect(page).to have_content 'プロフィール'
+      expect(page).to have_content 'ユーザー名'
+      expect(page).to have_content '自己紹介'
+      expect(page).not_to have_link '編集'
+      expect(page).to have_content 'バッジ一覧'
+      expect(page).to have_link 'アカウントを削除'
+    end
+
+    context 'レベルに応じて表示が変更されること' do
+      before do
+        login_as(user)
+      end
+  
+      it 'レベル0のときは幸せコレクターレベルが表示されず、バッジも薄いまま表示されること' do
+        create(:diary, user:, happiness_count: 119) # レベル0
+        visit user_path(user)
+
+        expect(page).not_to have_content '幸せコレクターレベル'
+        expect(page).to have_css'.level-1.opacity-30'
+        expect(page).to have_css'.level-5.opacity-30'
+        expect(page).to have_css'.level-15.opacity-30'
+      end
+
+      it 'レベル1のときは幸せコレクターレベルが表示され、バッジも表示されること' do
+        create(:diary, user:, happiness_count: 120) # レベル1
+        visit user_path(user)
+
+        expect(page).to have_content '幸せコレクター Lv1'
+        expect(page).to have_css'.level-1'
+        expect(page).to have_css'.level-5.opacity-30'
+        expect(page).to have_css'.level-15.opacity-30'
+      end
+
+      it 'レベル15のときは幸せコレクターレベルが表示され、すべてのバッジも表示されること' do
+        create(:diary, user:, happiness_count: 1800) # レベル15
+        visit user_path(user)
+
+        expect(page).to have_content '幸せコレクター Lv15'
+        expect(page).to have_css'.level-1'
+        expect(page).to have_css'.level-5'
+        expect(page).to have_css'.level-15'
+      end
+    end
+  end
+
   describe 'ユーザー編集に関すること' do
     let(:user) { create(:user) }
 
