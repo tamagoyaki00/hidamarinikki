@@ -11,6 +11,8 @@ export default class extends Controller {
   }
 
   connect() {
+    this.overflowQueue = []
+
     const canvas = this.element.querySelector("#happiness-canvas")
     if (!canvas) return
 
@@ -111,18 +113,28 @@ export default class extends Controller {
   
   capacity = 120
 
+
   // 追加アニメーション
   handleIncreaseAnimation(previousTotal, animationCount) {
     for (let i = 0; i < animationCount; i++) {
       setTimeout(() => {
         const itemIndex = previousTotal + i
-        this.addAnimatedHappiness(itemIndex)
-              if (this.happinessList.length >= this.capacity) {
-        this.onJarFull()
+
+        // まだ満杯でないなら通常追加
+        if (this.happinessList.length < this.capacity) {
+          this.addAnimatedHappiness(itemIndex)
+
+          if (this.happinessList.length >= this.capacity) {
+            this.onJarFull()
+          }
+        } else {
+          // 満杯ならオーバーフロー分をキューへ
+          this.overflowQueue.push(itemIndex)
         }
       }, i * 350)
     }
   }
+
 
   // 削除アニメーション
   handleDecreaseAnimation(previousTotal, animationCount) {
@@ -155,7 +167,7 @@ export default class extends Controller {
     }
 
     if (selectedImg) {
-      const size = 40
+      const size = 45
       const scaleX = selectedImg.width ? (size / selectedImg.width) : 0.06
       const scaleY = selectedImg.height ? (size / selectedImg.height) : 0.06
       const happiness = Matter.Bodies.circle(pos.x, pos.y, size / 2, {
@@ -189,7 +201,7 @@ export default class extends Controller {
   }
   // 静的表示の位置計算
   calculateStaticPosition(itemIndex) {
-    const cols = 4
+    const cols = 7
     const row = Math.floor(itemIndex / cols)
     const col = itemIndex % cols
 
@@ -210,7 +222,7 @@ export default class extends Controller {
     const selectedImg = (this.images && this.images.length > 0) ? this.images[itemIndex % this.images.length] : null
 
     if (selectedImg) {
-      const size = 40
+      const size = 45
       const scaleX = selectedImg.width ? (size / selectedImg.width) : 0.06
       const scaleY = selectedImg.height ? (size / selectedImg.height) : 0.06
       const happiness = Matter.Bodies.circle(150, 50, size / 2, {
@@ -228,7 +240,7 @@ export default class extends Controller {
       happiness.itemIndex = itemIndex
       Matter.World.add(this.engine.world, happiness)
       this.happinessList.push(happiness)
-      return
+      return happiness
     }
 
     // fallback
@@ -298,9 +310,20 @@ export default class extends Controller {
 
     // Matter.js を新しいキャンバスで再初期化
     this.happinessList = []
-
     this.setupMatterJS(newCanvas)
-  }
 
+    // ★ キューに溜まっていた分を新瓶へ流し込む
+    const carry = [...this.overflowQueue]
+    this.overflowQueue = []
+
+    carry.forEach((itemIndex, idx) => {
+      setTimeout(() => {
+        this.addAnimatedHappiness(itemIndex)
+        if (this.happinessList.length >= this.capacity) {
+          this.onJarFull()
+        }
+      }, idx * 350)
+    })
+  }
 
 }
