@@ -119,6 +119,23 @@ RSpec.describe User, type: :model do
       end
     end
 
+    describe "#happiness_level" do
+      it 'total_happiness_countが120未満のときは0を返すこと' do
+        diary1 = create(:diary, user:, happiness_count: 119)
+        expect(user.happiness_level).to eq 0
+      end
+
+      it 'total_happiness_countが120のときは1を返すこと' do
+        diary1 = create(:diary, user:, happiness_count: 120)
+        expect(user.happiness_level).to eq 1
+      end
+
+      it 'total_happiness_countが240のときは2を返すこと' do
+        diary1 = create(:diary, user:, happiness_count: 240)
+        expect(user.happiness_level).to eq 2
+      end
+    end
+
 
     describe 'ユーザー削除時' do
       it 'ユーザー削除時に関連する日記も削除されること' do
