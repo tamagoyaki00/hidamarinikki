@@ -108,6 +108,8 @@ export default class extends Controller {
       this.handleDecreaseAnimation(prev, count)
     }
   }
+  
+  capacity = 120
 
   // 追加アニメーション
   handleIncreaseAnimation(previousTotal, animationCount) {
@@ -115,6 +117,9 @@ export default class extends Controller {
       setTimeout(() => {
         const itemIndex = previousTotal + i
         this.addAnimatedHappiness(itemIndex)
+              if (this.happinessList.length >= this.capacity) {
+        this.onJarFull()
+        }
       }, i * 350)
     }
   }
