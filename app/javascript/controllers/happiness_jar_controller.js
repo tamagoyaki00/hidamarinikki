@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import confetti from "canvas-confetti"
 
 export default class extends Controller {
   static values = {
@@ -233,20 +234,68 @@ export default class extends Controller {
     })
     Matter.World.add(this.engine.world, fallback)
     this.happinessList.push(fallback)
+    return fallback
   }
 
 
-  checkIfFull(body) {
-    const height = this.render.options.height
-    const fullThresholdY = height * 0.1
+  onJarFull() {
+    // コンフェッティ
+    confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } })
 
-    if (body.position.y <= fullThresholdY) {
-      this.onJarFull()
+    // モーダルを表示
+    const modalToggle = document.getElementById("full-jar-modal")
+    if (modalToggle) modalToggle.checked = true
+
+    // フォールバック: 15秒後に自動で新しい瓶へ
+    this.autoReplaceTimer = setTimeout(() => {
+      this.replaceWithNewBottle()
+      if (modalToggle) modalToggle.checked = false
+    }, 15000)
+
+    // 「次の瓶へ」ボタンにイベントを付与
+    const button = document.getElementById("next-jar-button")
+    if (button) {
+      button.addEventListener("click", () => {
+        clearTimeout(this.autoReplaceTimer) // 自動遷移をキャンセル
+        this.replaceWithNewBottle()
+        if (modalToggle) modalToggle.checked = false // ← モーダルを閉じる
+      }, { once: true }) // ← 複数回バインド防止
     }
   }
 
-  onJarFull() {
-    console.log("Happiness jar is full!")
-    // 🎉 ここでお祝い演出を呼び出す
+
+
+  replaceWithNewBottle() {
+    // Matter.js のワールドをクリア
+    Matter.World.clear(this.engine.world, false)
+    Matter.Engine.clear(this.engine)
+
+    // 古い瓶を削除
+    const oldBottle = document.getElementById("bottle-container")
+    if (oldBottle) {
+      oldBottle.remove()
+    }
+
+    // 新しい瓶を DOM に追加
+    const container = this.element.querySelector(".w-full.flex.justify-center")
+    const newBottle = document.createElement("div")
+    newBottle.id = "bottle-container"
+    newBottle.className = "relative w-[300px] h-[450px] border-2 border-accent rounded-md bg-base-200 bg-opacity-70 shadow-lg overflow-hidden"
+
+    const newCanvas = document.createElement("canvas")
+    newCanvas.id = "happiness-canvas"
+    newCanvas.width = 300
+    newCanvas.height = 450
+    newCanvas.style = "position: absolute; top: 0; left: 0; z-index: 1;"
+
+    newBottle.appendChild(newCanvas)
+    container.appendChild(newBottle)
+
+    // Matter.js を新しいキャンバスで再初期化
+    this.happinessList = []
+
+    this.setupMatterJS(newCanvas)
   }
+
+
 }
