@@ -56,10 +56,10 @@
         <% badges.each do |badge| %>
           <div class="flex flex-col items-center">
             <% if @user.happiness_level >= badge[:level] %>
-              <%= image_tag badge[:image], class: "w-24 h-24" %>
+              <%= image_tag badge[:image], class: "w-24 h-24 level-#{badge[:level]}" %>
               <span class="mt-2 text-sm">Lv<%= badge[:level] %></span>
             <% else %>
-              <%= image_tag badge[:image], class: "w-24 h-24 opacity-30" %>
+              <%= image_tag badge[:image], class: "w-24 h-24 opacity-30 level-#{badge[:level]}" %>
               <span class="mt-2 text-sm text-gray-400">Lv<%= badge[:level] %></span>
             <% end %>
           </div>
