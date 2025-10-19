@@ -118,15 +118,15 @@ RSpec.describe "Users", type: :system do
       before do
         login_as(user)
       end
-  
+
       it 'レベル0のときは幸せコレクターレベルが表示されず、バッジも薄いまま表示されること' do
         create(:diary, user:, happiness_count: 119) # レベル0
         visit user_path(user)
 
         expect(page).not_to have_content '幸せコレクターレベル'
-        expect(page).to have_css'.level-1.opacity-30'
-        expect(page).to have_css'.level-5.opacity-30'
-        expect(page).to have_css'.level-15.opacity-30'
+        expect(page).to have_css '.level-1.opacity-30'
+        expect(page).to have_css '.level-5.opacity-30'
+        expect(page).to have_css '.level-15.opacity-30'
       end
 
       it 'レベル1のときは幸せコレクターレベルが表示され、バッジも表示されること' do
@@ -134,9 +134,9 @@ RSpec.describe "Users", type: :system do
         visit user_path(user)
 
         expect(page).to have_content '幸せコレクター Lv1'
-        expect(page).to have_css'.level-1'
-        expect(page).to have_css'.level-5.opacity-30'
-        expect(page).to have_css'.level-15.opacity-30'
+        expect(page).to have_css '.level-1'
+        expect(page).to have_css '.level-5.opacity-30'
+        expect(page).to have_css '.level-15.opacity-30'
       end
 
       it 'レベル15のときは幸せコレクターレベルが表示され、すべてのバッジも表示されること' do
@@ -144,9 +144,9 @@ RSpec.describe "Users", type: :system do
         visit user_path(user)
 
         expect(page).to have_content '幸せコレクター Lv15'
-        expect(page).to have_css'.level-1'
-        expect(page).to have_css'.level-5'
-        expect(page).to have_css'.level-15'
+        expect(page).to have_css '.level-1'
+        expect(page).to have_css '.level-5'
+        expect(page).to have_css '.level-15'
       end
     end
   end
