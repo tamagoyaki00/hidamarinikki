@@ -13,7 +13,17 @@
      data-ai-comment-from-value="<%= params[:from] %>">
 
 
-    <h1 class="text-2xl font-bold mb-2">幸せ瓶</h1>
+    <h1 class="text-2xl font-bold mb-2 flex items-center gap-2">
+    幸せ瓶
+    <% if current_user.happiness_level >= 15 %>
+      <%= image_tag "level15.png", class: "w-8 h-8 inline-block" %>
+    <% elsif current_user.happiness_level >= 5 %>
+      <%= image_tag "level5.svg", class: "w-8 h-8 inline-block" %>
+    <% elsif current_user.happiness_level >= 1 %>
+      <%= image_tag "level1.svg", class: "w-8 h-8 inline-block" %>
+    <% end %>
+  </h1>
+
 
     <div id="happiness-jar-container" 
         data-controller="happiness-jar"
