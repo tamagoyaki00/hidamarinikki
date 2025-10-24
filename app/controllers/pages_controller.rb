@@ -4,4 +4,7 @@ class PagesController < ApplicationController
 
   def diary_writing_tips
   end
+
+  def privacy_policy
+  end
 end
