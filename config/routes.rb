@@ -15,7 +15,8 @@ Rails.application.routes.draw do
   get "top", to: "pages#top"
   get "diary/writing_tips", to: "pages#diary_writing_tips"
   get "home", to: "homes#index"
-   get "privacy_policy", to: "pages#privacy_policy"
+  get "privacy_policy", to: "pages#privacy_policy"
+  get "terms_of_service", to: "pages#terms_of_service"
 
   resources :diaries do
     collection do
