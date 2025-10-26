@@ -4,6 +4,7 @@ import confetti from "canvas-confetti"
 export default class extends Controller {
   static values = {
     imageUrls: Array,
+    contents: Array,
     existingCount: Number,
     animationType: String,
     animationCount: Number,
@@ -16,22 +17,26 @@ export default class extends Controller {
     const canvas = this.element.querySelector("#happiness-canvas")
     if (!canvas) return
 
-    const urls = Array.isArray(this.imageUrlsValue) ? this.imageUrlsValue : []
+    const contents = Array.isArray(this.contentsValue) ? this.contentsValue : []
+    const urls = contents.map(c => c.happiness_image)
 
     if (urls.length > 0) {
       this.preloadImages(urls).then(loadedImages => {
         this.images = loadedImages
+        this.contents = contents
         this.setupMatterJS(canvas)
         this.displayExistingHappiness()
         this.handleAnimationOnConnect()
       }).catch(() => {
         this.images = []
+        this.contents = contents
         this.setupMatterJS(canvas)
         this.displayExistingHappiness()
         this.handleAnimationOnConnect()
       })
     } else {
       this.images = []
+      this.contents = contents
       this.setupMatterJS(canvas)
       this.displayExistingHappiness()
       this.handleAnimationOnConnect()
@@ -161,7 +166,9 @@ export default class extends Controller {
   addStaticHappiness(itemIndex) {
     // 位置を計算
     const pos = this.calculateStaticPosition(itemIndex)
-    let selectedImg = null
+    const content = this.contents[itemIndex]
+    let selectedImg = this.images.find(img => img.src === content.happiness_image)
+
     if (this.images && this.images.length > 0) {
       selectedImg = this.images[itemIndex % this.images.length]
     }
@@ -219,7 +226,8 @@ export default class extends Controller {
   // increaseアニメーション用
   addAnimatedHappiness(itemIndex) {
     if (!this.engine) return
-    const selectedImg = (this.images && this.images.length > 0) ? this.images[itemIndex % this.images.length] : null
+    const content = this.contents[itemIndex]
+    const selectedImg = this.images.find(img => img.src.includes(content.happiness_image))
 
     if (selectedImg) {
       const size = 45
@@ -312,7 +320,7 @@ export default class extends Controller {
     this.happinessList = []
     this.setupMatterJS(newCanvas)
 
-    // ★ キューに溜まっていた分を新瓶へ流し込む
+    // キューに溜まっていた分を新瓶へ流し込む
     const carry = [...this.overflowQueue]
     this.overflowQueue = []
 

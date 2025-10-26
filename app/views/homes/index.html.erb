@@ -31,7 +31,9 @@
         data-happiness-jar-animation-type-value="<%= @animation_type %>"
         data-happiness-jar-animation-count-value="<%= @animation_count %>"
         data-happiness-jar-previous-total-value="<%= @previous_total %>"
+        data-happiness-jar-contents-value="<%= @diary_contents.map { |c| { id: c.id, happiness_image: asset_path(c.happiness_image) } }.to_json %>"
         data-happiness-jar-image-urls-value="<%= @happiness_image_urls.to_json %>">
+
 
       <div class="w-full flex justify-center">
         <div id="bottle-container"
