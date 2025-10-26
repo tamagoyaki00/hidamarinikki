@@ -10,4 +10,22 @@ class DiaryContent < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     []
   end
+
+  HAPPINESS_IMAGES = [
+    'green.png',
+    'red.png',
+    'star.png',
+    'heart.png',
+    'clover.png',
+    'orange.png'
+  ].freeze
+
+  before_save :assign_random_happiness_image
+
+  private
+
+  def assign_random_happiness_image
+    self.happiness_image ||= HAPPINESS_IMAGES.sample
+  end
+
 end
