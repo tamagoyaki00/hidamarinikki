@@ -273,13 +273,18 @@ class DiaryForm
   end
 
   def update_diary_contents(diary)
-    diary.diary_contents.destroy_all
+    existing_contents = diary.diary_contents.order(:created_at).to_a
 
-    valid_happiness_items.each do |item|
-      DiaryContent.create!(
-        diary: diary,
-        body: item.strip
-      )
+    valid_happiness_items.each_with_index do |item, index|
+      content = existing_contents[index] || diary.diary_contents.build
+      content.body = item.strip
+      content.save!
+    end
+
+    # 余った古いレコードがあれば削除
+    if existing_contents.size > valid_happiness_items.size
+      extra = existing_contents[valid_happiness_items.size..]
+      extra.each(&:destroy)
     end
   end
 
