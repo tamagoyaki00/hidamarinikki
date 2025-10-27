@@ -34,22 +34,15 @@ class DiariesController < ApplicationController
 
 
     if @diary_form.save
-    new_happiness_count = @diary_form.happiness_count
+    added_ids = @diary_form.diary_contents.map(&:id)
 
-      # 幸せ瓶に入れる幸せの数をカウント
-      if new_happiness_count > 0
-        current_total = current_user.total_happiness_count
-        previous_total = current_total - new_happiness_count
-
+      # 幸せ瓶に入れる幸せの情報
        flash[:happiness_animation] = {
-        type: "increase",
-        count: new_happiness_count,
-        previous_total: previous_total
+        added_ids: added_ids
       }
-      end
 
-            flash[:ai_comment] = "日記投稿ありがとう！<br>" \
-                     "<span class='loading loading-spinner'></span> コメント生成中..."
+      flash[:ai_comment] = "日記投稿ありがとう！<br>" \
+                "<span class='loading loading-spinner'></span> コメント生成中..."
       @diary = @diary_form.diary
 
       redirect_to home_path(from: "create", diary_id: @diary_form.diary.id)
@@ -65,18 +58,17 @@ class DiariesController < ApplicationController
   def update
     @diary_form = DiaryForm.from_diary(@diary)
     @diary_form.assign_attributes(diary_form_params)
-    previous_happiness_count = @diary.diary_contents.count
-    previous_total_happiness = current_user.total_happiness_count
 
     if @diary_form.update(@diary)
-      new_happiness_count = @diary_form.happiness_count
-      happiness_diff = new_happiness_count - previous_happiness_count
+      added_ids   = @diary_form.added_ids
+      deleted_ids = @diary_form.deleted_ids
 
-      if happiness_diff != 0
+      if added_ids.present? || deleted_ids.present?
+
+        # 幸せ瓶に入れる幸せの情報
         flash[:happiness_animation] = {
-          type: happiness_diff > 0 ? "increase" : "decrease",
-          count: happiness_diff.abs,
-          previous_total: previous_total_happiness
+          added_ids: added_ids,
+          deleted_ids: deleted_ids
         }
       end
 
@@ -104,7 +96,6 @@ class DiariesController < ApplicationController
   def ai_comment
     contents_text = @diary.diary_contents.map(&:body).join("\n")
 
-    # 投稿か更新かを判定（例: params[:from] に "create" or "update" を渡す）
     if params[:from] == "create"
       diary_streak = @diary.user.diary_streak
 
