@@ -12,12 +12,12 @@ class DiaryContent < ApplicationRecord
   end
 
   HAPPINESS_IMAGES = [
-    'green.png',
-    'red.png',
-    'star.png',
-    'heart.png',
-    'clover.png',
-    'orange.png'
+    "green.png",
+    "red.png",
+    "star.png",
+    "heart.png",
+    "clover.png",
+    "orange.png"
   ].freeze
 
   before_save :assign_random_happiness_image
@@ -27,5 +27,4 @@ class DiaryContent < ApplicationRecord
   def assign_random_happiness_image
     self.happiness_image ||= HAPPINESS_IMAGES.sample
   end
-
 end

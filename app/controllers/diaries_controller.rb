@@ -36,7 +36,7 @@ class DiariesController < ApplicationController
     if @diary_form.save
     added_ids = @diary_form.diary_contents.map(&:id)
 
-      # 幸せ瓶に入れる幸せの情報
+       # 幸せ瓶に入れる幸せの情報
        flash[:happiness_animation] = {
         added_ids: added_ids
       }
