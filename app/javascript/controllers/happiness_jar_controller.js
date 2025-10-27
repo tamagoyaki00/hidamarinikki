@@ -26,14 +26,12 @@ export default class extends Controller {
         this.displayExistingHappiness()
         this.handleAnimationOnConnect()
       }).catch(() => {
-        this.images = []
         this.contents = contents
         this.setupMatterJS(canvas)
         this.displayExistingHappiness()
         this.handleAnimationOnConnect()
       })
     } else {
-      this.images = []
       this.contents = contents
       this.setupMatterJS(canvas)
       this.displayExistingHappiness()

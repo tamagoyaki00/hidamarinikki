@@ -11,12 +11,13 @@ class HomesController < ApplicationController
 
 
     animation_data = flash[:happiness_animation] || {}
+    
     if animation_data.present?
       @added_ids   = animation_data["added_ids"] || animation_data[:added_ids] || []
       @deleted_ids = animation_data["deleted_ids"] || animation_data[:deleted_ids] || []
     else
-      @added_ids = nil
-      @deleted_ids = nil
+      @added_ids = []
+      @deleted_ids = []
     end
   end
 end
