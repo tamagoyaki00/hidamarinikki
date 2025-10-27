@@ -5,10 +5,8 @@ export default class extends Controller {
   static values = {
     imageUrls: Array,
     contents: Array,
-    existingCount: Number,
-    animationType: String,
-    animationCount: Number,
-    previousTotal: Number
+    addedIds: Array,
+    deletedIds: Array,
   }
 
   connect() {
@@ -96,82 +94,100 @@ export default class extends Controller {
 
   // 既存のhappinessを表示
   displayExistingHappiness() {
-    const previousTotal = Number(this.previousTotalValue || 0)
-    for (let i = 0; i < previousTotal; i++) {
-      this.addStaticHappiness(i)
-    }
+    const addedIds = this.addedIdsValue || []
+    this.contents.forEach((content, i) => {
+      // リロード時は addedIds が空なので全件描画される
+      if (addedIds.length === 0 || !addedIds.includes(content.id)) {
+        this.addStaticHappiness(i)
+      }
+    })
   }
+
+
+  capacity = 120
 
   // アニメーションの開始
   handleAnimationOnConnect() {
-    const type = this.animationTypeValue
-    const count = Number(this.animationCountValue || 0)
-    const prev = Number(this.previousTotalValue || 0)
-    if (!type || count <= 0) return
-
-    if (type === "increase") {
-      this.handleIncreaseAnimation(prev, count)
-    } else if (type === "decrease") {
-      this.handleDecreaseAnimation(prev, count)
+    // 追加アニメーション
+    if (this.addedIdsValue?.length > 0) {
+      this.addedIdsValue.forEach((id, i) => {
+        setTimeout(() => {
+          this.handleAddById(id)
+        }, i * 350)
+      })
     }
-  }
-  
-  capacity = 120
 
-
-  // 追加アニメーション
-  handleIncreaseAnimation(previousTotal, animationCount) {
-    for (let i = 0; i < animationCount; i++) {
-      setTimeout(() => {
-        const itemIndex = previousTotal + i
-
-        // まだ満杯でないなら通常追加
-        if (this.happinessList.length < this.capacity) {
-          this.addAnimatedHappiness(itemIndex)
-
-          if (this.happinessList.length >= this.capacity) {
-            this.onJarFull()
-          }
-        } else {
-          // 満杯ならオーバーフロー分をキューへ
-          this.overflowQueue.push(itemIndex)
-        }
-      }, i * 350)
+    // 削除アニメーション
+    if (this.deletedIdsValue?.length > 0) {
+      this.handleDecreaseAnimation(this.deletedIdsValue)
     }
   }
 
+  // IDを指定して追加処理を行う（共通化）
+  handleAddById(id) {
+    const index = this.contents.findIndex(c => c.id === id)
+    if (index === -1) return
+
+    if (this.happinessList.length < this.capacity) {
+      this.addAnimatedHappiness(index)
+
+      if (this.happinessList.length >= this.capacity) {
+        this.onJarFull()
+      }
+    } else {
+      // 満杯ならオーバーフロー分をキューへ
+      this.overflowQueue.push(index)
+    }
+  }
 
   // 削除アニメーション
-  handleDecreaseAnimation(previousTotal, animationCount) {
-    for (let i = 0; i < animationCount; i++) {
+  handleDecreaseAnimation(deletedIds) {
+    deletedIds.forEach((id, i) => {
       setTimeout(() => {
-        this.removeHappinessWithAnimation()
+        this.removeHappinessById(id)
       }, i * 300)
-    }
+    })
   }
 
   // アニメーション付きで削除
-  removeHappinessWithAnimation() {
-    if (!this.happinessList || this.happinessList.length === 0) return
-    const happinessToRemove = this.happinessList.pop()
-    if (!happinessToRemove) return
+  removeHappinessById(id) {
+    const index = this.happinessList.findIndex(h => h.id === id)
+    if (index === -1) return
 
-    Matter.Body.applyForce(happinessToRemove, happinessToRemove.position, { x: 0, y: -0.02 })
+    const happinessToRemove = this.happinessList.splice(index, 1)[0]
+    Matter.Body.applyForce(
+      happinessToRemove,
+      happinessToRemove.position,
+      { x: 0, y: -0.02 }
+    )
     setTimeout(() => {
       Matter.World.remove(this.engine.world, happinessToRemove)
     }, 300)
   }
 
+
+
   // 既存データ用の静的表示
   addStaticHappiness(itemIndex) {
+    
     // 位置を計算
     const pos = this.calculateStaticPosition(itemIndex)
     const content = this.contents[itemIndex]
-    let selectedImg = this.images.find(img => img.src === content.happiness_image)
+    
 
-    if (this.images && this.images.length > 0) {
+    const filename = content.happiness_image
+      ? content.happiness_image.split("/").pop()
+      : null
+
+    let selectedImg = this.images.find(img => {
+      return filename && img.src.includes(filename)
+    })
+
+
+    if (!selectedImg && this.images && this.images.length > 0) {
       selectedImg = this.images[itemIndex % this.images.length]
     }
+
 
     if (selectedImg) {
       const size = 45
@@ -188,8 +204,10 @@ export default class extends Controller {
         friction: 0.1,
         restitution: 0.5
       })
+      happiness.id = content.id
       happiness.isExisting = true
       happiness.itemIndex = itemIndex
+
       Matter.World.add(this.engine.world, happiness)
       this.happinessList.push(happiness)
       return
@@ -201,6 +219,7 @@ export default class extends Controller {
       friction: 0.1,
       restitution: 0.5
     })
+    fallback.id = content.id 
     fallback.isExisting = true
     fallback.itemIndex = itemIndex
     Matter.World.add(this.engine.world, fallback)
@@ -223,7 +242,7 @@ export default class extends Controller {
     }
   }
 
-  // increaseアニメーション用
+  // 追加アニメーション用
   addAnimatedHappiness(itemIndex) {
     if (!this.engine) return
     const content = this.contents[itemIndex]
@@ -244,6 +263,7 @@ export default class extends Controller {
         friction: 0.1,
         restitution: 0.5
       })
+      happiness.id = content.id
       happiness.isAnimated = true
       happiness.itemIndex = itemIndex
       Matter.World.add(this.engine.world, happiness)
@@ -257,6 +277,10 @@ export default class extends Controller {
       friction: 0.1,
       restitution: 0.5
     })
+    fallback.id = content.id
+    fallback.isAnimated = true
+    fallback.itemIndex = itemIndex
+
     Matter.World.add(this.engine.world, fallback)
     this.happinessList.push(fallback)
     return fallback
