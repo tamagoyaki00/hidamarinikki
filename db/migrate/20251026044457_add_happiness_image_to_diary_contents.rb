@@ -13,5 +13,4 @@ class AddHappinessImageToDiaryContents < ActiveRecord::Migration[7.2]
   def down
     remove_column :diary_contents, :happiness_image
   end
-
 end
