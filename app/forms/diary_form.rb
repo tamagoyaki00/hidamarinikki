@@ -21,7 +21,7 @@ class DiaryForm
 
   attr_accessor :existing_photos
   attr_reader :diary
-
+  attr_reader :diary_contents
 
   # 最低1つは入力必須
   validate :at_least_one_happiness_present
@@ -86,7 +86,7 @@ class DiaryForm
 
     ActiveRecord::Base.transaction do
       @diary = create_diary
-      create_diary_contents(@diary)
+      @diary_contents = create_diary_contents(@diary)
       create_tags(@diary)
     end
 
@@ -100,7 +100,7 @@ class DiaryForm
 
     ActiveRecord::Base.transaction do
       update_diary(diary)
-      update_diary_contents(diary)
+      @diary_contents = update_diary_contents(diary)
       update_tags(diary)
     end
 
@@ -108,6 +108,16 @@ class DiaryForm
   rescue ActiveRecord::RecordInvalid
     false
   end
+
+  def added_ids
+    @added_ids || []
+  end
+
+
+  def deleted_ids
+    @deleted_ids || []
+  end
+
 
   def persisted?
     diary_id.present?
@@ -230,13 +240,20 @@ class DiaryForm
   end
 
   def create_diary_contents(diary)
+    contents = []
+
     valid_happiness_items.each do |item|
-      DiaryContent.create!(
-        diary: diary,
-        body: item.strip
-      )
+      content = diary.diary_contents.create!(body: item.strip)
+      contents << content
     end
+
+    @diary_contents = contents
+    @added_ids = contents.map(&:id)
+    @deleted_ids = []
+
+    contents
   end
+
 
   def create_tags(diary)
     return if tag_names.blank?
@@ -274,18 +291,32 @@ class DiaryForm
 
   def update_diary_contents(diary)
     existing_contents = diary.diary_contents.order(:created_at).to_a
+    updated_contents = []
+    deleted_ids = []
+    added_ids = []
 
-    valid_happiness_items.each_with_index do |item, index|
-      content = existing_contents[index] || diary.diary_contents.build
-      content.body = item.strip
-      content.save!
+    ActiveRecord::Base.transaction do
+      valid_happiness_items.each_with_index do |item, index|
+        content = existing_contents[index] || diary.diary_contents.build
+        content.body = item.strip
+        content.save!
+
+        updated_contents << content
+        added_ids << content.id if content.previous_changes.key?("id")
+      end
+
+      if existing_contents.size > valid_happiness_items.size
+        extra = existing_contents[valid_happiness_items.size..]
+        deleted_ids = extra.map(&:id)
+        extra.each(&:destroy)
+      end
     end
 
-    # 余った古いレコードがあれば削除
-    if existing_contents.size > valid_happiness_items.size
-      extra = existing_contents[valid_happiness_items.size..]
-      extra.each(&:destroy)
-    end
+    @diary_contents = updated_contents
+    @added_ids = added_ids
+    @deleted_ids = deleted_ids
+
+    updated_contents
   end
 
   def update_tags(diary)
