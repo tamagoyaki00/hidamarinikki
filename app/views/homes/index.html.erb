@@ -27,12 +27,10 @@
 
     <div id="happiness-jar-container" 
         data-controller="happiness-jar"
-        data-happiness-jar-existing-count-value="<%= @existing_happiness_count %>"
-        data-happiness-jar-animation-type-value="<%= @animation_type %>"
-        data-happiness-jar-animation-count-value="<%= @animation_count %>"
-        data-happiness-jar-previous-total-value="<%= @previous_total %>"
         data-happiness-jar-contents-value="<%= @diary_contents.map { |c| { id: c.id, happiness_image: asset_path(c.happiness_image) } }.to_json %>"
-        data-happiness-jar-image-urls-value="<%= @happiness_image_urls.to_json %>">
+        data-happiness-jar-image-urls-value="<%= @happiness_image_urls.to_json %>"
+        data-happiness-jar-added-ids-value="<%= @added_ids.to_json %>"
+        data-happiness-jar-deleted-ids-value="<%= @deleted_ids.to_json %>">
 
 
       <div class="w-full flex justify-center">
@@ -100,7 +98,7 @@
     <div class="flex flex-col items-center mt-8">
       <span class="text-xl font-semibold">幸せのかけら</span>
       <div class="text-4xl font-bold p-8 bg-base-200 rounded-2xl border-2 border-primary shadow-md mt-2">
-        <%= @existing_happiness_count %>個
+        <%= current_user.total_happiness_count %>個
       </div>
     </div>
   </div>
