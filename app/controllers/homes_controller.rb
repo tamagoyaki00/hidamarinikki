@@ -19,5 +19,22 @@ class HomesController < ApplicationController
       @added_ids = []
       @deleted_ids = []
     end
+
+    # Chart.jsに渡す情報
+    today = Date.today
+    start_of_week = today.beginning_of_week(:monday)
+
+    diaries = Diary.where(posted_date: start_of_week..(start_of_week + 6))
+
+    @happiness_data = (0..6).map do |i|
+      date = start_of_week + i
+      diary = diaries.find { |d| d.posted_date == date }
+      {
+        date: date,
+        label: date.strftime("%-d"),         # X軸用（日のみ）
+        full_label: date.strftime("%-m/%-d"), # ツールチップ用
+        count: diary&.happiness_count || 0
+      }
+    end
   end
 end
