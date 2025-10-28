@@ -104,9 +104,17 @@
   </div>
 
   <!-- グラフ-->
-  <div class="w-full chart h-80 md:h-96 lg:h-[500px] mt-8">
-    <canvas id="happinessChart" class="w-full h-full"></canvas>
+    <div data-controller="charts">
+    <div class="flex justify-between mt-8 my-4">
+      <button data-action="click->charts#prevWeek" class="px-4 py-2 bg-gray-200 rounded">← 前の週</button>
+      <button data-action="click->charts#nextWeek" class="px-4 py-2 bg-gray-200 rounded">次の週 →</button>
+    </div>
+
+    <div class="w-full h-80 md:h-96 lg:h-[500px]">
+      <canvas id="happinessChart" data-charts-target="canvas" class="w-full h-full"></canvas>
+    </div>
   </div>
+
 
   <script>
     const happinessData = <%= raw @happiness_data.to_json %>;

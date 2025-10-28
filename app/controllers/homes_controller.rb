@@ -21,7 +21,9 @@ class HomesController < ApplicationController
     end
 
     # Chart.jsに渡す情報
-    today = Date.today
+    offset = params[:week_offset].to_i
+    today = Date.today + (offset * 7)
+
     start_of_week = today.beginning_of_week(:monday)
 
     diaries = Diary.where(posted_date: start_of_week..(start_of_week + 6))
@@ -36,5 +38,11 @@ class HomesController < ApplicationController
         count: diary&.happiness_count || 0
       }
     end
+
+    respond_to do |format|
+      format.html # 初回表示
+      format.json { render json: @happiness_data }
+    end
+
   end
 end
