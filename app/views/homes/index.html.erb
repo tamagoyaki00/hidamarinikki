@@ -1,4 +1,4 @@
-<div class="flex flex-col items-center justify-center p-4">
+<div class="flex flex-col items-center max-w-5xl mx-auto justify-center p-4">
   <div class="max-w-md mx-auto my-8">
     <%= link_to new_diary_path, class: "card card-body bg-primary shadow-xl rounded-lg p-6 text-center" do %>
       <h2 class="text-xl text-primary-content font-bold mb-2">日記を書く</h2>
@@ -102,7 +102,57 @@
       </div>
     </div>
   </div>
-</div>
+
+  <!-- グラフ-->
+  <div class="w-full chart h-80 md:h-96 lg:h-[500px] mt-8">
+    <canvas id="happinessChart" class="w-full h-full"></canvas>
+  </div>
+
+  <script>
+    const happinessData = <%= raw @happiness_data.to_json %>;
+
+    const labels = happinessData.map(d => d.label);
+    const fullLabels = happinessData.map(d => d.full_label);
+    const counts = happinessData.map(d => d.count);
+
+    const ctx = document.getElementById('happinessChart');
+    const happinessChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: '',
+          data: counts,
+          backgroundColor: 'rgba(75, 192, 192, 0.6)'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              title: function(context) {
+                return fullLabels[context[0].dataIndex] + ' の幸せの数';
+              }
+            }
+          },
+          title: {
+            display: true,
+            text: `${fullLabels[0]} ~ ${fullLabels[6]}`, // 週の範囲
+            font: { size: 16 },
+            align: 'center'
+          }
+        },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  </script>
+
+  </div>
 
 
 
