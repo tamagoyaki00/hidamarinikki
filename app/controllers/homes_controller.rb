@@ -43,6 +43,25 @@ class HomesController < ApplicationController
       format.html # 初回表示
       format.json { render json: @happiness_data }
     end
-
   end
+
+  def month
+    offset = params[:month_offset].to_i
+
+    start_date = Date.current.beginning_of_month + offset.months
+    end_date   = start_date.end_of_month
+    diaries = current_user.diaries.where(posted_date: start_date..end_date)
+
+    happiness_data = (start_date..end_date).map do |date|
+      diary = diaries.find { |d| d.posted_date == date }
+      {
+        label: date.strftime("%-d"),
+        full_label: date.strftime("%-m/%-d"), 
+        count: diary&.happiness_count || 0
+      }
+    end
+
+    render json: happiness_data
+  end
+
 end
