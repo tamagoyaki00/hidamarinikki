@@ -7,7 +7,30 @@ export default class extends Controller {
     this.weekOffset = 0
     this.initChart()
     this.loadWeek(this.weekOffset)
+
+    // スワイプ検知用
+    this.startX = 0
+    this.canvasTarget.addEventListener("touchstart", this.onTouchStart.bind(this))
+    this.canvasTarget.addEventListener("touchend", this.onTouchEnd.bind(this))
   }
+
+  onTouchStart(e) {
+    this.startX = e.changedTouches[0].screenX
+  }
+
+  onTouchEnd(e) {
+    const endX = e.changedTouches[0].screenX
+    const diff = endX - this.startX
+
+    if (Math.abs(diff) > 50) { // 50px以上動いたらスワイプと判定
+      if (diff > 0) {
+        this.prevWeek() // 右スワイプ → 前の週
+      } else {
+        this.nextWeek() // 左スワイプ → 次の週
+      }
+    }
+  }
+
 
   disconnect() {
     if (this.chart) {
