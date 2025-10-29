@@ -104,7 +104,13 @@
   </div>
 
   <!-- グラフ-->
-    <div data-controller="charts">
+    <div data-controller="charts" class="space-y-4">
+  <!-- タブ切り替え -->
+  <div class="flex space-x-4 justify-center">
+    <button data-action="click->charts#showWeek" data-charts-target="weekTab" class="px-4 py-2 bg-gray-300 text-gray-700 rounded">1週間</button>
+    <button data-action="click->charts#showMonth" data-charts-target="monthTab" class="px-4 py-2 bg-gray-300 text-gray-700 rounded">1か月</button>
+  </div>
+
     <div class="flex justify-between mt-8 my-4">
       <button data-action="click->charts#prevWeek" class="px-4 py-2 bg-gray-200 rounded">← 前の週</button>
       <button data-action="click->charts#nextWeek" class="px-4 py-2 bg-gray-200 rounded">次の週 →</button>
