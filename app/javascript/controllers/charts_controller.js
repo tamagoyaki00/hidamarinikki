@@ -1,17 +1,49 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["canvas"]
+  static targets = ["canvas", "weekTab", "monthTab", "prevButton", "nextButton"]
 
   connect() {
     this.weekOffset = 0
+    this.monthOffset = 0
+    this.mode = "week"
     this.initChart()
     this.loadWeek(this.weekOffset)
-
     // スワイプ検知用
     this.startX = 0
     this.canvasTarget.addEventListener("touchstart", this.onTouchStart.bind(this))
     this.canvasTarget.addEventListener("touchend", this.onTouchEnd.bind(this))
+  }
+
+  showWeek() {
+    this.mode = "week"
+    this.weekOffset = 0
+    this.loadWeek(this.weekOffset)
+    this.updateTabStyles()
+    this.updateNavLabels()
+  }
+
+  showMonth() {
+    this.mode = "month"
+    this.loadMonth()
+    this.updateTabStyles()
+    this.updateNavLabels()
+  }
+
+  updateTabStyles() {
+    if (this.mode === "week") {
+      this.weekTabTarget.classList.add("bg-blue-500", "text-white")
+      this.weekTabTarget.classList.remove("bg-gray-300", "text-gray-700")
+
+      this.monthTabTarget.classList.add("bg-gray-300", "text-gray-700")
+      this.monthTabTarget.classList.remove("bg-blue-500", "text-white")
+    } else {
+      this.monthTabTarget.classList.add("bg-blue-500", "text-white")
+      this.monthTabTarget.classList.remove("bg-gray-300", "text-gray-700")
+
+      this.weekTabTarget.classList.add("bg-gray-300", "text-gray-700")
+      this.weekTabTarget.classList.remove("bg-blue-500", "text-white")
+    }
   }
 
   onTouchStart(e) {
@@ -22,15 +54,13 @@ export default class extends Controller {
     const endX = e.changedTouches[0].screenX
     const diff = endX - this.startX
 
-    if (Math.abs(diff) > 50) { // 50px以上動いたらスワイプと判定
-      if (diff > 0) {
-        this.prevWeek() // 右スワイプ → 前の週
-      } else {
-        this.nextWeek() // 左スワイプ → 次の週
-      }
+    if (diff > 0) {
+      this.mode === "week" ? this.prevWeek() : this.prevMonth()
+    } else {
+      this.mode === "week" ? this.nextWeek() : this.nextMonth()
     }
-  }
 
+  }
 
   disconnect() {
     if (this.chart) {
@@ -60,6 +90,16 @@ export default class extends Controller {
     })
   }
 
+  updateNavLabels() {
+    if (this.mode === "week") {
+      this.prevButtonTarget.textContent = "← 前の週"
+      this.nextButtonTarget.textContent = "次の週 →"
+    } else {
+      this.prevButtonTarget.textContent = "← 前の月"
+      this.nextButtonTarget.textContent = "次の月 →"
+    }
+  }
+
   loadWeek(offset) {
     fetch(`/home.json?week_offset=${offset}`)
       .then(res => res.json())
@@ -75,6 +115,51 @@ export default class extends Controller {
       })
   }
 
+  loadMonth() {
+    fetch(`/month.json?month_offset=${this.monthOffset}`, { headers: { "Accept": "application/json" } })
+      .then(res => res.json())
+      .then(data => {
+        const labels = data.map(d => d.label)
+        const fullLabels = data.map(d => d.full_label)
+        const counts = data.map(d => d.count)
+
+        const title = data.length > 0
+          ? `${fullLabels[0]} ~ ${fullLabels[fullLabels.length - 1]}`
+          : "1か月分の記録"
+
+        const isMobile = window.innerWidth < 1024
+
+        this.chart.data.labels = labels
+        this.chart.data.datasets[0].data = counts
+        this.chart.options.plugins.title.text = title
+
+  if (isMobile) {
+    this.chart.options.scales.x.ticks.autoSkip = false
+    this.chart.options.scales.x.ticks.callback = function(_, index) {
+      const day = parseInt(labels[index], 10)
+      const isFirst = index === 0
+      const isLast = index === labels.length - 1
+      const lastDay = parseInt(labels[labels.length - 1], 10)
+
+      let isFiveUnit = day % 5 === 0
+
+      // 最終日が31なら「30」は除外
+      if (lastDay === 31 && day === 30) {
+        isFiveUnit = false
+      }
+
+      return (isFirst || isFiveUnit || isLast) ? labels[index] : ""
+    }
+  } else {
+    this.chart.options.scales.x.ticks.autoSkip = false
+    this.chart.options.scales.x.ticks.callback = (val, index) => labels[index]
+  }
+
+        this.chart.update()
+      })
+  }
+
+
   prevWeek() {
     this.weekOffset--
     this.loadWeek(this.weekOffset)
@@ -84,4 +169,43 @@ export default class extends Controller {
     this.weekOffset++
     this.loadWeek(this.weekOffset)
   }
+
+  prevMonth() {
+    this.monthOffset--
+    this.loadMonth(this.monthOffset)
+  }
+
+  nextMonth() {
+    this.monthOffset++
+    this.loadMonth(this.monthOffset)
+  }
+
+  prev() {
+    if (this.mode === "week") {
+      this.prevWeek()
+    } else {
+      this.prevMonth()
+    }
+  }
+
+  next() {
+    if (this.mode === "week") {
+      this.nextWeek()
+    } else {
+      this.nextMonth()
+    }
+  }
+
+
+  switchMode(mode) {
+    this.mode = mode
+    if (mode === "week") {
+      this.loadWeek(this.weekOffset)
+    } else {
+      this.loadMonth(this.monthOffset)
+    }
+    this.updateTabStyles()
+  }
+
+
 }
