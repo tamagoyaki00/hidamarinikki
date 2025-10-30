@@ -26,7 +26,7 @@ class HomesController < ApplicationController
 
     start_of_week = today.beginning_of_week(:monday)
 
-    diaries = Diary.where(posted_date: start_of_week..(start_of_week + 6))
+    diaries = current_user.diaries.where(posted_date: start_of_week..(start_of_week + 6))
 
     @happiness_data = (0..6).map do |i|
       date = start_of_week + i
@@ -40,7 +40,7 @@ class HomesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # 初回表示
+      format.html
       format.json { render json: @happiness_data }
     end
   end
