@@ -33,19 +33,21 @@ export default class extends Controller {
 
   updateTabStyles() {
     if (this.mode === "week") {
-      this.weekTabTarget.classList.add("bg-blue-500", "text-white")
-      this.weekTabTarget.classList.remove("bg-gray-300", "text-gray-700")
+      this.weekTabTarget.classList.add("btn-active")
+      this.weekTabTarget.classList.remove("btn-outline")
 
-      this.monthTabTarget.classList.add("bg-gray-300", "text-gray-700")
-      this.monthTabTarget.classList.remove("bg-blue-500", "text-white")
+      this.monthTabTarget.classList.remove("btn-active")
+      this.monthTabTarget.classList.add("btn-outline")
     } else {
-      this.monthTabTarget.classList.add("bg-blue-500", "text-white")
-      this.monthTabTarget.classList.remove("bg-gray-300", "text-gray-700")
+      this.monthTabTarget.classList.add("btn-active")
+      this.monthTabTarget.classList.remove("btn-outline")
 
-      this.weekTabTarget.classList.add("bg-gray-300", "text-gray-700")
-      this.weekTabTarget.classList.remove("bg-blue-500", "text-white")
+      this.weekTabTarget.classList.remove("btn-active")
+      this.weekTabTarget.classList.add("btn-outline")
     }
   }
+
+
 
   onTouchStart(e) {
     this.startX = e.changedTouches[0].screenX
@@ -99,7 +101,7 @@ export default class extends Controller {
               label: (context) => {
                 const index = context.dataIndex
                 return this.fullLabels.length > 0
-                  ? this.fullLabels[index] + ' の幸せの数: ' + context.parsed.y
+                  ? this.fullLabels[index] + ' の幸せのかけら: ' + context.parsed.y
                   : context.parsed.y
               }
             }
@@ -112,6 +114,10 @@ export default class extends Controller {
           }
         },
         scales: {
+          x: {
+            ticks: {},
+            grid: {}
+          },
           y: {
             beginAtZero: true,
             ticks: {

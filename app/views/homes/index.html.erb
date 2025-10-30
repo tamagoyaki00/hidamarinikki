@@ -104,16 +104,16 @@
   </div>
 
   <!-- グラフ-->
-  <div data-controller="charts" class="space-y-4">
+  <div data-controller="charts" class="space-y-4 mt-16">
     <!-- タブ切り替え -->
     <div class="flex space-x-4 justify-center">
-      <button data-action="click->charts#showWeek" data-charts-target="weekTab" class="px-4 py-2 bg-gray-300 text-gray-700 rounded">1週間</button>
-      <button data-action="click->charts#showMonth" data-charts-target="monthTab" class="px-4 py-2 bg-gray-300 text-gray-700 rounded">1か月</button>
+      <button data-action="click->charts#showWeek" data-charts-target="weekTab" class="btn btn-active btn-info">1週間</button>
+      <button data-action="click->charts#showMonth" data-charts-target="monthTab" class="btn btn-outline btn-info">一か月</button>
     </div>
 
-      <div class="flex justify-between mt-8 my-4">
-        <button data-action="click->charts#prev" data-charts-target="prevButton" class="px-4 py-2 bg-gray-200 rounded">← 前の週</button>
-        <button data-action="click->charts#next" data-charts-target="nextButton" class="px-4 py-2 bg-gray-200 rounded">次の週 →</button>
+      <div class="flex justify-between mt-6 my-4">
+        <button data-action="click->charts#prev" data-charts-target="prevButton" class="btn btn-outline">← 前の週</button>
+        <button data-action="click->charts#next" data-charts-target="nextButton" class="btn btn-outline">次の週 →</button>
       </div>
 
       <div class="w-full h-80 md:h-96 lg:h-[500px]">
