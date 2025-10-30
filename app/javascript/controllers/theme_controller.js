@@ -34,5 +34,9 @@ export default class extends Controller {
     // トグル（チェックボックス）の状態を現在のテーマに合わせる
     // ページ読み込み時に正しい表示にするために必要
     this.toggleTarget.checked = (theme === this.darkValue)
+
+    // 
+    window.dispatchEvent(new CustomEvent("theme:changed", { detail: { theme } }))
+
   }
 }

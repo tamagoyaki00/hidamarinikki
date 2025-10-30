@@ -10,6 +10,10 @@ export default class extends Controller {
     this.mode = "week"
     this.initChart()
     this.loadWeek(this.weekOffset)
+    window.addEventListener("theme:changed", (e) => {
+      this.applyThemeColors(e.detail.theme)
+    })
+
     // スワイプ検知用
     this.startX = 0
     this.canvasTarget.addEventListener("touchstart", this.onTouchStart.bind(this))
@@ -96,7 +100,6 @@ export default class extends Controller {
           legend: { display: false },
           tooltip: {
             callbacks: {
-              // タイトルは空にして本文だけにする場合
               title: () => "",
               label: (context) => {
                 const index = context.dataIndex
@@ -125,11 +128,39 @@ export default class extends Controller {
               callback: function(value) {
                 return Number.isInteger(value) ? value : null
               }
-            }
+            },
+            grid: {}
           }
         }
       }
     })
+
+    const theme = document.documentElement.getAttribute("data-theme")
+    this.applyThemeColors(theme)
+  }
+
+  applyThemeColors(theme) {
+    if (theme === "sunset") {
+      this.chart.options.plugins.title.color = "#9fb9d0"
+
+      this.chart.options.scales.x.ticks.color = "#9fb9d0"
+      this.chart.options.scales.x.grid.color  = "rgba(159,185,208,0.3)"
+      this.chart.options.scales.x.grid.borderColor = "#9fb9d0"
+
+      this.chart.options.scales.y.ticks.color = "#9fb9d0"
+      this.chart.options.scales.y.grid.color  = "rgba(159,185,208,0.3)"
+      this.chart.options.scales.y.grid.borderColor = "#9fb9d0"
+    } else {
+      this.chart.options.plugins.title.color = undefined
+      this.chart.options.scales.x.ticks.color = undefined
+      this.chart.options.scales.x.grid.color = undefined
+      this.chart.options.scales.x.grid.borderColor = undefined
+      this.chart.options.scales.y.ticks.color = undefined
+      this.chart.options.scales.y.grid.color = undefined
+      this.chart.options.scales.y.grid.borderColor = undefined
+    }
+
+    this.chart.update()
   }
 
 
