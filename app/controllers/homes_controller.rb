@@ -56,12 +56,11 @@ class HomesController < ApplicationController
       diary = diaries.find { |d| d.posted_date == date }
       {
         label: date.strftime("%-d"),
-        full_label: date.strftime("%-m/%-d"), 
+        full_label: date.strftime("%-m/%-d"),
         count: diary&.happiness_count || 0
       }
     end
 
     render json: happiness_data
   end
-
 end
