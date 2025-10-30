@@ -104,69 +104,23 @@
   </div>
 
   <!-- グラフ-->
-    <div data-controller="charts" class="space-y-4">
-  <!-- タブ切り替え -->
-  <div class="flex space-x-4 justify-center">
-    <button data-action="click->charts#showWeek" data-charts-target="weekTab" class="px-4 py-2 bg-gray-300 text-gray-700 rounded">1週間</button>
-    <button data-action="click->charts#showMonth" data-charts-target="monthTab" class="px-4 py-2 bg-gray-300 text-gray-700 rounded">1か月</button>
-  </div>
-
-    <div class="flex justify-between mt-8 my-4">
-      <button data-action="click->charts#prev" data-charts-target="prevButton" class="px-4 py-2 bg-gray-200 rounded">← 前の週</button>
-      <button data-action="click->charts#next" data-charts-target="nextButton" class="px-4 py-2 bg-gray-200 rounded">次の週 →</button>
+  <div data-controller="charts" class="space-y-4">
+    <!-- タブ切り替え -->
+    <div class="flex space-x-4 justify-center">
+      <button data-action="click->charts#showWeek" data-charts-target="weekTab" class="px-4 py-2 bg-gray-300 text-gray-700 rounded">1週間</button>
+      <button data-action="click->charts#showMonth" data-charts-target="monthTab" class="px-4 py-2 bg-gray-300 text-gray-700 rounded">1か月</button>
     </div>
 
-    <div class="w-full h-80 md:h-96 lg:h-[500px]">
-      <canvas id="happinessChart" data-charts-target="canvas" class="w-full h-full"></canvas>
-    </div>
+      <div class="flex justify-between mt-8 my-4">
+        <button data-action="click->charts#prev" data-charts-target="prevButton" class="px-4 py-2 bg-gray-200 rounded">← 前の週</button>
+        <button data-action="click->charts#next" data-charts-target="nextButton" class="px-4 py-2 bg-gray-200 rounded">次の週 →</button>
+      </div>
+
+      <div class="w-full h-80 md:h-96 lg:h-[500px]">
+        <canvas data-charts-target="canvas" class="w-full h-full"></canvas>
+      </div>
   </div>
-
-
-  <script>
-    const happinessData = <%= raw @happiness_data.to_json %>;
-
-    const labels = happinessData.map(d => d.label);
-    const fullLabels = happinessData.map(d => d.full_label);
-    const counts = happinessData.map(d => d.count);
-
-    const ctx = document.getElementById('happinessChart');
-    const happinessChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: '',
-          data: counts,
-          backgroundColor: 'rgba(75, 192, 192, 0.6)'
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              title: function(context) {
-                return fullLabels[context[0].dataIndex] + ' の幸せの数';
-              }
-            }
-          },
-          title: {
-            display: true,
-            text: `${fullLabels[0]} ~ ${fullLabels[6]}`, // 週の範囲
-            font: { size: 16 },
-            align: 'center'
-          }
-        },
-        scales: {
-          y: { beginAtZero: true }
-        }
-      }
-    });
-  </script>
-
-  </div>
+</div>
 
 
 

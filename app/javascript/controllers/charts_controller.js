@@ -6,6 +6,7 @@ export default class extends Controller {
   connect() {
     this.weekOffset = 0
     this.monthOffset = 0
+    this.fullLabels = []
     this.mode = "week"
     this.initChart()
     this.loadWeek(this.weekOffset)
@@ -78,17 +79,45 @@ export default class extends Controller {
     const ctx = this.canvasTarget.getContext("2d")
     this.chart = new Chart(ctx, {
       type: 'bar',
-      data: { labels: [], datasets: [{ data: [] }] },
+      data: {
+        labels: [],
+        datasets: [{
+          label: '',
+          data: [],
+          backgroundColor: 'rgba(75, 192, 192, 0.6)'
+        }]
+      },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          title: { display: true, text: "" },
-          legend: { display: false }
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              // タイトルは空にして本文だけにする場合
+              title: () => "",
+              label: (context) => {
+                const index = context.dataIndex
+                return this.fullLabels.length > 0
+                  ? this.fullLabels[index] + ' の幸せの数: ' + context.parsed.y
+                  : context.parsed.y
+              }
+            }
+          },
+          title: {
+            display: true,
+            text: "",
+            font: { size: 16 },
+            align: 'center'
+          }
+        },
+        scales: {
+          y: { beginAtZero: true }
         }
       }
     })
   }
+
 
   updateNavLabels() {
     if (this.mode === "week") {
@@ -105,12 +134,12 @@ export default class extends Controller {
       .then(res => res.json())
       .then(data => {
         const labels = data.map(d => d.label)
-        const fullLabels = data.map(d => d.full_label)
+        this.fullLabels = data.map(d => d.full_label)
         const counts = data.map(d => d.count)
 
         this.chart.data.labels = labels
         this.chart.data.datasets[0].data = counts
-        this.chart.options.plugins.title.text = `${fullLabels[0]} ~ ${fullLabels[6]}`
+        this.chart.options.plugins.title.text = `${this.fullLabels[0]} ~ ${this.fullLabels[6]}`
         this.chart.update()
       })
   }
@@ -120,11 +149,11 @@ export default class extends Controller {
       .then(res => res.json())
       .then(data => {
         const labels = data.map(d => d.label)
-        const fullLabels = data.map(d => d.full_label)
+        this.fullLabels = data.map(d => d.full_label)
         const counts = data.map(d => d.count)
 
         const title = data.length > 0
-          ? `${fullLabels[0]} ~ ${fullLabels[fullLabels.length - 1]}`
+          ? `${this.fullLabels[0]} ~ ${this.fullLabels[this.fullLabels.length - 1]}`
           : "1か月分の記録"
 
         const isMobile = window.innerWidth < 1024
