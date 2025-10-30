@@ -112,7 +112,15 @@ export default class extends Controller {
           }
         },
         scales: {
-          y: { beginAtZero: true }
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1,
+              callback: function(value) {
+                return Number.isInteger(value) ? value : null
+              }
+            }
+          }
         }
       }
     })
@@ -141,7 +149,8 @@ export default class extends Controller {
         this.chart.data.datasets[0].data = counts
         this.chart.options.plugins.title.text = `${this.fullLabels[0]} ~ ${this.fullLabels[6]}`
         this.chart.options.scales.x.ticks.autoSkip = false
-        this.chart.options.scales.x.ticks.callback = (val, index) => labels[index]
+        this.chart.options.scales.x.ticks.callback = (val, index) => this.chart.data.labels[index]
+
 
         this.chart.update()
       })
