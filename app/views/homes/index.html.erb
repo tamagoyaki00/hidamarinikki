@@ -1,4 +1,4 @@
-<div class="flex flex-col items-center justify-center p-4">
+<div class="flex flex-col items-center max-w-5xl mx-auto justify-center p-4">
   <div class="max-w-md mx-auto my-8">
     <%= link_to new_diary_path, class: "card card-body bg-primary shadow-xl rounded-lg p-6 text-center" do %>
       <h2 class="text-xl text-primary-content font-bold mb-2">日記を書く</h2>
@@ -101,6 +101,24 @@
         <%= current_user.total_happiness_count %>個
       </div>
     </div>
+  </div>
+
+  <!-- グラフ-->
+  <div data-controller="charts" class="space-y-4 mt-16">
+    <!-- タブ切り替え -->
+    <div class="flex space-x-4 justify-center">
+      <button data-action="click->charts#showWeek" data-charts-target="weekTab" class="btn btn-active btn-info">1週間</button>
+      <button data-action="click->charts#showMonth" data-charts-target="monthTab" class="btn btn-outline btn-info">一か月</button>
+    </div>
+
+      <div class="flex justify-between mt-6 my-4">
+        <button data-action="click->charts#prev" data-charts-target="prevButton" class="btn btn-outline">← 前の週</button>
+        <button data-action="click->charts#next" data-charts-target="nextButton" class="btn btn-outline">次の週 →</button>
+      </div>
+
+      <div class="w-full h-80 md:h-96 lg:h-[500px]">
+        <canvas data-charts-target="canvas" class="w-full h-full"></canvas>
+      </div>
   </div>
 </div>
 

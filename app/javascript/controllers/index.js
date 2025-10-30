@@ -7,6 +7,9 @@ import { application } from "./application"
 import AiCommentController from "./ai_comment_controller"
 application.register("ai-comment", AiCommentController)
 
+import ChartsController from "./charts_controller"
+application.register("charts", ChartsController)
+
 import DiaryController from "./diary_controller"
 application.register("diary", DiaryController)
 
