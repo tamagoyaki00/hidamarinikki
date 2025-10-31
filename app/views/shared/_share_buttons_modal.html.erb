@@ -1,0 +1,38 @@
+<!-- モーダル -->
+<dialog data-modal-target="modal" data-action="click->modal#closeOnBackdrop" class="modal">
+  <div class="modal-box relative">
+    <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-2 text-lg"
+          data-action="click->modal#close">✕</button>
+
+    <h3 class="font-bold text-lg">ひだまり日記をシェア</h3>
+    <div data-controller="share" class="flex justify-around py-4 gap-4 mt-6">
+      <!-- X -->
+      <a data-share-target="x"
+        class="btn flex flex-col items-center gap-2 w-24 h-24">
+        <%= image_tag "x-logo.png", alt: "X", class: "w-12 h-12 rounded-md" %>
+        <span class="text-xs">X</span>
+      </a>
+
+      <!-- LINE -->
+      <a data-share-target="line"
+        class="btn flex flex-col items-center gap-2 w-24 h-24">
+        <%= image_tag "line-logo.png", alt: "LINE", class: "w-12 h-12" %>
+        <span class="text-xs">LINE</span>
+      </a>
+
+      <!-- Facebook -->
+      <a data-share-target="fb"
+        class="btn flex flex-col items-center gap-2 w-24 h-24">
+        <%= image_tag "fb-logo.png", alt: "Facebook", class: "w-12 h-12" %>
+        <span class="text-xs">Facebook</span>
+      </a>
+
+      <!-- Threads -->
+      <a data-share-target="threads"
+        class="btn flex flex-col items-center gap-2 w-24 h-24">
+        <%= image_tag "threads-logo.png", alt: "Threads", class: "w-12 h-12 rounded-md" %>
+        <span class="text-xs">Threads</span>
+      </a>
+    </div>
+  </div>
+</dialog>
