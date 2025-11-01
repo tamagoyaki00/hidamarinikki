@@ -5,31 +5,50 @@
           data-action="click->modal#close">✕</button>
 
     <h3 class="font-bold text-lg">ひだまり日記をシェア</h3>
-    <div data-controller="share" class="flex justify-around py-4 gap-4 mt-6">
+    <div class="flex justify-around py-4 gap-4 mt-6">
       <!-- X -->
-      <a data-share-target="x"
-        class="btn flex flex-col items-center gap-2 w-24 h-24">
+      <a href="<%= 
+        "https://twitter.com/intent/tweet?" +
+        "url=#{CGI.escape("https://hidamarinikki.jp")}" +
+        "&text=#{CGI.escape("ひだまり日記をチェックしてみてね！")}" +
+        "&hashtags=#{CGI.escape("ひだまり日記")}" 
+      %>"
+        class="btn flex flex-col items-center gap-2 w-24 h-24"
+        target="_blank" rel="noopener noreferrer">
         <%= image_tag "x-logo.png", alt: "X", class: "w-12 h-12 rounded-md" %>
         <span class="text-xs">X</span>
       </a>
 
       <!-- LINE -->
-      <a data-share-target="line"
-        class="btn flex flex-col items-center gap-2 w-24 h-24">
+      <a href="<%= 
+        "https://social-plugins.line.me/lineit/share?" +
+        "url=#{CGI.escape("https://hidamarinikki.jp")}" 
+      %>"
+        class="btn flex flex-col items-center gap-2 w-24 h-24"
+        target="_blank" rel="noopener noreferrer">
         <%= image_tag "line-logo.png", alt: "LINE", class: "w-12 h-12" %>
         <span class="text-xs">LINE</span>
       </a>
 
       <!-- Facebook -->
-      <a data-share-target="fb"
-        class="btn flex flex-col items-center gap-2 w-24 h-24">
+      <a href="<%= 
+        "https://www.facebook.com/sharer/sharer.php?" +
+        "u=#{CGI.escape("https://hidamarinikki.jp")}" 
+      %>"
+        class="btn flex flex-col items-center gap-2 w-24 h-24"
+        target="_blank" rel="noopener noreferrer">
         <%= image_tag "fb-logo.png", alt: "Facebook", class: "w-12 h-12" %>
         <span class="text-xs">Facebook</span>
       </a>
 
       <!-- Threads -->
-      <a data-share-target="threads"
-        class="btn flex flex-col items-center gap-2 w-24 h-24">
+      <a href="<%= 
+        "https://www.threads.net/intent/post?" +
+        "url=#{CGI.escape("https://hidamarinikki.jp")}" +
+        "&text=#{CGI.escape("ひだまり日記をチェックしてみてね！ #ひだまり日記")}" 
+      %>"
+        class="btn flex flex-col items-center gap-2 w-24 h-24"
+        target="_blank" rel="noopener noreferrer">
         <%= image_tag "threads-logo.png", alt: "Threads", class: "w-12 h-12 rounded-md" %>
         <span class="text-xs">Threads</span>
       </a>
