@@ -79,9 +79,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_01_124916) do
     t.float "average_happiness_count"
     t.integer "max_happiness_count"
     t.integer "total_happiness_count"
-    t.date "max_happiness_date"
+    t.bigint "max_happiness_diary_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["max_happiness_diary_id"], name: "index_monthly_reviews_on_max_happiness_diary_id"
     t.index ["user_id", "month"], name: "index_monthly_reviews_on_user_id_and_month", unique: true
     t.index ["user_id"], name: "index_monthly_reviews_on_user_id"
   end
@@ -130,6 +131,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_01_124916) do
   add_foreign_key "diary_contents", "diaries"
   add_foreign_key "diary_tags", "diaries"
   add_foreign_key "diary_tags", "tags"
+  add_foreign_key "monthly_reviews", "diaries", column: "max_happiness_diary_id"
   add_foreign_key "monthly_reviews", "users"
   add_foreign_key "notification_settings", "users"
 end

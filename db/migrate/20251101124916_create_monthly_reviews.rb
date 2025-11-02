@@ -7,7 +7,7 @@ class CreateMonthlyReviews < ActiveRecord::Migration[7.2]
       t.float :average_happiness_count
       t.integer :max_happiness_count
       t.integer :total_happiness_count
-      t.date :max_happiness_date
+      t.references :max_happiness_diary, foreign_key: { to_table: :diaries }
 
       t.timestamps
     end
