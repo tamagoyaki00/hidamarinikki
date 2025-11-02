@@ -34,7 +34,7 @@ Rails.application.routes.draw do
 
   resources :users, only: %i[show]
   resource :notification_setting, only: %i[edit update]
-  resources :monthly_reviews, only: %i[index show]
+  resources :monthly_reviews, param: :month, only: %i[index show]
 
 
 
