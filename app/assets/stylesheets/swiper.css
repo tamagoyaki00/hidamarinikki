@@ -1,0 +1,29 @@
+
+.swiper {
+  width: 100%;
+  height: 100vh;
+}
+
+@media (min-width: 1024px) {
+  .swiper {
+    height: 600px;
+  }
+}
+
+
+/* スライド */
+.swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ナビゲーションボタン */
+.swiper-button-next,
+.swiper-button-prev {
+  --swiper-navigation-color: #FFC78A;
+  --swiper-navigation-size: 2rem;
+}
+
+
+
