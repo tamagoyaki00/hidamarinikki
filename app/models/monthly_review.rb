@@ -1,5 +1,7 @@
 class MonthlyReview < ApplicationRecord
   belongs_to :user
+  belongs_to :max_happiness_diary, class_name: "Diary", optional: true
+
 
   validates :month, presence: true
   validates :average_happiness_count, numericality: true, allow_nil: true
