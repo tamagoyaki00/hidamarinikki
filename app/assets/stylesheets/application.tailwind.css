@@ -117,8 +117,8 @@
   }
 
   .sway {
-    transform-origin: center bottom; /* 下を支点にする */
-    animation: sway 2s ease-in-out infinite; /* ← 名前をswayに合わせる */
+    transform-origin: center bottom;
+    animation: sway 2s ease-in-out infinite;
     display: inline-block;
   }
 
