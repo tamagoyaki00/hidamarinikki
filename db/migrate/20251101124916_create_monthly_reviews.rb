@@ -12,6 +12,6 @@ class CreateMonthlyReviews < ActiveRecord::Migration[7.2]
       t.timestamps
     end
 
-    add_index :monthly_reviews, [:user_id, :month], unique: true
+    add_index :monthly_reviews, [ :user_id, :month ], unique: true
   end
 end

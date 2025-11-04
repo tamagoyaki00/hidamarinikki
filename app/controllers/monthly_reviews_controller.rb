@@ -29,6 +29,5 @@ class MonthlyReviewsController < ApplicationController
     end
 
     render :show
-
   end
 end
