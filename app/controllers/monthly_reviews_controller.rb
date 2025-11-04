@@ -7,9 +7,14 @@ class MonthlyReviewsController < ApplicationController
     month = Date.strptime(params[:month], "%Y-%m").beginning_of_month
     @month = month
 
-    @monthly_review = current_user.monthly_reviews.find_or_create_by(month: month) do |review|
-      diaries = current_user.diaries.where(posted_date: month..month.end_of_month)
+    diaries = current_user.diaries.where(posted_date: month..month.end_of_month)
 
+    if diaries.empty?
+      @monthly_review = nil
+      return render :show
+    end
+
+    @monthly_review = current_user.monthly_reviews.find_or_create_by(month: month) do |review|
       total = diaries.sum(:happiness_count)
       average = diaries.any? ? (total.to_f / diaries.count).round(2) : 0
       max_diary = diaries.max_by(&:happiness_count)
