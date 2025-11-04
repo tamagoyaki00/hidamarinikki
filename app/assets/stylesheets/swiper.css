@@ -1,7 +1,7 @@
 
 .swiper {
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
 }
 
 @media (min-width: 1024px) {
