@@ -102,21 +102,41 @@
 }
 
 @layer utilities {
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(15px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  /* 一回転 */
+  @keyframes spin-once {
+    to { transform: rotate(360deg); }
+  }
+  .spin-once {
+    animation: spin-once 0.8s linear;
   }
 
+  /* 横ゆらゆら */
+  @keyframes sway {
+    0%, 100% { transform: rotate(10deg); }
+    50%      { transform: rotate(-10deg); }
+  }
+
+  .sway {
+    transform-origin: center bottom;
+    animation: sway 2s ease-in-out infinite;
+    display: inline-block;
+  }
+
+  /* フェードイン */
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(15px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
   .fade-in {
     opacity: 0;
-    animation: fade-in 2s ease-out forwards;
+    animation-name: fade-in;
+    animation-duration: 2s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
   }
+  .fade-delay-100 { animation-delay: 0.1s; }
+  .fade-delay-500 { animation-delay: 0.5s; }
+  .fade-delay-800 { animation-delay: 0.8s; }
 }
 
 /* ローディングアニメーション　*/
@@ -154,13 +174,61 @@
     animation: hourglass 1s linear infinite;
   }
 
-/* 設定アイコンを回転 */
-@layer utilities {
-  @keyframes spin-once {
-    to { transform: rotate(360deg); }
+@layer components {
+  .note {
+    background-image: linear-gradient(
+        transparent calc(100% - 1px),
+        #e6edf3 50%,
+        #e6edf3
+      ),
+      linear-gradient(
+        90deg,
+        transparent calc(100% - 1px),
+        #e6edf3 50%,
+        #e6edf3
+      );
+    background-size: 15px 15px;
+    background-repeat: repeat;
+    background-color: #ffffff;
+    color: #333333;
   }
-  .spin-once {
-    animation: spin-once 0.8s linear;
+
+  .tape {
+    position: relative;
+    max-width: 400px;
+    min-height: 180px;
+    margin: 1.5em auto;
+    padding: 2.5em 1.5em 1.5em;
+    box-shadow: 0 2px 3px rgb(0 0 0 / 20%);
+    color: #333333;
+  }
+
+  .tape span {
+    position: absolute;
+    top: -15px;
+    transform: translateX(-.3em) rotate(-5deg);
+    padding: .5em 2em;
+    border-right: 2px dotted rgb(0 0 0 / 10%);
+    border-left: 2px dotted rgb(0 0 0 / 10%);
+    box-shadow: 0 0 5px rgb(0 0 0 / 20%);
+    background-color: rgb(255 255 255 / 40%);
+    font-weight: 600;
+  }
+
+  .tape p {
+    margin: 0;
+  }
+
+  .highlight {
+    text-decoration: underline; /* 下線 */
+    text-decoration-thickness: 0.5em; /* 線の太さ */
+    text-decoration-color: rgba(255, 228, 0, 0.4); /* 線の色 */
+    text-underline-offset: -0.2em; /* 線の位置。テキストに重なるようにやや上部にする */
+    text-decoration-skip-ink: none; /* 下線と文字列が重なる部分でも下線が省略されない（線が途切れない） */
+  }
+
+  .highlight-blue {
+  text-decoration-color: rgba(135, 206, 250, 0.4);
   }
 }
 

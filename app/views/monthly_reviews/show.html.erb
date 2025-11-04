@@ -1,0 +1,177 @@
+<div class="flex flex-col items-center max-w-5xl mx-auto">
+  <% if @monthly_review.nil? %>
+    <p class="mt-10">この月の記録はありません</p>
+  <% else %>
+    <div class="swiper px-4 lg:mt-10">
+      <div class="swiper-wrapper">
+
+        <!-- 1ページ目 -->
+        <div class="swiper-slide relative flex items-center justify-center ">
+          <div class="note h-full">
+
+            <div class="absolute inset-0 flex items-end justify-center pointer-events-none select-none pb-8">
+              <span class="text-4xl font-bold text-amber-900 opacity-20 tracking-widest">
+                ひだまり日記
+              </span>
+            </div>
+
+
+            <h2 class="highlight text-2xl font-bold text-amber-900 text-center pt-4 md:pt-10">
+              <%= @month.strftime("%Y年%m月の振り返り") %>
+            </h2>
+
+          <!-- 付箋 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 items-start px-4 md:pb-20">
+
+              <!-- 付箋1：左 -->
+              <div class="sm:mt-8 fade-in fade-delay-100">
+                <div class="tape tape-yellow relative bg-yellow-100 shadow-lg p-5 transform -rotate-1">
+                  <div class="text-sm font-semibold text-yellow-800 tracking-wide mb-3">
+                    <span>幸せのかけら合計数</span>
+                  </div>
+                  <div class="text-6xl font-extrabold text-amber-900 leading-none text-center mt-10">
+                    <p><%= @monthly_review.total_happiness_count %></p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 付箋2：中央 -->
+              <div class="sm:mt-6 fade-in fade-delay-500">
+                <div class="tape tape-pink relative bg-pink-100 shadow-lg p-5 transform rotate-1">
+                  <div class="text-sm font-semibold text-pink-800 tracking-wide mb-3">
+                    <span>1日記あたりの幸せのかけら数</span>
+                  </div>
+                  <div class="text-6xl font-extrabold text-rose-900 leading-none text-center mt-10">
+                    <p><%= @monthly_review.average_happiness_count %></p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 付箋3：右 -->
+              <div class="sm:mt-12 fade-in fade-delay-800">
+                <div class="tape tape-blue relative bg-blue-100 shadow-lg p-5 transform -rotate-2">
+                  <div class="text-sm font-semibold text-blue-800 tracking-wide mb-3">
+                    <span>最大の幸せのかけら数</span>
+                  </div>
+                  <div class="text-6xl font-extrabold text-blue-900 leading-none text-center mt-10">
+                    <p><%= @monthly_review.max_happiness_count %></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 2ページ目 -->
+        <div class="swiper-slide relative flex items-center justify-center">
+          <div class="note h-full">
+
+            <div class="absolute inset-0 flex items-end justify-center pointer-events-none select-none pb-8">
+              <span class="text-4xl font-bold text-amber-900 opacity-20 tracking-widest">
+                ひだまり日記
+              </span>
+            </div>
+
+            <h2 class="highlight text-2xl font-bold text-amber-900 text-center pt-4 md:pt-10">
+              一番幸せのかけらが多かった日記
+            </h2>
+
+            <div class= "max-w-2xl mx-auto p-4 mt-12"> 
+              <% if @monthly_review.max_happiness_diary %>
+                <p class="highlight highlight-blue text-xl mb-2 fade-in">
+                  <%= @monthly_review.max_happiness_diary.posted_date.strftime("%Y-%m-%d") %>
+                </p>
+
+                <ol class="list-decimal list-inside space-y-2 mt-6">
+                  <% @monthly_review.max_happiness_diary.diary_contents.each do |content| %>
+                    <li class="text-lg"><%= content.body %></li>
+                  <% end %>
+                </ol>
+
+                <% if @monthly_review.max_happiness_diary.photos.attached? %>
+                  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
+                    <% @monthly_review.max_happiness_diary.photos.each do |photo| %>
+                      <%= image_tag photo.variant(:thumb), class: "w-full h-auto md:h-48 object-cover rounded-lg shadow-sm" %>
+                    <% end %>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+
+            <div class="absolute bottom-40 md:bottom-8 right-8 transform rotate-12">
+              <%= image_tag "crown.svg", class: "w-40 h-40 md:w-48 md:h-48" %>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 3ページ目 -->
+        <div class="swiper-slide relative flex items-center justify-center">
+          <div class="note h-full">
+
+            <div class="absolute inset-0 flex items-end justify-center pointer-events-none select-none pb-8">
+              <span class="text-4xl font-bold text-amber-900 opacity-20 tracking-widest">
+                ひだまり日記
+              </span>
+            </div>
+
+            <h2 class="highlight text-2xl font-bold text-amber-900 text-center pt-4 md:pt-10"><%= @month.strftime("%Y年%m月のすてきな思い出") %></h2>
+            <div class="max-w-2xl mx-auto p-4 mt-12">
+              <% @monthly_review.diary_snippets.each do |snippet| %>
+                <div class="mb-6">
+                  <span class="highlight highlight-blue text-xl"><%= snippet["date"] %></span>
+                  <p class="text-lg"><%= snippet["body"] %></p>
+                </div>
+              <% end %>
+            </div>
+
+            <div class="absolute bottom-40 md:bottom-8 right-8 text-6xl opacity-80 transform rotate-12">
+              <%= image_tag "yellow_tulip.svg", class: "w-24 h-24 md:w-32 md:h-32" %>
+            </div>
+
+            <div class="absolute bottom-40 md:bottom-8 right-24 text-6xl opacity-80 transform rotate-12">
+              <%= image_tag "red_tulip.svg", class: "w-24 h-24 md:w-32 md:h-32" %>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4ページ目 -->
+        <div class="swiper-slide relative flex items-center justify-center">
+          <div class="note h-full flex flex-col items-center justify-center">
+            <div class="absolute inset-0 flex items-end justify-center pointer-events-none select-none pb-8">
+              <span class="text-4xl font-bold text-amber-900 opacity-20 tracking-widest">
+                ひだまり日記
+              </span>
+            </div>
+
+            <div class="max-w-2xl mx-auto p-4">
+              <% messages = [
+                "来月もたくさんの幸せを<br class='block md:hidden'>見つけられますように。",
+                "来月もたくさんの笑顔で<br class='block md:hidden'>あふれますように。",
+                "心あたたまる日々が<br class='block md:hidden'>続きますように。",
+                "日々の「ありがとう」で、<br class='block md:hidden'>日常が明るくなりますように。"
+              ] %>
+
+              <p class="highlight text-2xl font-bold text-amber-900 leading-relaxed">
+                <%= raw(messages.sample) %>
+              </p>
+            </div>
+
+            <div class="mt-8">
+              <%= image_tag "himawari.svg", class: "w-24 h-24 md:w-32 md:h-32 sway" %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ページネーション　-->
+      <div class="swiper-pagination"></div>
+      <!-- 前後ボタン　-->
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+  <% end %>
+
+  <%= link_to "振り返り一覧に戻る", monthly_reviews_path, class: "btn btn-primary mt-6"%>
+</div>
