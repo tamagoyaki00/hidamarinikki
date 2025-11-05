@@ -44,7 +44,7 @@
         <div class="mt-4 diary-body">
           <ol class="list-none space-y-2">
             <% diary.diary_contents.each_with_index do |content, i| %>
-              <li>
+              <li class="leading-relaxed">
                 <span class="mr-2 text-sm md:text-base text-gray-700"><%= i + 1 %>.</span>
                 <span class="text-sm md:text-base"><%= content.body %></span>
               </li>

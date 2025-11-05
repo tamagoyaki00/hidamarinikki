@@ -85,7 +85,7 @@
 
                 <ol class="list-decimal list-inside space-y-2 mt-6">
                   <% @monthly_review.max_happiness_diary.diary_contents.each do |content| %>
-                    <li class="text-lg"><%= content.body %></li>
+                    <li class="text-lg leading-relaxed"><%= content.body %></li>
                   <% end %>
                 </ol>
 
@@ -121,7 +121,7 @@
               <% @monthly_review.diary_snippets.each do |snippet| %>
                 <div class="mb-6">
                   <span class="highlight highlight-blue text-xl"><%= snippet["date"] %></span>
-                  <p class="text-lg"><%= snippet["body"] %></p>
+                  <p class="text-lg leading-relaxed"><%= snippet["body"] %></p>
                 </div>
               <% end %>
             </div>
