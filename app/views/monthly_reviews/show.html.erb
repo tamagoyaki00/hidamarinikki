@@ -92,7 +92,9 @@
                 <% if @monthly_review.max_happiness_diary.photos.attached? %>
                   <div class="grid grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
                     <% @monthly_review.max_happiness_diary.photos.each do |photo| %>
-                      <%= image_tag photo.variant(:thumb), class: "w-full h-auto md:h-48 object-cover rounded-lg shadow-sm" %>
+                      <div class="aspect-[4/3] md:aspect-auto">
+                        <%= image_tag photo.variant(:thumb), class: "w-full h-full md:h-48 object-cover object-cover rounded-lg shadow-sm" %>
+                      </div>
                     <% end %>
                   </div>
                 <% end %>
