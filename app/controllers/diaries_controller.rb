@@ -4,12 +4,12 @@ class DiariesController < ApplicationController
 
   def my_diaries
     @q = current_user.diaries.ransack(params[:q])
-    @diaries = @q.result(distinct: true).order(created_at: :desc)
+    @diaries = @q.result(distinct: true).includes(:diary_contents, :tags, photos_attachments: :blob).order(posted_date: :desc)
   end
 
   def public_diaries
     @q = Diary.is_public.ransack(params[:q])
-    @diaries = @q.result(distinct: true).includes(:user).order(created_at: :desc)
+    @diaries = @q.result(distinct: true).includes(:user, :diary_contents, :tags, photos_attachments: :blob).order(posted_date: :desc)
   end
 
   # 日記の新規作成時、同日の日記がすでに作成されていたら編集フォームに遷移
@@ -121,7 +121,7 @@ class DiariesController < ApplicationController
       client = OpenAI::Client.new(access_token: ENV["OPENAI_API_KEY"])
       response = client.chat(
         parameters: {
-          model: "gpt-5-mini",
+          model: "gpt-5-nano",
           messages: [
             { role: "system", content: system_prompt },
             { role: "user", content: contents_text }
@@ -137,7 +137,7 @@ class DiariesController < ApplicationController
       client = OpenAI::Client.new(access_token: ENV["OPENAI_API_KEY"])
       response = client.chat(
         parameters: {
-          model: "gpt-5-mini",
+          model: "gpt-5-nano",
           messages: [
             { role: "system", content: "あなたはユーザーの毎日の日記を応援するAIパートナーです。
               あなたの役割は寄り添いと、モチベーションアップです。
