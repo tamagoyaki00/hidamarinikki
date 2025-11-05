@@ -135,7 +135,9 @@
     animation-fill-mode: forwards;
   }
   .fade-delay-100 { animation-delay: 0.1s; }
+  .fade-delay-300 { animation-delay: 0.3s; }
   .fade-delay-500 { animation-delay: 0.5s; }
+  .fade-delay-700 { animation-delay: 0.7s; }
   .fade-delay-800 { animation-delay: 0.8s; }
 }
 
