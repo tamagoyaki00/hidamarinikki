@@ -9,16 +9,19 @@ export default class extends Controller {
   }
 
   connect() {
-    const savedTheme = localStorage.getItem("theme")
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("theme")
 
-    // 保存されたテーマがあれば適用、なければOSの設定を確認
-    if (savedTheme) {
-      this.applyTheme(savedTheme)
-    } else {
-      // OSがダークモードを優先しているかチェック
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
-      this.applyTheme(prefersDark ? this.darkValue : this.lightValue)
-    }
+
+      // 保存されたテーマがあれば適用、なければOSの設定を確認
+      if (savedTheme) {
+        this.applyTheme(savedTheme)
+      } else {
+        // OSがダークモードを優先しているかチェック
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+        this.applyTheme(prefersDark ? this.darkValue : this.lightValue)
+      }
+    })
   }
 
   toggle(event) {
