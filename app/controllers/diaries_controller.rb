@@ -4,12 +4,12 @@ class DiariesController < ApplicationController
 
   def my_diaries
     @q = current_user.diaries.ransack(params[:q])
-    @diaries = @q.result(distinct: true).order(created_at: :desc)
+    @diaries = @q.result(distinct: true).includes(:diary_contents, :tags, :photos_attachments).order(posted_date: :desc)
   end
 
   def public_diaries
     @q = Diary.is_public.ransack(params[:q])
-    @diaries = @q.result(distinct: true).includes(:user).order(created_at: :desc)
+    @diaries = @q.result(distinct: true).includes(:user, :diary_contents, :tags, :photos_attachments).order(posted_date: :desc)
   end
 
   # 日記の新規作成時、同日の日記がすでに作成されていたら編集フォームに遷移

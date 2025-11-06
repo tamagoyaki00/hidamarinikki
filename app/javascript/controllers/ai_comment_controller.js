@@ -5,7 +5,6 @@ export default class extends Controller {
   static values = { diaryId: Number, from: String }
 
   connect() {
-    // 投稿 or 更新直後だけリクエストを飛ばす
     if (this.fromValue && this.diaryIdValue) {
       this.loadAiComment()
     }
@@ -16,7 +15,14 @@ export default class extends Controller {
       headers: { Accept: "text/vnd.turbo-stream.html" }
     })
       .then(response => response.text())
-      .then(html => Turbo.renderStreamMessage(html))
+      .then(html => {
+        Turbo.renderStreamMessage(html)
+        const url = new URL(window.location)
+        url.searchParams.delete("from")
+        url.searchParams.delete("diary_id")
+        window.history.replaceState({}, "", url)
+      })
   }
+
 
 }

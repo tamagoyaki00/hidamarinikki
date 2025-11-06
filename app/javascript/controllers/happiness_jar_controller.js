@@ -81,12 +81,22 @@ export default class extends Controller {
   createBottleBounds() {
     const width = this.render.options.width
     const height = this.render.options.height
-    const thickness = 15
+    const thickness = 50
 
-    const ground = Matter.Bodies.rectangle(width / 2, height + thickness / 2, width, thickness, { isStatic: true })
-    const leftWall = Matter.Bodies.rectangle(-thickness / 2, height / 2, thickness, height, { isStatic: true })
-    const rightWall = Matter.Bodies.rectangle(width + thickness / 2, height / 2, thickness, height, { isStatic: true })
+    const ground = Matter.Bodies.rectangle(
+      width / 2, height + thickness / 2, width, thickness,
+      { isStatic: true, render: { visible: false } }
+    )
 
+    const leftWall = Matter.Bodies.rectangle(
+      -thickness / 2, height / 2, thickness, height,
+      { isStatic: true, render: { visible: false } }
+    )
+
+    const rightWall = Matter.Bodies.rectangle(
+      width + thickness / 2, height / 2, thickness, height,
+      { isStatic: true, render: { visible: false } }
+    )
     Matter.World.add(this.engine.world, [ground, leftWall, rightWall])
   }
 
@@ -126,6 +136,10 @@ export default class extends Controller {
     const index = this.contents.findIndex(c => c.id === id)
     if (index === -1) return
 
+    const alreadyExists = this.happinessList.some(h => h.id === id)
+    if (alreadyExists) {
+      return
+    }
     if (this.happinessList.length < this.capacity) {
       this.addAnimatedHappiness(index)
 
@@ -136,6 +150,7 @@ export default class extends Controller {
       // 満杯ならオーバーフロー分をキューへ
       this.overflowQueue.push(index)
     }
+  
   }
 
   // 削除アニメーション
@@ -167,11 +182,11 @@ export default class extends Controller {
 
   // 既存データ用の静的表示
   addStaticHappiness(itemIndex) {
-    
+
     // 位置を計算
     const pos = this.calculateStaticPosition(itemIndex)
     const content = this.contents[itemIndex]
-    
+
 
     const filename = content.happiness_image
       ? content.happiness_image.split("/").pop()
@@ -191,6 +206,14 @@ export default class extends Controller {
       const size = 45
       const scaleX = selectedImg.width ? (size / selectedImg.width) : 0.06
       const scaleY = selectedImg.height ? (size / selectedImg.height) : 0.06
+      const pos = {
+        x: Math.random() * (this.render.options.width - size) + size/2,
+        y: Math.random() * 100 + (this.render.options.height - 100)
+
+      }
+
+
+
       const happiness = Matter.Bodies.circle(pos.x, pos.y, size / 2, {
         render: {
           sprite: {
@@ -199,8 +222,8 @@ export default class extends Controller {
             yScale: scaleY
           }
         },
-        friction: 0.1,
-        restitution: 0.5
+        friction: 0.3,
+        restitution: 0.1
       })
       happiness.id = content.id
       happiness.isExisting = true
@@ -214,10 +237,10 @@ export default class extends Controller {
     // 画像が表示されない時用
     const fallback = Matter.Bodies.circle(pos.x, pos.y, 25, {
       render: { fillStyle: "#cccccc" },
-      friction: 0.1,
-      restitution: 0.5
+      friction: 0.3,
+      restitution: 0.1
     })
-    fallback.id = content.id 
+    fallback.id = content.id
     fallback.isExisting = true
     fallback.itemIndex = itemIndex
     Matter.World.add(this.engine.world, fallback)
@@ -225,7 +248,7 @@ export default class extends Controller {
   }
   // 静的表示の位置計算
   calculateStaticPosition(itemIndex) {
-    const cols = 7
+    const cols = 4
     const row = Math.floor(itemIndex / cols)
     const col = itemIndex % cols
 
@@ -244,13 +267,14 @@ export default class extends Controller {
   addAnimatedHappiness(itemIndex) {
     if (!this.engine) return
     const content = this.contents[itemIndex]
-    const selectedImg = this.images.find(img => img.src.includes(content.happiness_image))
+    const filename = content.happiness_image.split("/").pop()
+    const selectedImg = this.images.find(img => img.src.includes(filename))
 
     if (selectedImg) {
       const size = 45
       const scaleX = selectedImg.width ? (size / selectedImg.width) : 0.06
       const scaleY = selectedImg.height ? (size / selectedImg.height) : 0.06
-      const happiness = Matter.Bodies.circle(150, 50, size / 2, {
+      const happiness = Matter.Bodies.circle(150, 20, size / 2, {
         render: {
           sprite: {
             texture: selectedImg.src,
@@ -259,7 +283,7 @@ export default class extends Controller {
           }
         },
         friction: 0.1,
-        restitution: 0.5
+        restitution: 0.3
       })
       happiness.id = content.id
       happiness.isAnimated = true
@@ -273,7 +297,7 @@ export default class extends Controller {
     const fallback = Matter.Bodies.circle(150, 50, 25, {
       render: { fillStyle: "#ff9999" },
       friction: 0.1,
-      restitution: 0.5
+      restitution: 0.3
     })
     fallback.id = content.id
     fallback.isAnimated = true

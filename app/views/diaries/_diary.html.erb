@@ -44,7 +44,7 @@
         <div class="mt-4 diary-body">
           <ol class="list-none space-y-2">
             <% diary.diary_contents.each_with_index do |content, i| %>
-              <li>
+              <li class="leading-relaxed">
                 <span class="mr-2 text-sm md:text-base text-gray-700"><%= i + 1 %>.</span>
                 <span class="text-sm md:text-base"><%= content.body %></span>
               </li>
@@ -59,7 +59,7 @@
           data-action="keydown@window->photo-modal#keyPress">
 
           <% if diary.photos.attached? %>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 mt-4">
               <% diary.photos.each_with_index do |photo, index| %>
                 <div data-controller="photo-loader" class="relative w-full cursor-pointer">
                   <!-- ローディングアニメーション -->
@@ -69,12 +69,14 @@
                   </div>
 
                   <!-- 画像本体 -->
-                  <%= image_tag photo.variant(:thumb),
-                                class: "diary-photo w-full h-auto md:h-48 object-cover rounded-lg shadow-sm",
-                                data: {
-                                  action: "load->photo-loader#hide click->photo-modal#open",
-                                  photo_modal_index_param: index
-                                } %>
+                  <div class="aspect-[4/3] md:aspect-auto">
+                    <%= image_tag photo.variant(:thumb),
+                                  class: "diary-photo w-full h-full md:h-48 object-cover object-cover rounded-lg shadow-sm",
+                                  data: {
+                                    action: "load->photo-loader#hide click->photo-modal#open",
+                                    photo_modal_index_param: index
+                                  } %>
+                  </div>
                 </div>
               <% end %>
 

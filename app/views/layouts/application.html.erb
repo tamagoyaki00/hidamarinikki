@@ -65,9 +65,8 @@
   </head>
 
   <body class="font-base-content font-zen_maru">
-    <% if user_signed_in? %>
-      <%= render 'shared/header' %>
-    <% end %>
+    <%= render 'shared/header' %>
+
     <div id="flash">
       <%= render 'shared/flash_message' %>
     </div>

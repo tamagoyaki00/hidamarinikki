@@ -249,7 +249,6 @@ class DiaryForm
 
     @diary_contents = contents
     @added_ids = contents.map(&:id)
-    @deleted_ids = []
 
     contents
   end

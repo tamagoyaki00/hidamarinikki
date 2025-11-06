@@ -80,7 +80,7 @@ RSpec.describe 'Diaries', type: :system do
           click_button '投稿する'
           expect(page).to have_content '日記投稿ありがとう！'
           expect(page).to have_content 'テスト用AIコメント'
-          expect(page).to have_current_path(home_path(diary_id: Diary.last.id, from: "create"))
+          expect(page).to have_current_path(home_path, ignore_query: true)
         end
       end
 
@@ -144,7 +144,7 @@ RSpec.describe 'Diaries', type: :system do
 
       it '日記の内容には、ユーザーアバター・ユーザー名・日付・本文・ステータス・タグが表示されていること' do
         visit public_diaries_path
-        within first('.diary-card') do
+        within find('.diary-card', text: '他人の公開日記') do
           expect(page).to have_selector('.user-avatar') # アバター
           expect(page).to have_content other_user.name     # ユーザー名
           expect(page).to have_content other_public_diary.posted_date.strftime('%Y年%m月%d日') # 日付
@@ -213,7 +213,7 @@ RSpec.describe 'Diaries', type: :system do
 
         expect(page).to have_content '日記更新ありがとう！'
         expect(page).to have_content 'テスト用AIコメント'
-        expect(page).to have_current_path(home_path(diary_id: Diary.last.id, from: "update"))
+        expect(page).to have_current_path(home_path, ignore_query: true)
         click_link 'マイ日記'
         expect(page).to have_content '更新後の内容'
       end

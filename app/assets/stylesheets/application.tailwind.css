@@ -101,6 +101,11 @@
   height: 200px;
 }
 
+.tooltip::before {
+  padding: 8px 8px;
+}
+
+
 @layer utilities {
   /* 一回転 */
   @keyframes spin-once {
@@ -135,7 +140,9 @@
     animation-fill-mode: forwards;
   }
   .fade-delay-100 { animation-delay: 0.1s; }
+  .fade-delay-300 { animation-delay: 0.3s; }
   .fade-delay-500 { animation-delay: 0.5s; }
+  .fade-delay-700 { animation-delay: 0.7s; }
   .fade-delay-800 { animation-delay: 0.8s; }
 }
 
@@ -187,7 +194,7 @@
         #e6edf3 50%,
         #e6edf3
       );
-    background-size: 15px 15px;
+    background-size: 12px 12px;
     background-repeat: repeat;
     background-color: #ffffff;
     color: #333333;
@@ -195,8 +202,6 @@
 
   .tape {
     position: relative;
-    max-width: 400px;
-    min-height: 180px;
     margin: 1.5em auto;
     padding: 2.5em 1.5em 1.5em;
     box-shadow: 0 2px 3px rgb(0 0 0 / 20%);
