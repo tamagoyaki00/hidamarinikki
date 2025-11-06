@@ -121,7 +121,7 @@ class DiariesController < ApplicationController
       client = OpenAI::Client.new(access_token: ENV["OPENAI_API_KEY"])
       response = client.chat(
         parameters: {
-          model: "gpt-5-nano",
+          model: "gpt-5-mini",
           messages: [
             { role: "system", content: system_prompt },
             { role: "user", content: contents_text }
@@ -137,7 +137,7 @@ class DiariesController < ApplicationController
       client = OpenAI::Client.new(access_token: ENV["OPENAI_API_KEY"])
       response = client.chat(
         parameters: {
-          model: "gpt-5-nano",
+          model: "gpt-5-mini",
           messages: [
             { role: "system", content: "あなたはユーザーの毎日の日記を応援するAIパートナーです。
               あなたの役割は寄り添いと、モチベーションアップです。

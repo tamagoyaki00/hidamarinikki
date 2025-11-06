@@ -21,15 +21,15 @@
             </h2>
 
           <!-- 付箋 -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 items-start px-4 md:pb-20">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-12 items-start px-4 md:pb-20">
 
               <!-- 付箋1：左 -->
               <div class="sm:mt-8 fade-in fade-delay-100">
-                <div class="tape max-w-[280px] min-h-[160px] md:max-w-[400px] md:min-h-[180px] tape-yellow relative bg-yellow-100 shadow-lg p-5 transform -rotate-1">
+                <div class="tape max-w-[280px] min-h-[140px] lg:max-w-[400px] lg:min-h-[180px] tape-yellow relative bg-yellow-100 shadow-lg p-5 transform lg:-rotate-1">
                   <div class="text-sm font-semibold text-yellow-800 tracking-wide mb-3">
                     <span>幸せのかけら合計数</span>
                   </div>
-                  <div class="text-6xl font-extrabold text-amber-900 leading-none text-center mt-8 md:mt-10">
+                  <div class="text-4xl lg:text-6xl font-extrabold text-amber-900 leading-none text-center mt-8 lg:mt-10">
                     <p><%= @monthly_review.total_happiness_count %></p>
                   </div>
                 </div>
@@ -37,11 +37,11 @@
 
               <!-- 付箋2：中央 -->
               <div class="sm:mt-6 fade-in fade-delay-500">
-                <div class="tape max-w-[280px] min-h-[160px] md:max-w-[400px] md:min-h-[180px] tape-pink relative bg-pink-100 shadow-lg p-5 transform rotate-1">
+                <div class="tape max-w-[280px] min-h-[140px] lg:max-w-[400px] lg:min-h-[180px] tape-pink relative bg-pink-100 shadow-lg p-5 transform lg:rotate-1">
                   <div class="text-sm font-semibold text-pink-800 tracking-wide mb-3">
                     <span>1日記あたりの幸せのかけら数</span>
                   </div>
-                  <div class="text-6xl font-extrabold text-rose-900 leading-none text-center mt-8 md:mt-10">
+                  <div class="text-4xl lg:text-6xl font-extrabold text-rose-900 leading-none text-center mt-8 lg:mt-10">
                     <p><%= @monthly_review.average_happiness_count %></p>
                   </div>
                 </div>
@@ -49,11 +49,11 @@
 
               <!-- 付箋3：右 -->
               <div class="sm:mt-12 fade-in fade-delay-800">
-                <div class="tape max-w-[280px] min-h-[160px] md:max-w-[400px] md:min-h-[180px] tape-blue relative bg-blue-100 shadow-lg p-5 transform -rotate-2">
+                <div class="tape max-w-[280px] min-h-[140px] lg:max-w-[400px] lg:min-h-[180px] tape-blue relative bg-blue-100 shadow-lg p-5 transform lg:-rotate-2">
                   <div class="text-sm font-semibold text-blue-800 tracking-wide mb-3">
                     <span>最大の幸せのかけら数</span>
                   </div>
-                  <div class="text-6xl font-extrabold text-blue-900 leading-none text-center mt-8 md:mt-10">
+                  <div class="text-4xl lg:text-6xl font-extrabold text-blue-900 leading-none text-center mt-8 lg:mt-10">
                     <p><%= @monthly_review.max_happiness_count %></p>
                   </div>
                 </div>
