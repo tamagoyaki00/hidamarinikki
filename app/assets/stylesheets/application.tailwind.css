@@ -101,6 +101,11 @@
   height: 200px;
 }
 
+.tooltip::before {
+  padding: 8px 8px;
+}
+
+
 @layer utilities {
   /* 一回転 */
   @keyframes spin-once {
