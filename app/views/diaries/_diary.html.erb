@@ -59,7 +59,7 @@
           data-action="keydown@window->photo-modal#keyPress">
 
           <% if diary.photos.attached? %>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 mt-4">
               <% diary.photos.each_with_index do |photo, index| %>
                 <div data-controller="photo-loader" class="relative w-full cursor-pointer">
                   <!-- ローディングアニメーション -->
