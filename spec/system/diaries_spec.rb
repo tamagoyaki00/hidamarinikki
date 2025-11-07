@@ -156,6 +156,24 @@ RSpec.describe 'Diaries', type: :system do
         end
       end
 
+      it 'ユーザーアバターをクリックすると、ユーザー詳細画面に遷移すること' do
+        visit public_diaries_path
+        within find('.diary-card', text: '他人の公開日記') do
+          expect(page).to have_selector('.user-avatar')
+          find('.user-avatar').click
+        end
+        expect(page).to have_current_path(user_path(other_user))
+      end
+
+      it 'ユーザー名をクリックすると、ユーザー詳細画面に遷移すること' do
+        visit public_diaries_path
+        within find('.diary-card', text: '他人の公開日記') do
+          expect(page).to have_content other_user.name
+          click_on other_user.name
+        end
+        expect(page).to have_current_path(user_path(other_user))
+      end
+
       it '日記は新しい順に並んでいること' do
         visit public_diaries_path
         diary_dates = all('.diary-card .diary-date').map(&:text)

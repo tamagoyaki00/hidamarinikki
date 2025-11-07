@@ -96,6 +96,7 @@ RSpec.describe "Users", type: :system do
 
   describe 'ユーザー詳細画面に関すること' do
     let(:user) { create(:user) }
+    let(:other_user) { create(:user) }
 
     before do
       visit user_path(user)
@@ -105,13 +106,13 @@ RSpec.describe "Users", type: :system do
       expect(page).to have_content 'プロフィール'
     end
 
-    it '未ログイン時は編集ボタンは表示されないこと' do
+    it '未ログイン時は編集ボタン・アカウント削除ボタンは表示されないこと' do
       expect(page).to have_content 'プロフィール'
       expect(page).to have_content 'ユーザー名'
       expect(page).to have_content '自己紹介'
       expect(page).not_to have_link '編集'
       expect(page).to have_content 'バッジ一覧'
-      expect(page).to have_link 'アカウントを削除'
+      expect(page).not_to have_link 'アカウントを削除'
     end
 
     context 'レベルに応じて表示が変更されること' do
@@ -148,6 +149,13 @@ RSpec.describe "Users", type: :system do
         expect(page).to have_css '.level-5'
         expect(page).to have_css '.level-15'
       end
+    end
+
+    it '他ユーザー詳細画面では編集・削除リンクが表示されない' do
+      login_as(user)
+      visit user_path(other_user)
+      expect(page).not_to have_link '編集'
+      expect(page).not_to have_link 'アカウントを削除'
     end
   end
 
@@ -248,13 +256,13 @@ RSpec.describe "Users", type: :system do
 
   describe 'アカウント削除に関すること' do
     let(:user) { create(:user) }
-    let!(:diary) { create(:diary, user: user) }
 
     before do
       visit new_user_session_path
       fill_in 'メールアドレス', with: user.email
       fill_in 'パスワード', with: user.password
       click_button 'ログイン'
+      expect(page).to have_content 'ログインしました'
       visit user_path(user)
     end
 
