@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_11_01_124916) do
+ActiveRecord::Schema[7.2].define(version: 2025_11_07_091622) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -72,21 +72,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_01_124916) do
     t.index ["tag_id"], name: "index_diary_tags_on_tag_id"
   end
 
-  create_table "monthly_reviews", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.date "month", null: false
-    t.jsonb "diary_snippets", default: [], null: false
-    t.float "average_happiness_count"
-    t.integer "max_happiness_count"
-    t.integer "total_happiness_count"
-    t.bigint "max_happiness_diary_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["max_happiness_diary_id"], name: "index_monthly_reviews_on_max_happiness_diary_id"
-    t.index ["user_id", "month"], name: "index_monthly_reviews_on_user_id_and_month", unique: true
-    t.index ["user_id"], name: "index_monthly_reviews_on_user_id"
-  end
-
   create_table "notification_settings", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.time "notification_time"
@@ -131,7 +116,5 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_01_124916) do
   add_foreign_key "diary_contents", "diaries"
   add_foreign_key "diary_tags", "diaries"
   add_foreign_key "diary_tags", "tags"
-  add_foreign_key "monthly_reviews", "diaries", column: "max_happiness_diary_id"
-  add_foreign_key "monthly_reviews", "users"
   add_foreign_key "notification_settings", "users"
 end
