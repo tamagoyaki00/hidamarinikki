@@ -59,7 +59,7 @@ class User < ApplicationRecord
   end
 
   def happiness_level
-    total_happiness_count / 120
+    total_happiness_count / 75
   end
 
 
