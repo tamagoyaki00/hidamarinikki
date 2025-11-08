@@ -121,7 +121,7 @@ RSpec.describe "Users", type: :system do
       end
 
       it 'レベル0のときは幸せコレクターレベルが表示されず、バッジも薄いまま表示されること' do
-        create(:diary, user:, happiness_count: 119) # レベル0
+        create(:diary, user:, happiness_count: 74) # レベル0
         visit user_path(user)
 
         expect(page).not_to have_content '幸せコレクター'
@@ -131,7 +131,7 @@ RSpec.describe "Users", type: :system do
       end
 
       it 'レベル1のときは幸せコレクターレベルが表示され、バッジも表示されること' do
-        create(:diary, user:, happiness_count: 120) # レベル1
+        create(:diary, user:, happiness_count: 75) # レベル1
         visit user_path(user)
 
         expect(page).to have_content '幸せコレクター Lv1'
@@ -141,7 +141,7 @@ RSpec.describe "Users", type: :system do
       end
 
       it 'レベル15のときは幸せコレクターレベルが表示され、すべてのバッジも表示されること' do
-        create(:diary, user:, happiness_count: 1800) # レベル15
+        create(:diary, user:, happiness_count: 1125) # レベル15
         visit user_path(user)
 
         expect(page).to have_content '幸せコレクター Lv15'

@@ -112,7 +112,7 @@ export default class extends Controller {
   }
 
 
-  capacity = 120
+  capacity = 75
 
   // アニメーションの開始
   handleAnimationOnConnect() {
