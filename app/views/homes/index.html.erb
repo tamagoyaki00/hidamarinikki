@@ -1,5 +1,32 @@
 <div class="flex flex-col items-center max-w-5xl mx-auto justify-center p-4">
   <div class="max-w-md mx-auto my-8">
+
+    <!-- 条件を満たすと、振り返りモーダルを表示 -->
+    <% if @show_review_modal %>
+      <dialog open class="modal">
+        <div class="modal-box relative p-0 rounded-none w-full max-w-full">
+          <picture>
+            <source media="(min-width: 640px)" srcset="<%= asset_path("monthly_review.png") %>">
+            <img src="<%= asset_path("monthly_review_sp.png") %>"
+                alt=""
+                class="w-full h-auto object-cover max-w-full" />
+          </picture>
+
+          <div class="absolute inset-0 flex items-center justify-center">
+            <%= link_to monthly_review_path(month: Date.current.prev_month.strftime("%Y-%m")),
+                        class: "btn btn-primary mt-10" do %>
+              <span class="material-symbols-outlined">history</span>
+              <span><%= "先月の振り返りを見る" %></span>
+            <% end %>
+          </div>
+
+          <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+          </form>
+        </div>
+      </dialog>
+    <% end %>
+
     <%= link_to new_diary_path, class: "card card-body bg-primary shadow-xl rounded-lg p-6 text-center" do %>
       <h2 class="text-xl text-primary-content font-bold mb-2">日記を書く</h2>
       <p class="text-base text-gray-700">今日あった良かったことや、<br>

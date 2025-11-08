@@ -10,9 +10,9 @@ class User < ApplicationRecord
   has_one_attached :avatar
 
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # :confirmable, :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
+         :recoverable, :rememberable, :validatable, :trackable,
          :omniauthable, omniauth_providers: [ :google_oauth2 ]
 
   validates :name, presence: true, length: { maximum: 20 }, blocked_words: true
@@ -65,6 +65,18 @@ class User < ApplicationRecord
 
   def remember_me
     true
+  end
+
+  def first_login_this_month?
+    return false unless current_sign_in_at
+
+    beginning_of_month = Time.current.beginning_of_month
+    current_sign_in_at >= beginning_of_month &&
+      (last_sign_in_at.nil? || last_sign_in_at < beginning_of_month)
+  end
+
+  def has_diary_last_month?
+    Diary.where(user_id: id, posted_date: Date.today.prev_month.all_month).exists?
   end
 
   private
