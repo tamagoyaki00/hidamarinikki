@@ -322,6 +322,13 @@ export default class extends Controller {
     const modalToggle = document.getElementById("full-jar-modal")
     if (modalToggle) modalToggle.checked = true
 
+    if (this.happinessList.length > this.capacity) {
+      const overflow = this.happinessList.slice(this.capacity)
+      overflow.forEach(h => {
+        this.overflowQueue.push(h.itemIndex)
+      })
+    }
+
     // フォールバック: 15秒後に自動で新しい瓶へ
     this.autoReplaceTimer = setTimeout(() => {
       this.replaceWithNewBottle()
