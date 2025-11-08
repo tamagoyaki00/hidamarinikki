@@ -120,18 +120,18 @@ RSpec.describe User, type: :model do
     end
 
     describe "#happiness_level" do
-      it 'total_happiness_countが120未満のときは0を返すこと' do
-        diary1 = create(:diary, user:, happiness_count: 119)
+      it 'total_happiness_countが75未満のときは0を返すこと' do
+        diary1 = create(:diary, user:, happiness_count: 74)
         expect(user.happiness_level).to eq 0
       end
 
-      it 'total_happiness_countが120のときは1を返すこと' do
-        diary1 = create(:diary, user:, happiness_count: 120)
+      it 'total_happiness_countが75のときは1を返すこと' do
+        diary1 = create(:diary, user:, happiness_count: 75)
         expect(user.happiness_level).to eq 1
       end
 
-      it 'total_happiness_countが240のときは2を返すこと' do
-        diary1 = create(:diary, user:, happiness_count: 240)
+      it 'total_happiness_countが150のときは2を返すこと' do
+        diary1 = create(:diary, user:, happiness_count: 150)
         expect(user.happiness_level).to eq 2
       end
     end
