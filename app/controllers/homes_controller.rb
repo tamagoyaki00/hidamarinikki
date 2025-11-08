@@ -6,9 +6,12 @@ class HomesController < ApplicationController
     @diary_contents = DiaryContent
       .joins(:diary)
       .where(diaries: { user_id: current_user.id })
-      .select(:id, :happiness_image)
+      .select(:id, :happiness_image, :jar_number)
       .order(created_at: :asc)
 
+    @current_jar_number = DiaryContent.joins(:diary)
+                                      .where(diaries: { user_id: current_user.id })
+                                      .maximum(:jar_number) || 1
 
     animation_data = flash[:happiness_animation] || {}
 

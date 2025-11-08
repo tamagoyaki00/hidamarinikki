@@ -54,8 +54,9 @@
 
     <div id="happiness-jar-container" 
         data-controller="happiness-jar"
-        data-happiness-jar-contents-value="<%= @diary_contents.map { |c| { id: c.id, happiness_image: asset_path(c.happiness_image) } }.to_json %>"
+        data-happiness-jar-contents-value="<%= @diary_contents.map { |c| { id: c.id, jar_number: c.jar_number, happiness_image: asset_path(c.happiness_image) } }.to_json %>"
         data-happiness-jar-image-urls-value="<%= @happiness_image_urls.to_json %>"
+        data-happiness-jar-current-jar-number-value="<%= @current_jar_number %>"
         data-happiness-jar-added-ids-value="<%= @added_ids.to_json %>"
         data-happiness-jar-deleted-ids-value="<%= @deleted_ids.to_json %>">
 
