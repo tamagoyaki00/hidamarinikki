@@ -67,6 +67,18 @@ class User < ApplicationRecord
     true
   end
 
+  def first_login_this_month?
+    return false unless current_sign_in_at
+
+    beginning_of_month = Time.current.beginning_of_month
+    current_sign_in_at >= beginning_of_month &&
+      (last_sign_in_at.nil? || last_sign_in_at < beginning_of_month)
+  end
+
+  def has_diary_last_month?
+    Diary.where(user_id: id, posted_date: Date.today.prev_month.all_month).exists?
+  end
+
   private
 
   def validate_avatar_format
