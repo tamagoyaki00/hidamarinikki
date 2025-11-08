@@ -23,10 +23,10 @@ class HomesController < ApplicationController
     # 月、初回ログイン＆先月日記を投稿しているかどうかの確認（振り返りモーダルを出すため）
     modal_session_key = "shown_review_modal_#{Time.current.strftime('%Y-%m')}".to_sym
     @show_review_modal = false
-    if  current_user.first_login_this_month? && 
+    if  current_user.first_login_this_month? &&
         current_user.has_diary_last_month? &&
         !session[modal_session_key]
-    
+
       @show_review_modal = true
       session[modal_session_key] = true
     end
