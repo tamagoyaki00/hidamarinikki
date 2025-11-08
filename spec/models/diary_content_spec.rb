@@ -39,4 +39,18 @@ RSpec.describe DiaryContent, type: :model do
       end
     end
   end
+
+  describe 'メソッド' do
+    let(:diary) { create(:diary) }
+
+    it "75件までは jar_number=1" do
+      75.times { DiaryContent.create!(diary: diary, body: "test") }
+      expect(diary.diary_contents.last.jar_number).to eq(1)
+    end
+
+    it "76件目で jar_number=2" do
+      76.times { DiaryContent.create!(diary: diary, body: "test") }
+      expect(diary.diary_contents.last.jar_number).to eq(2)
+    end
+  end
 end

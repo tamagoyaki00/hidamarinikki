@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_11_08_050726) do
+ActiveRecord::Schema[7.2].define(version: 2025_11_08_134607) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -59,6 +59,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_08_050726) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "happiness_image"
+    t.integer "jar_number", default: 1, null: false
     t.index ["diary_id"], name: "index_diary_contents_on_diary_id"
   end
 

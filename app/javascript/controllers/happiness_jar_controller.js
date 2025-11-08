@@ -7,6 +7,7 @@ export default class extends Controller {
     contents: Array,
     addedIds: Array,
     deletedIds: Array,
+    currentJarNumber: Number
   }
 
   connect() {
@@ -103,10 +104,13 @@ export default class extends Controller {
   // 既存のhappinessを表示
   displayExistingHappiness() {
     const addedIds = this.addedIdsValue || []
+    const currentJarNumber = this.currentJarNumberValue
+
     this.contents.forEach((content, i) => {
-      // リロード時は addedIds が空なので全件描画される
-      if (addedIds.length === 0 || !addedIds.includes(content.id)) {
-        this.addStaticHappiness(i)
+      if (content.jar_number === currentJarNumber) {
+        if (addedIds.length === 0 || !addedIds.includes(content.id)) {
+          this.addStaticHappiness(i)
+        }
       }
     })
   }
