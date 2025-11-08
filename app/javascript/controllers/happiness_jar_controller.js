@@ -129,6 +129,11 @@ export default class extends Controller {
     if (this.deletedIdsValue?.length > 0) {
       this.handleDecreaseAnimation(this.deletedIdsValue)
     }
+
+    // 瓶が満タンか再判定
+    if (this.happinessList.length >= this.capacity) {
+      this.onJarFull()
+    }
   }
 
   // IDを指定して追加処理を行う（共通化）
