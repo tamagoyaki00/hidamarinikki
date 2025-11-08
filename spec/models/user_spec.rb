@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  include ActiveSupport::Testing::TimeHelpers
+
   let(:user) { create(:user) }
 
   describe 'バリデーション' do
@@ -136,15 +138,46 @@ RSpec.describe User, type: :model do
       end
     end
 
+    describe '#first_login_this_month?' do
+      it "月初の初回ログインを判定が正常にできること" do
+        user = create(:user, last_sign_in_at: 1.month.ago.end_of_month)
 
-    describe 'ユーザー削除時' do
-      it 'ユーザー削除時に関連する日記も削除されること' do
-        user = create(:user)
-        diary = create(:diary, user: user)
+        travel_to Time.current.beginning_of_month + 1.minute do
+          user.update!(current_sign_in_at: Time.current)
 
-        expect { user.destroy }.to change(User, :count).by(-1)
-                              .and change(Diary, :count).by(-1)
+          expect(user.first_login_this_month?).to be true
+        end
       end
+    end
+
+    describe '#has_diary_last_month?' do
+      context '先月の日記がある場合' do
+        before do
+          create(:diary, user: user, posted_date: Date.today.prev_month.beginning_of_month)
+        end
+
+        it 'true を返す' do
+          expect(user.has_diary_last_month?).to be true
+        end
+      end
+
+      context '先月の日記がない場合' do
+        it 'false を返す' do
+          expect(user.has_diary_last_month?).to be false
+        end
+      end
+    end
+  end
+
+
+
+  describe 'ユーザー削除時' do
+    it 'ユーザー削除時に関連する日記も削除されること' do
+      user = create(:user)
+      diary = create(:diary, user: user)
+
+      expect { user.destroy }.to change(User, :count).by(-1)
+                            .and change(Diary, :count).by(-1)
     end
   end
 end
