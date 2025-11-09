@@ -13,6 +13,9 @@ class HomesController < ApplicationController
                                       .where(diaries: { user_id: current_user.id })
                                       .maximum(:jar_number) || 1
 
+    @prev_jar_number = @current_jar_number > 1 ? @current_jar_number - 1 : nil
+
+
     animation_data = flash[:happiness_animation] || {}
 
     if animation_data.present?

@@ -57,6 +57,7 @@
         data-happiness-jar-contents-value="<%= @diary_contents.map { |c| { id: c.id, jar_number: c.jar_number, happiness_image: asset_path(c.happiness_image) } }.to_json %>"
         data-happiness-jar-image-urls-value="<%= @happiness_image_urls.to_json %>"
         data-happiness-jar-current-jar-number-value="<%= @current_jar_number %>"
+        data-happiness-jar-prev-jar-number-value="<%= @prev_jar_number %>"
         data-happiness-jar-added-ids-value="<%= @added_ids.to_json %>"
         data-happiness-jar-deleted-ids-value="<%= @deleted_ids.to_json %>">
 
@@ -77,6 +78,8 @@
       <div class="modal">
         <div class="modal-box relative aspect-[2/3] w-full sm:w-[600px] sm:aspect-[3/2]
                     flex flex-col items-center justify-center text-center overflow-hidden">
+          <label for="full-jar-modal"
+                 class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 z-10">✕</label>
 
           <!-- コンテンツ -->
           <div class="relative z-10 text-center mt-8">
@@ -100,9 +103,6 @@
 
           <div class="relative z-10 px-4 mt-6">
             <div class="flex flex-col justify-center space-y-4">
-              <button id="next-jar-button" class="btn btn-neutral">
-                次の瓶に貯める
-              </button>
 
                <%= link_to "称号を見に行く", user_path(current_user), class: "btn btn-neutral" %>
             </div>
