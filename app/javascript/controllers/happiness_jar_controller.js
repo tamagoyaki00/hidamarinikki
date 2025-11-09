@@ -317,21 +317,6 @@ export default class extends Controller {
     const modalToggle = document.getElementById("full-jar-modal")
     if (modalToggle) modalToggle.checked = true
 
-    // フォールバック: 15秒後に自動で新しい瓶へ
-    this.autoReplaceTimer = setTimeout(() => {
-      this.replaceWithNewBottle()
-      if (modalToggle) modalToggle.checked = false
-    }, 15000)
-
-    // 「次の瓶へ」ボタンにイベントを付与
-    const button = document.getElementById("next-jar-button")
-    if (button) {
-      button.addEventListener("click", () => {
-        clearTimeout(this.autoReplaceTimer) // 自動遷移をキャンセル
-        this.replaceWithNewBottle()
-        if (modalToggle) modalToggle.checked = false // ← モーダルを閉じる
-      }, { once: true }) // ← 複数回バインド防止
-    }
   }
 
 
