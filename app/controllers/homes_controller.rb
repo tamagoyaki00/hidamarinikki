@@ -12,7 +12,7 @@ class HomesController < ApplicationController
     @current_jar_number = DiaryContent.joins(:diary)
                                       .where(diaries: { user_id: current_user.id })
                                       .maximum(:jar_number) || 1
-                                      
+
     @prev_jar_number = @current_jar_number > 1 ? @current_jar_number - 1 : nil
 
 
