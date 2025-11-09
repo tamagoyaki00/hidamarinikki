@@ -7,12 +7,11 @@ export default class extends Controller {
     contents: Array,
     addedIds: Array,
     deletedIds: Array,
-    currentJarNumber: Number
+    currentJarNumber: Number,
+    prevJarNumber: Number
   }
 
   connect() {
-    this.overflowQueue = []
-
     const canvas = this.element.querySelector("#happiness-canvas")
     if (!canvas) return
 
@@ -38,7 +37,7 @@ export default class extends Controller {
       this.displayExistingHappiness()
       this.handleAnimationOnConnect()
     }
-  }
+  }  
 
   preloadImages(urls) {
     const promises = urls.map((url) => {
@@ -116,8 +115,6 @@ export default class extends Controller {
   }
 
 
-  capacity = 75
-
   // アニメーションの開始
   handleAnimationOnConnect() {
     // 追加アニメーション
@@ -127,40 +124,34 @@ export default class extends Controller {
           this.handleAddById(id)
         }, i * 350)
       })
+
+      const hasPrevItem = this.addedIdsValue.some(id => {
+        const content = this.contents.find(c => c.id === id)
+        return content && content.jar_number === this.prevJarNumberValue
+      })
+
+      if (hasPrevItem) {
+        this.onJarFull()
+      }
     }
 
     // 削除アニメーション
     if (this.deletedIdsValue?.length > 0) {
       this.handleDecreaseAnimation(this.deletedIdsValue)
     }
-
-    // 瓶が満タンか再判定
-    if (this.happinessList.length >= this.capacity) {
-      this.onJarFull()
-    }
   }
 
   // IDを指定して追加処理を行う（共通化）
   handleAddById(id) {
-    const index = this.contents.findIndex(c => c.id === id)
-    if (index === -1) return
+    const content = this.contents.find(c => c.id === id)
+    if (!content) return
 
-    const alreadyExists = this.happinessList.some(h => h.id === id)
-    if (alreadyExists) {
-      return
-    }
-    if (this.happinessList.length < this.capacity) {
+    if (content.jar_number === this.currentJarNumberValue) {
+      const index = this.contents.findIndex(c => c.id === id)
       this.addAnimatedHappiness(index)
-
-      if (this.happinessList.length >= this.capacity) {
-        this.onJarFull()
-      }
-    } else {
-      // 満杯ならオーバーフロー分をキューへ
-      this.overflowQueue.push(index)
     }
-  
   }
+
 
   // 削除アニメーション
   handleDecreaseAnimation(deletedIds) {
@@ -326,13 +317,6 @@ export default class extends Controller {
     const modalToggle = document.getElementById("full-jar-modal")
     if (modalToggle) modalToggle.checked = true
 
-    if (this.happinessList.length > this.capacity) {
-      const overflow = this.happinessList.slice(this.capacity)
-      overflow.forEach(h => {
-        this.overflowQueue.push(h.itemIndex)
-      })
-    }
-
     // フォールバック: 15秒後に自動で新しい瓶へ
     this.autoReplaceTimer = setTimeout(() => {
       this.replaceWithNewBottle()
@@ -382,18 +366,6 @@ export default class extends Controller {
     this.happinessList = []
     this.setupMatterJS(newCanvas)
 
-    // キューに溜まっていた分を新瓶へ流し込む
-    const carry = [...this.overflowQueue]
-    this.overflowQueue = []
-
-    carry.forEach((itemIndex, idx) => {
-      setTimeout(() => {
-        this.addAnimatedHappiness(itemIndex)
-        if (this.happinessList.length >= this.capacity) {
-          this.onJarFull()
-        }
-      }, idx * 350)
-    })
   }
 
 }
