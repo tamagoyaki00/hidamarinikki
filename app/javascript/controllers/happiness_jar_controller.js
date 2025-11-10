@@ -179,14 +179,9 @@ export default class extends Controller {
   }
 
 
-
   // 既存データ用の静的表示
   addStaticHappiness(itemIndex) {
-
-    // 位置を計算
-    const pos = this.calculateStaticPosition(itemIndex)
     const content = this.contents[itemIndex]
-
 
     const filename = content.happiness_image
       ? content.happiness_image.split("/").pop()
@@ -196,11 +191,9 @@ export default class extends Controller {
       return filename && img.src.includes(filename)
     })
 
-
     if (!selectedImg && this.images && this.images.length > 0) {
       selectedImg = this.images[itemIndex % this.images.length]
     }
-
 
     if (selectedImg) {
       const size = 45
@@ -211,8 +204,6 @@ export default class extends Controller {
         y: Math.random() * 100 + (this.render.options.height - 100)
 
       }
-
-
 
       const happiness = Matter.Bodies.circle(pos.x, pos.y, size / 2, {
         render: {
@@ -261,6 +252,8 @@ export default class extends Controller {
       x: startX + (col * spacingX),
       y: startY - (row * spacingY)
     }
+
+    
   }
 
   // 追加アニメーション用
@@ -274,7 +267,10 @@ export default class extends Controller {
       const size = 45
       const scaleX = selectedImg.width ? (size / selectedImg.width) : 0.06
       const scaleY = selectedImg.height ? (size / selectedImg.height) : 0.06
-      const happiness = Matter.Bodies.circle(150, 20, size / 2, {
+      const x = Math.random() * (this.render.options.width - size) + size / 2
+      const y = 20
+
+      const happiness = Matter.Bodies.circle(x, y, size / 2, {
         render: {
           sprite: {
             texture: selectedImg.src,
@@ -283,7 +279,8 @@ export default class extends Controller {
           }
         },
         friction: 0.1,
-        restitution: 0.3
+        frictionAir: 0.02,
+        restitution: 0.5
       })
       happiness.id = content.id
       happiness.isAnimated = true
@@ -296,8 +293,9 @@ export default class extends Controller {
     // fallback
     const fallback = Matter.Bodies.circle(150, 50, 25, {
       render: { fillStyle: "#ff9999" },
-      friction: 0.1,
-      restitution: 0.3
+        friction: 0.1,
+        frictionAir: 0.02,
+        restitution: 0.5
     })
     fallback.id = content.id
     fallback.isAnimated = true
