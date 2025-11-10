@@ -76,10 +76,10 @@
       </div>
       
       <div class="flex flex-col items-center text-center space-y-3 w-64 h-64 rounded-full bg-base-200 shadow-xl p-6 transition hover:-translate-y-1 hover:shadow-2xl duration-300 border-2 border-accent/50">
-        <span class="material-symbols-outlined text-5xl text-primary">sell</span>
-        <h3 class="text-lg font-bold text-primary">タグ付けと過去の検索</h3>
+        <span class="material-symbols-outlined text-5xl text-primary">history</span>
+        <h3 class="text-lg font-bold text-primary">振り返り機能</h3>
           <p class="text-sm">
-            記録にタグを付けて整理。気分や出来事の種類で過去の幸せを瞬時に見つけ、振り返りをサポートします。
+            日々の幸せを一目でわかるようにグラフ化。一か月の振り返りレポートも自動で作成。幸せな思い出の振り返りをサポートします。
           </p>
       </div>
     </div>
@@ -180,7 +180,9 @@
   <section class="py-24 px-6">
     <div class="max-w-3xl mx-auto">
       <h2 class="text-lg mb-6 text-center">
-        今日の小さな幸せを、今すぐ記録してみませんか？
+        今日の小さな幸せを、
+          <br class="block sm:hidden">
+        今すぐ記録してみませんか？
       </h2>
       <div class="mt-6 flex flex-col justify-center gap-4">
         <%= link_to "はじめる(無料)", new_user_registration_path, class: "btn btn-primary font-bold text-secondary-content lg:py-6" %>
