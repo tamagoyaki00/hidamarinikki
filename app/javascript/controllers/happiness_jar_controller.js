@@ -237,31 +237,18 @@ export default class extends Controller {
     Matter.World.add(this.engine.world, fallback)
     this.happinessList.push(fallback)
   }
-  // 静的表示の位置計算
-  calculateStaticPosition(itemIndex) {
-    const cols = 4
-    const row = Math.floor(itemIndex / cols)
-    const col = itemIndex % cols
-
-    const startX = 80
-    const startY = this.render.options.height - 25
-    const spacingX = 60
-    const spacingY = 60
-
-    return {
-      x: startX + (col * spacingX),
-      y: startY - (row * spacingY)
-    }
-
-    
-  }
 
   // 追加アニメーション用
   addAnimatedHappiness(itemIndex) {
     if (!this.engine) return
     const content = this.contents[itemIndex]
-    const filename = content.happiness_image.split("/").pop()
-    const selectedImg = this.images.find(img => img.src.includes(filename))
+    const filename = content.happiness_image
+      ? content.happiness_image.split("/").pop()
+      : null
+
+    let selectedImg = this.images.find(img => {
+      return filename && img.src.includes(filename)
+    })
 
     if (selectedImg) {
       const size = 45
@@ -316,7 +303,6 @@ export default class extends Controller {
     if (modalToggle) modalToggle.checked = true
 
   }
-
 
 
   replaceWithNewBottle() {
