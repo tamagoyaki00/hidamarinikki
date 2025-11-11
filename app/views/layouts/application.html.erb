@@ -1,8 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DH9HZ7RPTK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-DH9HZ7RPTK');
+    </script>
     <title><%= content_for(:title) || "ひだまり日記" %></title>
     <%= favicon_link_tag('favicon.ico') %>
 
