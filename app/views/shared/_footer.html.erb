@@ -1,26 +1,26 @@
 <footer class="fixed bottom-0 left-0 z-50 w-full h-16 backdrop-blur-md  bg-base-200/70 border-t border-gray-200">
-  <div class="flex h-full w-full mx-auto justify-around items-center lg:px-20">
-    <%= link_to home_path, class: "flex flex-col items-center" do %>
+  <div class="flex h-full w-full mx-auto items-center lg:px-20">
+    <%= link_to home_path, class: "flex flex-col items-center flex-1" do %>
       <i class="fa-solid fa-house text-2xl md:text-3xl <%= highlight_class(home_path) %>"></i>
       <span class="text-xs text-gray-500 mt-1">ホーム</span>
     <% end %>
 
-    <%= link_to my_diaries_path, class: "flex flex-col items-center" do %>
+    <%= link_to my_diaries_path, class: "flex flex-col items-center flex-1" do %>
       <i class="fa-solid fa-book-open text-2xl md:text-3xl <%= highlight_class(my_diaries_path) %>"></i>
       <span class="text-xs text-gray-500 mt-1">マイ日記</span>
     <% end %>
 
-    <%= link_to public_diaries_path, class: "flex flex-col items-center" do %>
+    <%= link_to public_diaries_path, class: "flex flex-col items-center flex-1" do %>
       <i class="fa-solid fa-users text-2xl md:text-3xl <%= highlight_class(public_diaries_path) %>"></i>
       <span class="text-xs text-gray-500 mt-1">みんなの日記</span>
     <% end %>
 
-    <div data-controller="modal">
+    <div data-controller="modal" class="flex-1 flex flex-col items-center">
       <button data-action="click->modal#open" class="flex flex-col items-center cursor-pointer">
         <i class="fa-solid fa-user text-2xl md:text-3xl text-gray-500"></i>
-        <span class="text-xs text-gray-500 mt-1">アカウント設定</span>
+        <span class="text-xs text-gray-500 mt-1 sm:hidden">アカウント</span>
+        <span class="text-xs text-gray-500 mt-1 hidden sm:block">アカウント設定</span>
       </button>
-
       <%= render "shared/settings_modal" %>
     </div>
   </div>
