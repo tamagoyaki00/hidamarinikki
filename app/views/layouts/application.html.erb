@@ -78,9 +78,13 @@
     <div id="flash">
       <%= render 'shared/flash_message' %>
     </div>
-    <main class="min-h-screen pb-20">
-      <%= yield %>
-    </main>
+    <div class="flex">
+      <%= render 'shared/sidebar' %>
+
+      <main class="flex-1 min-h-screen pb-20 lg:pb-0">
+        <%= yield %>
+      </main>
+    </div>
     
     <% if user_signed_in? %>
       <%= render 'shared/footer' %>
