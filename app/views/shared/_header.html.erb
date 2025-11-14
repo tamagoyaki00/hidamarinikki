@@ -1,7 +1,7 @@
-<header class="h-14 md:h-18 p-2 md:px-6 lg:px-16 border-b border-primary flex items-center justify-between">
+<header class="h-14 md:h-18 p-2 md:px-6 border-b border-primary flex items-center justify-between lg:hidden">
   <div class="flex items-center">
     <%= image_tag "himawari.svg", alt: "ロゴ", class: "h-12 w-12 md:h-14 w-14" %>
-    <%= link_to t('.site_name'), home_path, class: "font-mplus font-bold text-primary md:ml-2 text-md sm:text-lg lg:text-xl" %>
+    <%= link_to t('.site_name'), home_path, class: "font-mplus font-bold text-primary md:ml-2 text-md sm:text-lg" %>
   </div>
 
   <div class="flex items-center space-x-4" >
@@ -30,16 +30,14 @@
     <div class="drawer drawer-end">
       <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content">
-        <label for="my-drawer-4" 
-              class="btn btn-circle btn-primary btn-ghost"
-              onclick="spinOnce(this)">
-          <span class="setting-icon material-symbols-outlined">
-            settings
-          </span>
-        </label>
-      </div>
+      <label for="my-drawer-4" class="btn btn-circle swap swap-rotate btn-primary btn-ghost">
+          <input type="checkbox" />
+          <svg class="swap-off fill-current text-primary" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" /></svg>
+          <svg class="swap-on fill-current text-primary" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" /></svg>
+      </label>
+      </div> 
       <div class="drawer-side z-50">
-        <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
+      <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
         <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
           <li>
             <%= link_to diary_writing_tips_path do %>
@@ -72,16 +70,5 @@
         </ul>
       </div>
     </div>
-
-    <script>
-      function spinOnce(el) {
-        const icon = el.querySelector(".setting-icon");
-        icon.classList.add("spin-once");
-        icon.addEventListener("animationend", () => {
-          icon.classList.remove("spin-once");
-        }, { once: true });
-      }
-    </script>
-
   </div>
 </header>
