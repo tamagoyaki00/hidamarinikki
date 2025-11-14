@@ -29,7 +29,7 @@
 
     <%= link_to diary_writing_tips_path, class: "flex items-center #{highlight_class(diary_writing_tips_path)}" do %>
       <span class="material-symbols-outlined mr-4">lightbulb</span>
-      書き方ガイド
+      <span>書き方ガイド</span>
     <% end %>
 
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSeAxD9xpgfyw7umh9aqG0nLF2hP06vov-iPjQGZbyRDG1G0AQ/viewform?usp=sharing&ouid=107998614667783463395"
@@ -48,6 +48,10 @@
       </a>
       <%= render "shared/share_buttons_modal" %>
     </div>
+
+    <%= link_to new_diary_path, class: "btn btn-primary btn-lg w-full" do %>
+      <span>日記を書く</span>
+    <% end %>
   </div>
 
   <div class="mt-auto p-4 text-sm border-t border-primary space-y-2">
