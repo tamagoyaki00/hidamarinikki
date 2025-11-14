@@ -107,13 +107,13 @@ RSpec.describe 'Diaries', type: :system do
       let!(:my_public_diary) do
         create(:diary, :with_content,
               user: user,
+              posted_date: 2.days.ago,
               body_text: 'マイ公開日記')
       end
 
       let!(:my_private_diary) do
         create(:diary, :private, :with_content,
               user: user,
-              posted_date: 2.days.ago,
               body_text: 'マイ非公開日記')
       end
 
@@ -182,6 +182,16 @@ RSpec.describe 'Diaries', type: :system do
           my_public_diary.posted_date.strftime('%Y年%m月%d日')
         ]
       end
+
+      it '同じ日付の場合は新しい投稿が先に並ぶこと' do
+        diary1 = create(:diary, :with_content, user: user, posted_date: Date.today, created_at: 1.hour.ago, body_text: '同日の１時間前')
+
+        visit public_diaries_path
+        diary_bodies = all('.diary-card .diary-body').map(&:text)
+        expect(diary_bodies[0]).to include('他人の公開日記')
+        expect(diary_bodies[1]).to include('同日の１時間前')
+      end
+
 
       it '写真をクリックするとモーダルで拡大表示されること' do
         diary_with_photo = create(:diary, :with_content, :with_photo, user: user, body_text: '写真付き日記')
