@@ -1,5 +1,5 @@
 module NavigationHelper
   def highlight_class(path)
-    current_page?(path) ? "text-primary" : "text-gray-500"
+    current_page?(path) ? "text-primary" : ""
   end
 end
