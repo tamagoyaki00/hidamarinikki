@@ -32,6 +32,7 @@ RSpec.describe 'Diaries', type: :system do
       end
 
       it 'マイ日記から日記作成画面にページ遷移ができること' do
+        page.driver.browser.manage.window.resize_to(375, 812)
         visit my_diaries_path
         find('a.btn.btn-primary.btn-circle').click
         expect(page).to have_current_path new_diary_path
@@ -39,6 +40,7 @@ RSpec.describe 'Diaries', type: :system do
       end
 
       it 'みんなの日記から日記作成画面にページ遷移ができること' do
+        page.driver.browser.manage.window.resize_to(375, 812)
         visit public_diaries_path
         find('a.btn.btn-primary.btn-circle').click
         expect(page).to have_current_path new_diary_path
