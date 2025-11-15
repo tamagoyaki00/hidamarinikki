@@ -3,38 +3,41 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["container"]
   static values = {
-    showDelay: { type: Number, default: 10 },
-    hideDelay: { type: Number, default: 8000 },
-    type: String
+    showDelay: { type: Number, default: 100 },
+    hideDelay: { type: Number, default: 5000 },
+    type: String,
+    env: String
   }
 
   connect() {
-    // ai_comment の場合だけ消える時間を25秒後に変更
-    const delay = this.typeValue === "ai_comment" ? 25000 : this.hideDelayValue
+    const isTestEnv = this.envValue === "test"
+
+    // ai_comment の場合だけ20秒後に消える(テスト環境では2秒後)
+    let delay
+    if (isTestEnv) {
+      delay = 2000
+    } else {
+      delay = this.typeValue === "ai_comment" ? 20000 : this.hideDelayValue
+    }
 
     setTimeout(() => {
       this.show()
-    }, this.showDelayValue);
-
+    }, this.showDelayValue)
 
     this.timer = setTimeout(() => {
       this.hide()
-    }, delay);
+    }, delay)
   }
 
   show() {
     this.containerTarget.classList.remove("translate-y-0", "opacity-0");
-    this.containerTarget.classList.add("translate-y-full", "opacity-100");
-    this.containerTarget.classList.remove("pointer-events-none");
-    this.containerTarget.classList.add("pointer-events-auto");
+    this.containerTarget.classList.add("translate-y-[30px]", "opacity-100");
   }
 
   hide() {
     clearTimeout(this.timer);
-    this.containerTarget.classList.remove("translate-y-full", "opacity-100");
+    this.containerTarget.classList.remove("translate-y-[30px]", "opacity-100");
     this.containerTarget.classList.add("translate-y-0", "opacity-0");
-    this.containerTarget.classList.remove("pointer-events-auto");
-    this.containerTarget.classList.add("pointer-events-none");
   }
 
   remove(event) {

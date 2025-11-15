@@ -1,8 +1,9 @@
 <% flash.each do |type, message| %>
-  <div class="fixed top-2 z-50 left-1/2 -translate-x-1/2 flex justify-center w-full pointer-events-none"
+  <div class="fixed top-0 z-50 left-1/2 -translate-x-1/2 flex justify-center w-full pointer-events-none"
        data-controller="flash-message"
        data-action="animationend->flash-message#remove"
        data-flash-message-target="container"
+       data-flash-message-env-value="<%= Rails.env %>"
        data-flash-message-type-value="<%= type.to_s %>">
 
     <% if type == 'notice' %>
