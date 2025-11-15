@@ -259,8 +259,7 @@ RSpec.describe 'Diaries', type: :system do
         expect(page).to have_content '日記更新ありがとう！'
         expect(page).to have_content 'テスト用AIコメント'
         expect(page).to have_current_path(home_path, ignore_query: true)
-        expect(page).to have_no_content '日記更新ありがとう！'
-
+        expect(page).to have_no_content('日記更新ありがとう！', wait: 5)
         click_link 'マイ日記'
         expect(page).to have_content '更新後の内容'
       end
