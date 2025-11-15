@@ -34,7 +34,7 @@ RSpec.describe 'Diaries', type: :system do
       shared_examples 'FABボタンから日記作成画面へ遷移できること' do |path|
         it 'スマホ画面ではFABボタンから日記作成画面に遷移できる' do
           page.driver.browser.manage.window.resize_to(375, 812)
-          visit send(path)
+          visit public_send(path)
           find('a.btn.btn-primary.btn-circle').click
           expect(page).to have_current_path new_diary_path
           expect(page).to have_content '今日の一日を振り返ってみよう'
@@ -42,14 +42,14 @@ RSpec.describe 'Diaries', type: :system do
 
         it 'タブレット画面でもFABボタンから日記作成画面に遷移できる' do
           page.driver.browser.manage.window.resize_to(768, 1024)
-          visit send(path)
+          visit public_send(path)
           find('a.btn.btn-primary.btn-circle').click
           expect(page).to have_current_path new_diary_path
         end
 
         it 'デスクトップ画面ではFABボタンが表示されない' do
           page.driver.browser.manage.window.resize_to(1024, 768)
-          visit send(path)
+          visit public_send(path)
           expect(page).to have_no_css('a.btn.btn-primary.btn-circle')
         end
       end
