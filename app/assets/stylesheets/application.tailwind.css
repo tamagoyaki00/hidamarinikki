@@ -107,14 +107,6 @@
 
 
 @layer utilities {
-  /* 一回転 */
-  @keyframes spin-once {
-    to { transform: rotate(360deg); }
-  }
-  .spin-once {
-    animation: spin-once 0.8s linear;
-  }
-
   /* 横ゆらゆら */
   @keyframes sway {
     0%, 100% { transform: rotate(10deg); }
