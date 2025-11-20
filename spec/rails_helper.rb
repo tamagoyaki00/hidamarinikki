@@ -25,6 +25,9 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include LoginHelper, type: :system
+  config.include Devise::Test::IntegrationHelpers, type: :request
+  config.include ActiveSupport::Testing::TimeHelpers
+
 
   config.before(:each, type: :system) do
     driven_by(:selenium_chrome_headless)
