@@ -24,6 +24,18 @@ RSpec.describe DiaryForm, type: :model do
         form = build(:diary_form, tag_names: "a" * 20)
         expect(form).to be_valid
       end
+
+      it '写真が6枚ちょうどの場合、有効であること' do
+        photos = Array.new(6) { fixture_file_upload('spec/fixtures/files/test.png', 'image/png') }
+        form = build(:diary_form, photos: photos)
+        expect(form).to be_valid
+      end
+
+      it '写真がJPEG形式で5MB以内の場合、有効であること' do
+        photo = fixture_file_upload('spec/fixtures/files/test.png', 'image/png')
+        form = build(:diary_form, photos: [ photo ])
+        expect(form).to be_valid
+      end
     end
 
     context '異常系' do
@@ -66,6 +78,13 @@ RSpec.describe DiaryForm, type: :model do
         invalid_form = build(:diary_form, photos: [ photo ])
         expect(invalid_form).to be_invalid
         expect(invalid_form.errors[:photos]).to include("はJPEG、PNG、GIF形式でアップロードしてください")
+      end
+
+      it '写真が5MBを超えると無効であること' do
+        photo = fixture_file_upload('spec/fixtures/files/6mb_test.jpeg', 'image/jpeg')
+        invalid_form = build(:diary_form, photos: [ photo ])
+        expect(invalid_form).to be_invalid
+        expect(invalid_form.errors[:photos]).to include("は1枚あたり5MB以内でアップロードしてください")
       end
 
       it 'タグが11個以上だと無効であること' do
