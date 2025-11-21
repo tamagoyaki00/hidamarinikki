@@ -30,13 +30,12 @@ module ApplicationHelper
   end
 
   def main_padding_class
-    if (controller_name == 'pages' && action_name == 'top') ||
-       (controller_name == 'sessions' && action_name == 'new') ||
-       (controller_name == 'registrations' && action_name == 'new')
-      'lg:pl-0'
+    if (controller_name == "pages" && action_name == "top") ||
+       (controller_name == "sessions" && action_name == "new") ||
+       (controller_name == "registrations" && action_name == "new")
+      "lg:pl-0"
     else
-      'lg:pl-64 2xl:pl-0'
+      "lg:pl-64 2xl:pl-0"
     end
   end
-
 end
