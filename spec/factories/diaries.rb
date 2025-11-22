@@ -22,16 +22,18 @@ FactoryBot.define do
       end
     end
 
-
-    trait :with_content do
+    trait :with_contents do
       transient do
-        body_text { 'テスト本文' }
+        body_texts { ['本文1', '本文2', '本文3'] }
       end
 
       after(:create) do |diary, evaluator|
-        create(:diary_content, diary: diary, body: evaluator.body_text)
+        evaluator.body_texts.each do |text|
+          create(:diary_content, diary: diary, body: text)
+        end
       end
     end
+
 
     trait :with_photo do
       after(:create) do |diary|
