@@ -12,7 +12,7 @@ let!(:user_on_time) do
   end
 end
 
-  let!(:user_off) {create(:user)}
+  let!(:user_off) { create(:user) }
 
   it "通知ONかつ時間一致ユーザーのみAPI通信される" do
     job = DiaryReminderJob.new

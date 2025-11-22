@@ -125,20 +125,20 @@ RSpec.describe 'Diaries', type: :system do
         create(:diary, :with_contents,
               user: user,
               posted_date: 2.days.ago,
-              body_texts: ['マイ公開日記'])
+              body_texts: [ 'マイ公開日記' ])
       end
 
       let!(:my_private_diary) do
         create(:diary, :private, :with_contents,
               user: user,
-              body_texts: ['マイ非公開日記'])
+              body_texts: [ 'マイ非公開日記' ])
       end
 
       let!(:other_public_diary) do
         create(:diary, :with_contents,
               user: other_user,
               posted_date: Time.current,
-              body_texts: ['他人の公開日記'])
+              body_texts: [ '他人の公開日記' ])
       end
 
 
@@ -201,7 +201,7 @@ RSpec.describe 'Diaries', type: :system do
       end
 
       it '同じ日付の場合は新しい投稿が先に並ぶこと' do
-        diary1 = create(:diary, :with_contents, user: user, posted_date: Date.today, created_at: 1.hour.ago, body_texts: ['同日の１時間前'])
+        diary1 = create(:diary, :with_contents, user: user, posted_date: Date.today, created_at: 1.hour.ago, body_texts: [ '同日の１時間前' ])
 
         visit public_diaries_path
         diary_bodies = all('.diary-card .diary-body').map(&:text)
@@ -227,7 +227,7 @@ RSpec.describe 'Diaries', type: :system do
         create(:diary, :private, :with_contents, :with_tags,
               user: user,
               tag_names: [ 'テストタグ' ],
-              body_texts: ['マイ日記'])
+              body_texts: [ 'マイ日記' ])
       end
 
       it '編集画面に遷移できること' do
@@ -277,7 +277,7 @@ RSpec.describe 'Diaries', type: :system do
           create(:diary, :with_contents,
                 user: other_user,
                 posted_date: Time.current,
-                body_texts: ['他人の公開日記'])
+                body_texts: [ '他人の公開日記' ])
         end
 
         it '編集画面にアクセスできないこと' do

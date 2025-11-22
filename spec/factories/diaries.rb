@@ -24,7 +24,7 @@ FactoryBot.define do
 
     trait :with_contents do
       transient do
-        body_texts { ['本文1', '本文2', '本文3'] }
+        body_texts { [ '本文1', '本文2', '本文3' ] }
       end
 
       after(:create) do |diary, evaluator|
