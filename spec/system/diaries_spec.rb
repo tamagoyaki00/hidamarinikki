@@ -122,23 +122,23 @@ RSpec.describe 'Diaries', type: :system do
       let(:other_user) { create(:user) }
 
       let!(:my_public_diary) do
-        create(:diary, :with_content,
+        create(:diary, :with_contents,
               user: user,
               posted_date: 2.days.ago,
-              body_text: 'マイ公開日記')
+              body_texts: [ 'マイ公開日記' ])
       end
 
       let!(:my_private_diary) do
-        create(:diary, :private, :with_content,
+        create(:diary, :private, :with_contents,
               user: user,
-              body_text: 'マイ非公開日記')
+              body_texts: [ 'マイ非公開日記' ])
       end
 
       let!(:other_public_diary) do
-        create(:diary, :with_content,
+        create(:diary, :with_contents,
               user: other_user,
               posted_date: Time.current,
-              body_text: '他人の公開日記')
+              body_texts: [ '他人の公開日記' ])
       end
 
 
@@ -201,7 +201,7 @@ RSpec.describe 'Diaries', type: :system do
       end
 
       it '同じ日付の場合は新しい投稿が先に並ぶこと' do
-        diary1 = create(:diary, :with_content, user: user, posted_date: Date.today, created_at: 1.hour.ago, body_text: '同日の１時間前')
+        diary1 = create(:diary, :with_contents, user: user, posted_date: Date.today, created_at: 1.hour.ago, body_texts: [ '同日の１時間前' ])
 
         visit public_diaries_path
         diary_bodies = all('.diary-card .diary-body').map(&:text)
@@ -211,7 +211,7 @@ RSpec.describe 'Diaries', type: :system do
 
 
       it '写真をクリックするとモーダルで拡大表示されること' do
-        diary_with_photo = create(:diary, :with_content, :with_photo, user: user, body_text: '写真付き日記')
+        diary_with_photo = create(:diary, :with_photo, user: user)
         visit my_diaries_path
         find('.diary-photo').click
         expect(page).to have_selector('.modal', visible: true)
@@ -224,10 +224,10 @@ RSpec.describe 'Diaries', type: :system do
       let(:other_user) { create(:user) }
 
       let!(:my_diary) do
-        create(:diary, :private, :with_content, :with_tags,
+        create(:diary, :private, :with_contents, :with_tags,
               user: user,
               tag_names: [ 'テストタグ' ],
-              body_text: 'マイ日記')
+              body_texts: [ 'マイ日記' ])
       end
 
       it '編集画面に遷移できること' do
@@ -274,10 +274,10 @@ RSpec.describe 'Diaries', type: :system do
 
       context '他人の日記の場合' do
         let!(:other_public_diary) do
-          create(:diary, :with_content,
+          create(:diary, :with_contents,
                 user: other_user,
                 posted_date: Time.current,
-                body_text: '他人の公開日記')
+                body_texts: [ '他人の公開日記' ])
         end
 
         it '編集画面にアクセスできないこと' do

@@ -136,14 +136,6 @@ class DiaryForm
   end
 
   # 写真関連のメソッド
-  def has_photos?
-    (existing_photos&.attached?) || (photos.present? && photos.any?(&:present?))
-  end
-
-  def display_photos
-    existing_photos&.attached? ? existing_photos : []
-  end
-
   def total_photos_count
     existing_count = existing_photos&.attached? ? existing_photos.count : 0
     new_count = photos.present? ? photos.reject(&:blank?).count : 0

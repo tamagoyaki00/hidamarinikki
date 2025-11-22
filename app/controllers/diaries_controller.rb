@@ -23,9 +23,6 @@ class DiariesController < ApplicationController
       @diary_form = DiaryForm.for_new_diary(current_user)
       @diary_form.posted_date = posted_date
     end
-
-  rescue ArgumentError
-    redirect_to new_diary_path, alert: "日付の形式が正しくありません。"
   end
 
   def create
