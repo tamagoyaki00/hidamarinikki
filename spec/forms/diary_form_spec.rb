@@ -31,7 +31,7 @@ RSpec.describe DiaryForm, type: :model do
         expect(form).to be_valid
       end
 
-      it '写真がJPEG形式で5MB以内の場合、有効であること' do
+      it '写真がPNG形式で5MB以内の場合、有効であること' do
         photo = fixture_file_upload('spec/fixtures/files/test.png', 'image/png')
         form = build(:diary_form, photos: [ photo ])
         expect(form).to be_valid
