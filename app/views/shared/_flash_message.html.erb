@@ -1,5 +1,5 @@
 <% flash.each do |type, message| %>
-  <div class="fixed top-0 z-50 left-1/2 -translate-x-1/2 flex justify-center w-full pointer-events-none transition-opacity duration-500 ease-out"
+  <div class="fixed top-0 z-50 left-1/2 -translate-x-1/2 flex justify-center w-full pointer-events-none transition-opacity duration-500 ease-out <%= main_padding_class %>"
        data-controller="flash-message"
        data-action="animationend->flash-message#remove"
        data-flash-message-target="container"
