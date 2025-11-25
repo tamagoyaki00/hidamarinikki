@@ -54,15 +54,11 @@
             </a>
           </li>
 
-          <div data-controller="modal">
-            <li>
-              <a href="#"
-                data-action="click->modal#open"
-                class="link link-hover">
-                <span class="material-symbols-outlined">share</span>
-                ひだまり日記をシェア
-              </a>
-            </li>
+          <div data-controller="modal" class="flex items-center">
+            <button data-action="click->modal#open" class="flex items-center cursor-pointer">
+              <span class="material-symbols-outlined mr-4">share</span>
+              <span>ひだまり日記をシェア</span>
+            </button>
             <%= render "shared/share_buttons_modal" %>
           </div>
           <li><%= link_to "利用規約", terms_of_service_path %></li>
