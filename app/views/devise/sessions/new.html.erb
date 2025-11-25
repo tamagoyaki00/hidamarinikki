@@ -1,5 +1,5 @@
 <div class="flex items-center justify-center mt-0 md:mt-10 px-0 md:px-4">
-  <div class="card w-full max-w-lg bg-gradient-to-b from-secondary to-base-100 dark:bg-none dark:bg-base-200 rounded-none shadow-none md:shadow-xl md:rounded-4xl p-8 flex items-center justify-center flex-col space-y-8">
+  <div class="card w-full max-w-lg auth-bg rounded-none shadow-none md:shadow-xl md:rounded-4xl p-8 flex items-center justify-center flex-col space-y-8">
     <h2 class="font-mplus text-xl md:text-2xl font-bold"><%= t('devise.sessions.new.title') %></h2>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "flex flex-col space-y-8 items-center" }) do |f| %>

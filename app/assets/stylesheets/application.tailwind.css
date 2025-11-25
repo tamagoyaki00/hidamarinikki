@@ -105,6 +105,14 @@
   padding: 8px 8px;
 }
 
+[data-theme="hidamarinikki"] .auth-bg {
+  @apply bg-gradient-to-b from-secondary to-base-100;
+}
+
+[data-theme="sunset"] .auth-bg {
+  @apply bg-base-200 ;
+}
+
 
 @layer utilities {
   /* 横ゆらゆら */
