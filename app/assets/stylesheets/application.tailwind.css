@@ -53,17 +53,17 @@
   --color-primary-content: oklch(14.94% 0.031 39.947);
   --color-secondary: #FFB347;
   --color-secondary-content: oklch(14.507% 0.035 2.72);
-  --color-accent: #E91E63;
+  --color-accent: #2F855A;
   --color-accent-content: oklch(14.258% 0.033 299.844);
   --color-neutral: oklch(26% 0.019 237.69);
   --color-neutral-content: oklch(70% 0.019 237.69);
   --color-info: oklch(85.559% 0.085 206.015);
   --color-info-content: oklch(17.111% 0.017 206.015);
-  --color-success: oklch(85.56% 0.085 144.778);
+  --color-success: #00a43b;
   --color-success-content: oklch(17.112% 0.017 144.778);
-  --color-warning: oklch(85.569% 0.084 74.427);
+  --color-warning: #e6a700;
   --color-warning-content: oklch(17.113% 0.016 74.427);
-  --color-error: oklch(85.511% 0.078 16.886);
+  --color-error: #e63980;
   --color-error-content: oklch(17.102% 0.015 16.886);
   --radius-selector: 1rem;
   --radius-field: 2rem;
@@ -103,6 +103,14 @@
 
 .tooltip::before {
   padding: 8px 8px;
+}
+
+[data-theme="hidamarinikki"] .auth-bg {
+  @apply bg-gradient-to-b from-secondary to-base-100;
+}
+
+[data-theme="sunset"] .auth-bg {
+  @apply bg-base-200 ;
 }
 
 

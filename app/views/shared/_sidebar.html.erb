@@ -19,8 +19,8 @@
       <span>みんなの日記</span>
     <% end %>
 
-    <div data-controller="modal" class="flex items-center cursor-pointer">
-      <button data-action="click->modal#open" class="flex items-center">
+    <div data-controller="modal" class="flex items-center">
+      <button data-action="click->modal#open" class="flex items-center cursor-pointer">
         <span class="material-symbols-outlined mr-4">account_circle</span>
         <span>アカウント設定</span>
       </button>
@@ -39,13 +39,11 @@
       お問い合わせ
     </a>
 
-    <div data-controller="modal">
-      <a href="#"
-         data-action="click->modal#open"
-         class="flex items-center link link-hover">
+    <div data-controller="modal" class="flex items-center">
+      <button data-action="click->modal#open" class="flex items-center cursor-pointer">
         <span class="material-symbols-outlined mr-4">share</span>
-        ひだまり日記をシェア
-      </a>
+        <span>ひだまり日記をシェア</span>
+      </button>
       <%= render "shared/share_buttons_modal" %>
     </div>
 
