@@ -80,7 +80,7 @@ class DiariesController < ApplicationController
 
   def destroy
     @diary.destroy
-    redirect_to my_diaries_path, notice: "日記を削除しました", status: :see_other
+    redirect_to my_diaries_diaries_path, notice: "日記を削除しました", status: :see_other
   end
 
   def autocomplete
