@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   resources :diaries do
     collection do
       get :autocomplete
+      get :my_diaries
+      get :public_diaries
     end
 
     member do
@@ -29,8 +31,6 @@ Rails.application.routes.draw do
     end
   end
 
-  get "my_diaries", to: "diaries#my_diaries", as: :my_diaries
-  get "public_diaries", to: "diaries#public_diaries", as: :public_diaries
 
   resources :users, only: %i[show]
   resource :notification_setting, only: %i[edit update]
