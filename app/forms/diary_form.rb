@@ -163,7 +163,7 @@ class DiaryForm
       next if item.blank?
 
       if item.length > 200
-        errors.add("happiness_items", "は200文字以内で入力してください")
+        errors.add("happiness_items", "は1項目あたり、200文字以内で入力してください")
       end
     end
   end
