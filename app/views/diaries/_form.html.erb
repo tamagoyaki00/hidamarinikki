@@ -50,9 +50,6 @@
               <% end %>
             </div>
             <%= f.text_area :happiness_items, name: "diary_form[happiness_items][]", id: "item_#{i + 1}", value: item, class: "textarea textarea-bordered textarea-accent w-full", placeholder: "#{i + 1}. 日記の内容" %>
-            <% if @diary_form.errors[:"happiness_items_#{i}"] %>
-              <p class="text-xs text-error mt-1"><%= @diary_form.errors[:"happiness_items_#{i}"].first %></p>
-            <% end %>
           </div>
         <% end %>
       </div>

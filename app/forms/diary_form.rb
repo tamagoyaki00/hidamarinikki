@@ -162,8 +162,8 @@ class DiaryForm
     happiness_items.each_with_index do |item, index|
       next if item.blank?
 
-      if item.length > 1000
-        errors.add("happiness_items_#{index}", "は1000文字以内で入力してください")
+      if item.length > 200
+        errors.add("happiness_items", "は1項目あたり、200文字以内で入力してください")
       end
     end
   end

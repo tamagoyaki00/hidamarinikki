@@ -1,7 +1,7 @@
 class DiaryContent < ApplicationRecord
   belongs_to :diary
 
-  validates :body, presence: true, length: { maximum: 1000 }, blocked_words: true
+  validates :body, presence: true, length: { maximum: 200 }, blocked_words: true
   validates :jar_number, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
 
 
