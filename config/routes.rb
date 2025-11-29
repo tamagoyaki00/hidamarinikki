@@ -12,12 +12,18 @@ Rails.application.routes.draw do
     omniauth_callbacks: "users/omniauth_callbacks"
   }
 
-  get "top", to: "pages#top"
-  get "diary/writing_tips", to: "pages#diary_writing_tips"
+
   get "home", to: "homes#index"
   get "month", to: "homes#month"
-  get "privacy_policy", to: "pages#privacy_policy"
-  get "terms_of_service", to: "pages#terms_of_service"
+
+
+  scope controller: :pages do
+    get :top
+    get :diary_writing_tips
+    get :privacy_policy
+    get :terms_of_service
+  end
+
 
   resources :diaries do
     collection do
