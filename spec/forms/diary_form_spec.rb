@@ -10,8 +10,8 @@ RSpec.describe DiaryForm, type: :model do
         expect(form).to be_valid
       end
 
-      it 'happiness_items が1000文字以上の場合、有効であること' do
-        form = build(:diary_form, happiness_items: [ 'a' * 1000 ])
+      it 'happiness_items が200文字の場合、有効であること' do
+        form = build(:diary_form, happiness_items: [ 'a' * 200 ])
         expect(form).to be_valid
       end
 

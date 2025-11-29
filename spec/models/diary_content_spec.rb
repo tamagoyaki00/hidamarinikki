@@ -7,8 +7,8 @@ RSpec.describe DiaryContent, type: :model do
         expect(build(:diary_content)).to be_valid
       end
 
-      it 'body が1000文字ちょうどの場合、有効であること' do
-        diary_content = build(:diary_content, body: 'a' * 1000)
+      it 'body が200文字ちょうどの場合、有効であること' do
+        diary_content = build(:diary_content, body: 'a' * 200)
         expect(diary_content).to be_valid
       end
     end
@@ -26,10 +26,10 @@ RSpec.describe DiaryContent, type: :model do
         expect(diary_content.errors[:body]).to include('を入力してください')
       end
 
-      it 'bodyが1001文字以上の場合、無効であること' do
-        diary_content = build(:diary_content, body: 'a' * 1001)
+      it 'bodyが201文字以上の場合、無効であること' do
+        diary_content = build(:diary_content, body: 'a' * 201)
         expect(diary_content).to be_invalid
-        expect(diary_content.errors[:body]).to include('は1000文字以内で入力してください')
+        expect(diary_content.errors[:body]).to include('は200文字以内で入力してください')
       end
 
       it '禁止ワードに設定されているワードを日記の内容に入力し投稿した場合、無効であること' do
