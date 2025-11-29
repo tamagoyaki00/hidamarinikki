@@ -55,11 +55,11 @@ RSpec.describe 'Diaries', type: :system do
       end
 
       context 'マイ日記ページ' do
-        include_examples 'FABボタンから日記作成画面へ遷移できること', :my_diaries_path
+        include_examples 'FABボタンから日記作成画面へ遷移できること', :my_diaries_diaries_path
       end
 
       context 'みんなの日記ページ' do
-        include_examples 'FABボタンから日記作成画面へ遷移できること', :public_diaries_path
+        include_examples 'FABボタンから日記作成画面へ遷移できること', :public_diaries_diaries_path
       end
 
       context '本日の日記が既に存在する場合' do
@@ -143,24 +143,24 @@ RSpec.describe 'Diaries', type: :system do
 
 
       it 'マイ日記ページには、自身が投稿した日記の一覧がすべて表示されること' do
-        visit my_diaries_path
+        visit my_diaries_diaries_path
         expect(page).to have_content 'マイ公開日記'
         expect(page).to have_content 'マイ非公開日記'
       end
 
       it 'みんなの日記ページには、公開された日記がすべて表示されること' do
-        visit public_diaries_path
+        visit public_diaries_diaries_path
         expect(page).to have_content 'マイ公開日記'
         expect(page).to have_content '他人の公開日記'
       end
 
       it 'みんなの日記ページには、非公開の日記は表示されないこと' do
-        visit public_diaries_path
+        visit public_diaries_diaries_path
         expect(page).not_to have_content 'マイ非公開日記'
       end
 
       it '日記の内容には、ユーザーアバター・ユーザー名・日付・本文・ステータス・タグが表示されていること' do
-        visit public_diaries_path
+        visit public_diaries_diaries_path
         within find('.diary-card', text: '他人の公開日記') do
           expect(page).to have_selector('.user-avatar') # アバター
           expect(page).to have_content other_user.name     # ユーザー名
@@ -174,7 +174,7 @@ RSpec.describe 'Diaries', type: :system do
       end
 
       it 'ユーザーアバターをクリックすると、ユーザー詳細画面に遷移すること' do
-        visit public_diaries_path
+        visit public_diaries_diaries_path
         within find('.diary-card', text: '他人の公開日記') do
           expect(page).to have_selector('.user-avatar')
           find('.user-avatar').click
@@ -183,7 +183,7 @@ RSpec.describe 'Diaries', type: :system do
       end
 
       it 'ユーザー名をクリックすると、ユーザー詳細画面に遷移すること' do
-        visit public_diaries_path
+        visit public_diaries_diaries_path
         within find('.diary-card', text: '他人の公開日記') do
           expect(page).to have_content other_user.name
           click_on other_user.name
@@ -192,7 +192,7 @@ RSpec.describe 'Diaries', type: :system do
       end
 
       it '日記は新しい順に並んでいること' do
-        visit public_diaries_path
+        visit public_diaries_diaries_path
         diary_dates = all('.diary-card .diary-date').map(&:text)
         expect(diary_dates).to eq [
           other_public_diary.posted_date.strftime('%Y年%m月%d日'),
@@ -203,7 +203,7 @@ RSpec.describe 'Diaries', type: :system do
       it '同じ日付の場合は新しい投稿が先に並ぶこと' do
         diary1 = create(:diary, :with_contents, user: user, posted_date: Date.today, created_at: 1.hour.ago, body_texts: [ '同日の１時間前' ])
 
-        visit public_diaries_path
+        visit public_diaries_diaries_path
         diary_bodies = all('.diary-card .diary-body').map(&:text)
         expect(diary_bodies[0]).to include('他人の公開日記')
         expect(diary_bodies[1]).to include('同日の１時間前')
@@ -212,7 +212,7 @@ RSpec.describe 'Diaries', type: :system do
 
       it '写真をクリックするとモーダルで拡大表示されること' do
         diary_with_photo = create(:diary, :with_photo, user: user)
-        visit my_diaries_path
+        visit my_diaries_diaries_path
         find('.diary-photo').click
         expect(page).to have_selector('.modal', visible: true)
         expect(page).to have_selector('.modal img')
@@ -231,7 +231,7 @@ RSpec.describe 'Diaries', type: :system do
       end
 
       it '編集画面に遷移できること' do
-        visit my_diaries_path
+        visit my_diaries_diaries_path
 
         within first('.diary-card') do
           find('.diary-setting').send_keys(:enter)
@@ -291,7 +291,7 @@ RSpec.describe 'Diaries', type: :system do
       it '日記を正常に削除でき、フラッシュメッセージが表示されること' do
         diary = create(:diary, user: user)
 
-        visit my_diaries_path
+        visit my_diaries_diaries_path
 
         accept_confirm do
           within first('.diary-card') do
@@ -302,7 +302,7 @@ RSpec.describe 'Diaries', type: :system do
         end
 
         expect(page).to have_content '日記を削除しました'
-        expect(page).to have_current_path my_diaries_path
+        expect(page).to have_current_path my_diaries_diaries_path
         expect(page).not_to have_content 'まだ日記がありません。最初の投稿をしてみましょう！。'
       end
     end

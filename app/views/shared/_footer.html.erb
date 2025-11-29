@@ -5,13 +5,13 @@
       <span class="text-xs text-gray-500 mt-1">ホーム</span>
     <% end %>
 
-    <%= link_to my_diaries_path, class: "flex flex-col items-center flex-1" do %>
-      <span class="material-symbols-outlined text-gray-500 <%= highlight_class(my_diaries_path) %>">menu_book</span>
+    <%= link_to my_diaries_diaries_path, class: "flex flex-col items-center flex-1" do %>
+      <span class="material-symbols-outlined text-gray-500 <%= highlight_class(my_diaries_diaries_path) %>">menu_book</span>
       <span class="text-xs text-gray-500 mt-1">マイ日記</span>
     <% end %>
 
-    <%= link_to public_diaries_path, class: "flex flex-col items-center flex-1" do %>
-      <span class="material-symbols-outlined text-gray-500 <%= highlight_class(public_diaries_path) %>">groups</span>
+    <%= link_to public_diaries_diaries_path, class: "flex flex-col items-center flex-1" do %>
+      <span class="material-symbols-outlined text-gray-500 <%= highlight_class(public_diaries_diaries_path) %>">groups</span>
       <span class="text-xs text-gray-500 mt-1">みんなの日記</span>
     <% end %>
 
