@@ -196,7 +196,8 @@ export default class extends Controller {
     }
 
     if (selectedImg) {
-      const size = 45
+      const isChristmas = filename && /(santa|reindeer|xmas_tree)/.test(filename)
+      const size = isChristmas ? 60 : 45
       const scaleX = selectedImg.width ? (size / selectedImg.width) : 0.06
       const scaleY = selectedImg.height ? (size / selectedImg.height) : 0.06
       const pos = {
@@ -251,7 +252,8 @@ export default class extends Controller {
     })
 
     if (selectedImg) {
-      const size = 45
+      const isChristmas = filename && /(santa|reindeer|xmas_tree)/.test(filename)
+      const size = isChristmas ? 60 : 45
       const scaleX = selectedImg.width ? (size / selectedImg.width) : 0.06
       const scaleY = selectedImg.height ? (size / selectedImg.height) : 0.06
       const x = Math.random() * (this.render.options.width - size) + size / 2
