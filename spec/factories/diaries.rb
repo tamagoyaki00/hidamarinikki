@@ -2,7 +2,6 @@ FactoryBot.define do
   factory :diary do
     association :user
     posted_date { Date.current }
-    happiness_count { 1 }
     status { :is_public }
 
     trait :private do
@@ -31,6 +30,7 @@ FactoryBot.define do
         evaluator.body_texts.each do |text|
           create(:diary_content, diary: diary, body: text)
         end
+         diary.update!(happiness_count: diary.diary_contents.size)
       end
     end
 

@@ -27,7 +27,6 @@ RSpec.describe 'MonthlyReviews', type: :request do
         create(:diary, :with_contents,
               user: user,
               posted_date: '2025-11-20',
-              happiness_count: 3,
               body_texts: [ '一番幸せのかけらが多い日記', 'テスト２', 'テスト３' ])
       end
 
