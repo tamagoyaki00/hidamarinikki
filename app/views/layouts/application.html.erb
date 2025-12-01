@@ -79,12 +79,12 @@
       <%= render 'shared/flash_message' %>
     </div>
     
-    <div class="flex">
+    <div class="lg:flex">
       <% if user_signed_in? %>
         <%= render 'shared/sidebar' %>
       <% end %>
 
-      <main class="flex-1 min-h-screen pb-20 lg:pb-0 <%= main_padding_class %>">
+      <main class="lg:flex-1 min-h-screen pb-20 lg:pb-0 <%= main_padding_class %>">
         <%= yield %>
       </main>
     </div>
