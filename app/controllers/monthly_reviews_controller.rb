@@ -7,7 +7,7 @@ class MonthlyReviewsController < ApplicationController
     month = Date.strptime(params[:month], "%Y-%m").beginning_of_month
     @month = month
 
-    diaries = current_user.diaries.where(posted_date: month..month.end_of_month).includes(:diary_contents, :photos_attachments).distinct
+    diaries = current_user.diaries.where(posted_date: month..month.end_of_month)
 
     if diaries.empty?
       @monthly_review = nil
@@ -16,14 +16,16 @@ class MonthlyReviewsController < ApplicationController
 
     total = diaries.sum(:happiness_count)
     average = diaries.any? ? (total.to_f / diaries.count).round(2) : 0
-    max_diary = diaries.max_by(&:happiness_count)
+
+    display_diaries = diaries.includes(:diary_contents)
+    max_diary = display_diaries.order(happiness_count: :desc).first
 
     @monthly_review = {
       total_happiness_count: total,
       average_happiness_count: average,
       max_happiness_count: max_diary&.happiness_count,
       max_happiness_diary: max_diary,
-      diary_snippets: diaries.flat_map do |d|
+      diary_snippets: display_diaries.flat_map do |d|
         d.diary_contents.map { |c| { date: d.posted_date, body: c.body } }
       end.sample(3)
     }
