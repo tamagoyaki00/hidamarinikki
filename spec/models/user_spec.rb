@@ -105,14 +105,14 @@ RSpec.describe User, type: :model do
 
     describe '#total_happiness_count' do
       it '全日記のhappiness_count合計を返す' do
-        create(:diary, :with_contents, user:, body_texts: ['1', '2'])
-        create(:diary, :with_contents, user:, body_texts: ['3', '4', '5'])
+        create(:diary, :with_contents, user:, body_texts: [ '1', '2' ])
+        create(:diary, :with_contents, user:, body_texts: [ '3', '4', '5' ])
         expect(user.total_happiness_count).to eq(5)
       end
 
       it '日記を削除すると合計値も減ること' do
-        diary1 = create(:diary, :with_contents, user:, body_texts: ['1', '2'])
-        diary2 = create(:diary, :with_contents, user:, body_texts: ['3', '4', '5'])
+        diary1 = create(:diary, :with_contents, user:, body_texts: [ '1', '2' ])
+        diary2 = create(:diary, :with_contents, user:, body_texts: [ '3', '4', '5' ])
 
         expect(user.total_happiness_count).to eq(5)
 
