@@ -7,7 +7,7 @@ class MonthlyReviewsController < ApplicationController
     month = Date.strptime(params[:month], "%Y-%m").beginning_of_month
     @month = month
 
-    diaries = current_user.diaries.where(posted_date: month..month.end_of_month)
+    diaries = current_user.diaries.where(posted_date: month..month.end_of_month).includes(:diary_contents, :photos_attachments)
 
     if diaries.empty?
       @monthly_review = nil
