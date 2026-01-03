@@ -22,8 +22,16 @@ RUN apt-get update -qq && apt-get install -y \
   vim \
   libvips-dev \
   cron \
-  google-chrome-stable \
+  libnss3 libgconf-2-4 libxi6 libxcursor1 libxss1 libxrandr2 libasound2 \
   && rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+
+RUN wget https://storage.googleapis.com/chrome-for-testing-public/141.0.7390.0/linux64/chrome-linux64.zip \
+  && unzip chrome-linux64.zip \
+  && mv chrome-linux64 /usr/local/bin/chrome \
+  && ln -s /usr/local/bin/chrome/chrome /usr/bin/google-chrome \
+  && rm chrome-linux64.zip
+
 
 #Chromeのバージョンに合った ChromeDriver を手動でインストール
 ARG CHROMEDRIVER_VERSION=141.0.7390.54
