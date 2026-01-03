@@ -31,26 +31,26 @@ RSpec.describe 'Diaries', type: :system do
         expect(page).to have_content '今日の一日を振り返ってみよう'
       end
 
-      shared_examples 'FABボタンから日記作成画面へ遷移できること', js: true do |path|
-        it 'スマホ画面ではFABボタンから日記作成画面に遷移できる' do
-          page.driver.browser.manage.window.resize_to(375, 812)
+      shared_examples 'FABボタンから日記作成画面へ遷移できること' do |path|
+        it 'デスクトップ画面ではFABボタンが表示されない', js: true do
+          page.driver.browser.manage.window.resize_to(1024, 768)
+          visit public_send(path)
+          expect(page).to have_no_css('a.btn.btn-primary.btn-circle')
+        end
+
+        it 'スマホ画面ではFABボタンから日記作成画面に遷移できる', js: true do
+          page.driver.browser.manage.window.resize_to(390, 812)
           visit public_send(path)
           find('a.btn.btn-primary.btn-circle').click
           expect(page).to have_current_path new_diary_path
           expect(page).to have_content '今日の一日を振り返ってみよう'
         end
 
-        it 'タブレット画面でもFABボタンから日記作成画面に遷移できる' do
+        it 'タブレット画面でもFABボタンから日記作成画面に遷移できる', js: true do
           page.driver.browser.manage.window.resize_to(768, 1024)
           visit public_send(path)
           find('a.btn.btn-primary.btn-circle').click
           expect(page).to have_current_path new_diary_path
-        end
-
-        it 'デスクトップ画面ではFABボタンが表示されない', js: true do
-          page.driver.browser.manage.window.resize_to(1024, 768)
-          visit public_send(path)
-          expect(page).to have_no_css('a.btn.btn-primary.btn-circle')
         end
       end
 
@@ -230,7 +230,7 @@ RSpec.describe 'Diaries', type: :system do
               body_texts: [ 'マイ日記' ])
       end
 
-      it '編集画面に遷移できること' do
+      it '編集画面に遷移できること', js: true do
         visit my_diaries_diaries_path
 
         within first('.diary-card') do
