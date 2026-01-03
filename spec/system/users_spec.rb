@@ -76,7 +76,8 @@ RSpec.describe "Users", type: :system do
         expect(page).to have_current_path authenticated_root_path
       end
 
-      it 'ログアウトができること' do
+      it 'ログアウトができること', js: true do
+        page.driver.browser.manage.window.resize_to(1024, 768)
         click_button 'アカウント設定'
         click_link 'ログアウト'
         expect(page).to have_content 'ログアウトしました'
@@ -84,8 +85,9 @@ RSpec.describe "Users", type: :system do
     end
 
     context 'ログアウト後' do
-      it 'ログアウト後は認証必須ページにアクセスできない' do
+      it 'ログアウト後は認証必須ページにアクセスできない', js: true do
         login_as(user)
+        page.driver.browser.manage.window.resize_to(1024, 768)
         click_button 'アカウント設定'
         click_link 'ログアウト'
         visit authenticated_root_path
@@ -196,7 +198,7 @@ RSpec.describe "Users", type: :system do
         expect(page).to have_current_path user_path(user)
       end
 
-      it '空の名前では編集できない' do
+      it '空の名前では編集できない', js: true do
         visit edit_user_registration_path
         fill_in 'ユーザー名', with: ''
         click_button '更新'
@@ -219,7 +221,7 @@ RSpec.describe "Users", type: :system do
         expect(page).to have_current_path user_path(user)
       end
 
-      it '自己紹介文が201文字以上の場合、無効になる' do
+      it '自己紹介文が201文字以上の場合、無効になる', js: true do
         visit edit_user_registration_path
         fill_in '自己紹介', with: 'あ' * 201
         click_button '更新'
@@ -243,7 +245,7 @@ RSpec.describe "Users", type: :system do
         expect(page).to have_selector("img[src*='test.jpg']")
       end
 
-      it 'ファイル形式が、JPEG, PNG, GIF以外の場合、無効であること' do
+      it 'ファイル形式が、JPEG, PNG, GIF以外の場合、無効であること', js: true do
         visit edit_user_registration_path
 
         attach_file 'user_avatar', Rails.root.join('spec/fixtures/files/test.txt')
@@ -266,7 +268,7 @@ RSpec.describe "Users", type: :system do
       visit user_path(user)
     end
 
-    it '削除後はTOPページに遷移すること' do
+    it '削除後はTOPページに遷移すること', js: true do
       page.execute_script("window.confirm = () => true")
       click_link 'アカウントを削除'
       expect(page).to have_content 'アカウントを削除しました。またのご利用をお待ちしております'

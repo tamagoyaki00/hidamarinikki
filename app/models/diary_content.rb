@@ -19,10 +19,10 @@ class DiaryContent < ApplicationRecord
     "star.png",
     "heart.png",
     "clover.png",
-    "orange.png",
-    "reindeer.png",
-    "santa.png",
-    "xmas_tree.png"
+    "orange.png"
+    # "reindeer.png",
+    # "santa.png",
+    # "xmas_tree.png"
   ].freeze
 
   before_save :assign_random_happiness_image
