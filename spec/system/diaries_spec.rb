@@ -31,7 +31,7 @@ RSpec.describe 'Diaries', type: :system do
         expect(page).to have_content '今日の一日を振り返ってみよう'
       end
 
-      shared_examples 'FABボタンから日記作成画面へ遷移できること' do |path|
+      shared_examples 'FABボタンから日記作成画面へ遷移できること', js: true do |path|
         it 'スマホ画面ではFABボタンから日記作成画面に遷移できる' do
           page.driver.browser.manage.window.resize_to(375, 812)
           visit public_send(path)
@@ -47,7 +47,7 @@ RSpec.describe 'Diaries', type: :system do
           expect(page).to have_current_path new_diary_path
         end
 
-        it 'デスクトップ画面ではFABボタンが表示されない' do
+        it 'デスクトップ画面ではFABボタンが表示されない', js: true do
           page.driver.browser.manage.window.resize_to(1024, 768)
           visit public_send(path)
           expect(page).to have_no_css('a.btn.btn-primary.btn-circle')
@@ -89,7 +89,7 @@ RSpec.describe 'Diaries', type: :system do
 
 
       context '入力内容が正しい場合' do
-        it 'ホームページにリダイレクトされること', openai: true do
+        it 'ホームページにリダイレクトされること', openai: true, js: true do
           fill_in 'item_1', with: '楽しかったこと1'
           fill_in 'item_2', with: '楽しかったこと2'
           fill_in 'item_3', with: '楽しかったこと3'
@@ -173,7 +173,7 @@ RSpec.describe 'Diaries', type: :system do
         end
       end
 
-      it 'ユーザーアバターをクリックすると、ユーザー詳細画面に遷移すること' do
+      it 'ユーザーアバターをクリックすると、ユーザー詳細画面に遷移すること', js: true do
         visit public_diaries_diaries_path
         within find('.diary-card', text: '他人の公開日記') do
           expect(page).to have_selector('.user-avatar')
@@ -251,7 +251,7 @@ RSpec.describe 'Diaries', type: :system do
         expect(find_field('diary_form_tag_names').value).to eq 'テストタグ' # タグ
       end
 
-      it '正常に編集できること', openai: true do
+      it '正常に編集できること', openai: true, js: true do
         visit edit_diary_path(my_diary)
         fill_in 'item_1', with: '更新後の内容'
         click_button '更新'
@@ -288,7 +288,7 @@ RSpec.describe 'Diaries', type: :system do
     end
 
     describe '日記削除に関すること' do
-      it '日記を正常に削除でき、フラッシュメッセージが表示されること' do
+      it '日記を正常に削除でき、フラッシュメッセージが表示されること', js: true do
         diary = create(:diary, user: user)
 
         visit my_diaries_diaries_path
