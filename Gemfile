@@ -64,7 +64,7 @@ group :test do
   gem "simplecov", require: false
 end
 
-gem "devise", "~> 4.9"
+gem "devise", "~> 5.0"
 gem "devise-i18n"
 
 gem "omniauth-google-oauth2"
